@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stacker_game/startup_screen.dart';
+import 'package:stacker_game/screens/startup_screen.dart';
 
 void main() {
   runApp(const MyApp());
