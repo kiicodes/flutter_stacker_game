@@ -19,6 +19,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
   @override
   void dispose() {
     Game.stop();
+    Game.reset();
     timer?.cancel();
     super.dispose();
   }
@@ -31,14 +32,18 @@ class _AppGameScreenState extends State<AppGameScreen> {
           child: SafeArea(
               child: Column(
                 children: [
-                  Text(isStarted ? "Tap to positionate" : "Tap to start"),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(isStarted ? "Tap to positionate" : "Tap to start", style: Theme.of(context).textTheme.titleLarge,),
+                  ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
                         Game.configure(constraints.maxWidth, constraints.maxHeight);
                         return GridView.count(
                             crossAxisCount: Game.config().columns,
                             children: List.generate(Game.countItems(), (index) {
-                              final item = Game.items()[index];
+                              final reversedIndex = (Game.countItems() - 1) - index;
+                              final item = Game.items()[reversedIndex];
                               if(item == 0) {
                                 return const EmptyBlock();
                               } else {

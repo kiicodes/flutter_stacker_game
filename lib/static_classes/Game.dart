@@ -46,13 +46,17 @@ class Game {
     return _started;
   }
 
-  static void start() {
+  static void reset() {
     _blockState![0] = 1;
     _currentRow = 0;
     _currentCol = _startCol;
     for(int i = 1; i < _blockState!.length; i++) {
       _blockState![i] = 0;
     }
+  }
+
+  static void start() {
+    reset();
     _started = true;
   }
 
@@ -64,6 +68,7 @@ class Game {
     if(_currentRow < _config.rows - 1) {
       _currentRow++;
       _currentCol = _startCol;
+      _blockState![_getIndex(_currentCol, _currentRow)] = 1;
     } else {
       onGameEnded();
     }
