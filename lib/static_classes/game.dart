@@ -20,6 +20,8 @@ class Game {
   static int _level = 1;
   static Timer? _timer;
   static Function()? _refreshCallback;
+  static Function()? _onWin;
+  static Function()? _onLose;
 
   static void configure(double availableWidth, double availableHeight) {
     _availableHeight = availableHeight;
@@ -94,12 +96,14 @@ class Game {
     }
   }
 
-  static void start(Function() refreshCallback) {
+  static void start(Function() refreshCallback, Function() onWin, Function() onLose) {
     reset();
     _expectedColumns = List.empty(growable: true);
     _activeColumns = List.empty(growable: true);
     _started = true;
     _refreshCallback = refreshCallback;
+    _onWin = onWin;
+    _onLose = onLose;
     _startTimer();
   }
 
@@ -113,7 +117,11 @@ class Game {
   }
 
   static void stop() {
+    FallAnimation.clearAll();
+    _timer?.cancel();
     _started = false;
+    _onWin = null;
+    _onLose = null;
   }
 
   static void nextLevel() {
@@ -129,7 +137,7 @@ class Game {
     }
     _activeColumns = _activeColumns!.where((element) => _expectedColumns!.contains(element)).toList();
     if(_activeColumns!.isEmpty) {
-      gameOver();
+      gameOver(false);
       return;
     } else {
       _currentBlockColumns = _activeColumns!.length;
@@ -143,17 +151,19 @@ class Game {
       _currentCol = _startCol;
       _startTimer();
     } else {
-      onGameEnded();
+      gameOver(true);
     }
   }
 
-  static void onGameEnded() {
+  static void gameOver(bool won) {
+    _timer?.cancel();
+    _timer = null;
     _started = false;
-  }
-
-  static void gameOver() {
-    stop();
-    reset();
+    if(won && _onWin != null) {
+      _onWin!();
+    } else if(!won && _onLose != null) {
+      _onLose!();
+    }
   }
 
   static void move() {
