@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class GameOptionButton extends StatelessWidget {
   final String name;
-  const GameOptionButton({super.key, required this.name});
+  final Function()? onPressed;
+  const GameOptionButton({super.key, required this.name, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: null,child: Text(name),);
+    return ElevatedButton(onPressed: onPressed, child: Text(name),);
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
-  const SettingsButton({super.key});
+  final Function()? onTap;
+  const SettingsButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +11,7 @@ class SettingsButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
+            onTap: onTap,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
