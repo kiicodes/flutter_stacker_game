@@ -6,5 +6,5 @@ class GameConfig {
   final int blockColumns;
   final double speed;
 
-  const GameConfig({Key? key, required this.columns, required this.rows, required this.blockColumns, required this.speed});
+  const GameConfig({Key? key, this.columns = 5, this.rows = 5, this.blockColumns = 3, this.speed = 3});
 }
