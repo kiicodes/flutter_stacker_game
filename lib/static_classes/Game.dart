@@ -6,6 +6,8 @@ class Game {
   static const _startCol = 0;
   static const GameConfig _config = GameConfig();
   static List<int>? _blockState;
+  static List<int>? _expectedColumns;
+  static List<int>? _activeColumns;
   static int _currentBlockColumns = 0;
   static int _currentRow = 0;
   static int _currentCol = _startCol;
@@ -53,6 +55,8 @@ class Game {
   }
 
   static void reset() {
+    _expectedColumns = null;
+    _activeColumns = null;
     _refreshCallback = null;
     _timer?.cancel();
     _timer = null;
@@ -76,7 +80,9 @@ class Game {
   static void _startTimer() {
     _timer = Timer.periodic(Duration(milliseconds: _levelSpeeds[_level - 1]), (timer) {
       Game.move();
-      _refreshCallback!();
+      if(_refreshCallback != null) {
+        _refreshCallback!();
+      }
     });
   }
 
@@ -85,12 +91,29 @@ class Game {
   }
 
   static void nextLevel() {
+    final lostColumns = _activeColumns!.where((element) => !_expectedColumns!.contains(element)).toList();
+    if(lostColumns.isNotEmpty) {
+      for(int i = 0; i < lostColumns.length; i++) {
+        _blockState![_getIndex(lostColumns[i], _currentRow)] = 0;
+      }
+      if(_refreshCallback != null) {
+        _refreshCallback!();
+      }
+    }
+    _activeColumns = _activeColumns!.where((element) => _expectedColumns!.contains(element)).toList();
+    if(_activeColumns!.isEmpty) {
+      gameOver();
+      return;
+    } else {
+      _currentBlockColumns = _activeColumns!.length;
+      _expectedColumns = List.empty(growable: true);
+      _expectedColumns!.addAll(_activeColumns!);
+    }
     _timer?.cancel();
     _level++;
     if(_currentRow < _config.rows - 1) {
       _currentRow++;
       _currentCol = _startCol;
-      _blockState![_getIndex(_currentCol, _currentRow)] = 1;
       _startTimer();
     } else {
       onGameEnded();
@@ -101,19 +124,35 @@ class Game {
     _started = false;
   }
 
+  static void gameOver() {
+    stop();
+    reset();
+  }
+
   static void move() {
     int direction = _reversedMovement ? -1 : 1;
     if((_currentCol < _config.columns + _currentBlockColumns - 2 && !_reversedMovement) || (_reversedMovement && _currentCol > 0)) {
       _currentCol = _currentCol + direction;
-      final blockColumns = List.empty(growable: true);
+
+      if(_activeColumns == null) {
+        _activeColumns = List.empty(growable: true);
+      } else {
+        _activeColumns!.clear();
+      }
+
       for(int i = 0; i < _currentBlockColumns; i++) {
         if(_currentCol - i > -1 && _currentCol - i < _config.columns) {
-          blockColumns.add(_currentCol - i);
+          _activeColumns!.add(_currentCol - i);
         }
       }
 
+      if(_currentRow == 0) {
+        _expectedColumns = List.empty(growable: true);
+        _expectedColumns!.addAll(_activeColumns!);
+      }
+
       for(int i = 0; i < _config.columns; i++) {
-        if(blockColumns.contains(i)) {
+        if(_activeColumns!.contains(i)) {
           _blockState![_getIndex(i, _currentRow)] = 1;
         } else {
           _blockState![_getIndex(i, _currentRow)] = 0;
