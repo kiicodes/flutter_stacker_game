@@ -3,8 +3,8 @@ import 'dart:async';
 
 class Game {
   static final _levelSpeeds = [500, 450, 300, 250, 200, 150, 100, 100, 100, 100, 100];
-  static final _startCol = 0;
-  static GameConfig _config = const GameConfig();
+  static const _startCol = 0;
+  static const GameConfig _config = GameConfig();
   static List<int>? _blockState;
   static int _currentBlockColumns = 0;
   static int _currentRow = 0;
@@ -103,13 +103,21 @@ class Game {
 
   static void move() {
     int direction = _reversedMovement ? -1 : 1;
-    if((_currentCol < _config.columns - 1 && !_reversedMovement) || (_reversedMovement && _currentCol > 0)) {
-      if(_currentCol >= 0) {
-        _blockState![_getIndex(_currentCol, _currentRow)] = 0;
-      }
+    if((_currentCol < _config.columns + _currentBlockColumns - 2 && !_reversedMovement) || (_reversedMovement && _currentCol > 0)) {
       _currentCol = _currentCol + direction;
-      if(_currentCol >= 0) {
-        _blockState![_getIndex(_currentCol, _currentRow)] = 1;
+      final blockColumns = List.empty(growable: true);
+      for(int i = 0; i < _currentBlockColumns; i++) {
+        if(_currentCol - i > -1 && _currentCol - i < _config.columns) {
+          blockColumns.add(_currentCol - i);
+        }
+      }
+
+      for(int i = 0; i < _config.columns; i++) {
+        if(blockColumns.contains(i)) {
+          _blockState![_getIndex(i, _currentRow)] = 1;
+        } else {
+          _blockState![_getIndex(i, _currentRow)] = 0;
+        }
       }
     } else {
       _reversedMovement = !_reversedMovement;

@@ -63,6 +63,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
         isStarted = true;
       });
     } else {
+      //Game.move();
       Game.nextLevel();
       if(!Game.isStarted()) {
         setState(() {
