@@ -35,6 +35,7 @@ class _FallAnimationItem {
       Game.changeState(column, row, 0);
       row--;
       if(row < 0) {
+        Game.changeState(column, row + 1, 1);
         stop(true);
       } else {
         if(Game.getState(column, row) == 1) {
