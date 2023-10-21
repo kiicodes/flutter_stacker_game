@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/game_classes/game_config.dart';
 import 'package:stacker_game/static_classes/game.dart';
 
 class EmptyBlock extends StatelessWidget {
@@ -11,8 +12,8 @@ class EmptyBlock extends StatelessWidget {
       height: blockSize,
       width: blockSize,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
-        color: Colors.black
+        border: Border.all(color: GameConfig.borderColor),
+        color: GameConfig.bgColor
       ),
     );
   }

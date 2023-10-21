@@ -52,6 +52,10 @@ class Game {
     return _config.rows * _config.columns;
   }
 
+  static double gameHeight() {
+    return _config.rows * blockSize();
+  }
+
   static bool isStarted() {
     return _started;
   }

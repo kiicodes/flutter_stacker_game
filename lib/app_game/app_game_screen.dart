@@ -29,23 +29,29 @@ class _AppGameScreenState extends State<AppGameScreen> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(isStarted ? "Tap to positionate" : "Tap to start", style: Theme.of(context).textTheme.titleLarge,),
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(isStarted ? "Tap to Stack" : "Tap to Start", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 23),),
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
                         Game.configure(constraints.maxWidth, constraints.maxHeight);
-                        return GridView.count(
-                            crossAxisCount: Game.config().columns,
-                            children: List.generate(Game.countItems(), (index) {
-                              final reversedIndex = (Game.countItems() - 1) - index;
-                              final item = Game.items()[reversedIndex];
-                              if(item == 0) {
-                                return const EmptyBlock();
-                              } else {
-                                return const FilledBlock();
-                              }
-                            })
+                        return Center(
+                          child: SizedBox(
+                            height: Game.gameHeight(),
+                            width: constraints.maxWidth,
+                            child: GridView.count(
+                                crossAxisCount: Game.config().columns,
+                                children: List.generate(Game.countItems(), (index) {
+                                  final reversedIndex = (Game.countItems() - 1) - index;
+                                  final item = Game.items()[reversedIndex];
+                                  if(item == 0) {
+                                    return const EmptyBlock();
+                                  } else {
+                                    return const FilledBlock();
+                                  }
+                                })
+                            ),
+                          ),
                         );
                       })
                   )

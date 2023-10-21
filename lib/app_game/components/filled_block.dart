@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/game_classes/game_config.dart';
 import 'package:stacker_game/static_classes/game.dart';
 
 class FilledBlock extends StatelessWidget {
@@ -10,7 +11,7 @@ class FilledBlock extends StatelessWidget {
     return Container(
       height: blockSize,
       width: blockSize,
-      color: Colors.red,
+      color: GameConfig.activeColor,
     );
   }
 }
