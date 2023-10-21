@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/app_game/components/empty_block.dart';
 import 'package:stacker_game/app_game/components/filled_block.dart';
-import 'package:stacker_game/static_classes/Game.dart';
+import 'package:stacker_game/static_classes/game.dart';
 
 class AppGameScreen extends StatefulWidget {
   const AppGameScreen({super.key});

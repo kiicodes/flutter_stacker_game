@@ -1,6 +1,8 @@
 import 'package:stacker_game/game_classes/game_config.dart';
 import 'dart:async';
 
+import 'package:stacker_game/static_classes/fall_animation.dart';
+
 class Game {
   static final _levelSpeeds = [500, 450, 300, 250, 200, 150, 100, 100, 100, 100, 100];
   static const _startCol = 0;
@@ -54,7 +56,25 @@ class Game {
     return _started;
   }
 
+  static int getState(int column, int row) {
+    if(_blockState == null) {
+      return 0;
+    }
+    return _blockState![_getIndex(column, row)] ;
+  }
+
+  static void changeState(int column, int row, int newState) {
+    if(_blockState == null) {
+      return;
+    }
+    _blockState![_getIndex(column, row)] = newState;
+    if(_refreshCallback != null) {
+      _refreshCallback!();
+    }
+  }
+
   static void reset() {
+    FallAnimation.clearAll();
     _expectedColumns = null;
     _activeColumns = null;
     _refreshCallback = null;
@@ -72,6 +92,8 @@ class Game {
 
   static void start(Function() refreshCallback) {
     reset();
+    _expectedColumns = List.empty(growable: true);
+    _activeColumns = List.empty(growable: true);
     _started = true;
     _refreshCallback = refreshCallback;
     _startTimer();
@@ -95,6 +117,7 @@ class Game {
     if(lostColumns.isNotEmpty) {
       for(int i = 0; i < lostColumns.length; i++) {
         _blockState![_getIndex(lostColumns[i], _currentRow)] = 0;
+        FallAnimation.addFallAnimation(lostColumns[i], _currentRow);
       }
       if(_refreshCallback != null) {
         _refreshCallback!();
@@ -106,7 +129,7 @@ class Game {
       return;
     } else {
       _currentBlockColumns = _activeColumns!.length;
-      _expectedColumns = List.empty(growable: true);
+      _expectedColumns!.clear();
       _expectedColumns!.addAll(_activeColumns!);
     }
     _timer?.cancel();
@@ -134,11 +157,7 @@ class Game {
     if((_currentCol < _config.columns + _currentBlockColumns - 2 && !_reversedMovement) || (_reversedMovement && _currentCol > 0)) {
       _currentCol = _currentCol + direction;
 
-      if(_activeColumns == null) {
-        _activeColumns = List.empty(growable: true);
-      } else {
-        _activeColumns!.clear();
-      }
+      _activeColumns!.clear();
 
       for(int i = 0; i < _currentBlockColumns; i++) {
         if(_currentCol - i > -1 && _currentCol - i < _config.columns) {
@@ -147,7 +166,7 @@ class Game {
       }
 
       if(_currentRow == 0) {
-        _expectedColumns = List.empty(growable: true);
+        _expectedColumns!.clear();
         _expectedColumns!.addAll(_activeColumns!);
       }
 

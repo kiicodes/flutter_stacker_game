@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stacker_game/static_classes/Game.dart';
+import 'package:stacker_game/static_classes/game.dart';
 
 class EmptyBlock extends StatelessWidget {
   const EmptyBlock({super.key});
