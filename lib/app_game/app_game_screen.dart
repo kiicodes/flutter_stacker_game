@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:stacker_game/app_game/components/empty_block.dart';
 import 'package:stacker_game/app_game/components/filled_block.dart';
@@ -14,13 +12,11 @@ class AppGameScreen extends StatefulWidget {
 
 class _AppGameScreenState extends State<AppGameScreen> {
   bool isStarted = false;
-  Timer? timer;
 
   @override
   void dispose() {
     Game.stop();
     Game.reset();
-    timer?.cancel();
     super.dispose();
   }
 
@@ -62,22 +58,13 @@ class _AppGameScreenState extends State<AppGameScreen> {
 
   void startOrStopOrContinue() {
     if(!Game.isStarted()) {
-      Game.start();
-      timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-        if(Game.isStarted()) {
-          Game.move();
-          if(mounted) {
-            updateScreen();
-          }
-        }
-      });
+      Game.start(() { updateScreen(); });
       setState(() {
         isStarted = true;
       });
     } else {
-      Game.moveRow();
+      Game.nextLevel();
       if(!Game.isStarted()) {
-        timer?.cancel();
         setState(() {
           isStarted = false;
         });
