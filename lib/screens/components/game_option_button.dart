@@ -7,6 +7,12 @@ class GameOptionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: onPressed, child: Text(name),);
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Text(name, style: const TextStyle(fontSize: 25),),
+      ),
+    );
   }
 }

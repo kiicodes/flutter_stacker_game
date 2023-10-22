@@ -20,7 +20,7 @@ class StartupScreen extends StatelessWidget {
               child: ScreenTitle(),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Column(
                 children: [
                   const Spacer(),
