@@ -23,8 +23,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Text("Game Settings", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),),
+            ),
+            const Spacer(),
             Row(
               children: [
+                const Spacer(),
                 NumberSelector(
                   selectedValue: columns,
                   label: "Columns",
@@ -39,6 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   }
                 ),
+                const Spacer(),
                 NumberSelector(
                     selectedValue: rows,
                     label: "Rows",
@@ -50,10 +57,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       });
                     }
                 ),
+                const Spacer()
               ],
             ),
             Row(
               children: [
+                const Spacer(),
                 NumberSelector(
                   selectedValue: initialBlocks,
                   label: "Initial Blocks",
@@ -65,6 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   }
                 ),
+                const Spacer(),
                 SpeedSelector(
                   selectedValue: speed,
                   onChange: (newValue) {
@@ -72,9 +82,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       speed = newValue!;
                     });
                   }
-                )
+                ),
+                const Spacer(),
               ],
             ),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 Game.setConfig(
@@ -87,8 +99,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
                 Navigator.of(context).pop();
               },
-              child: const Text("Save")
-            )
+              child: const Text("Save", style: TextStyle(fontSize: 20),)
+            ),
+            const Spacer()
           ],
         ),
       ),

@@ -29,11 +29,10 @@ class Game {
   }
 
   static double blockSize() {
-    if(_availableWidth < _availableHeight) {
-      return _availableWidth / _config.columns;
-    } else {
-      return _availableHeight / _config.rows;
-    }
+    final byWidth = _availableWidth / _config.columns;
+    final byHeight = _availableHeight / _config.rows;
+
+    return byHeight > byWidth ? byWidth : byHeight;
   }
 
   static List<int> items() {
@@ -60,6 +59,10 @@ class Game {
 
   static double gameHeight() {
     return _config.rows * blockSize();
+  }
+
+  static double gameWidth() {
+    return _config.columns * blockSize();
   }
 
   static bool isStarted() {

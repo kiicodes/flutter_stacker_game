@@ -38,14 +38,16 @@ class _AppGameScreenState extends State<AppGameScreen> {
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
-                        Game.configure(constraints.maxWidth, constraints.maxHeight);
+                        Game.configure(constraints.maxWidth - 20, constraints.maxHeight - 20);
                         return Center(
                           child: Stack(
                             children: [
-                              SizedBox(
-                                height: Game.gameHeight(),
-                                width: constraints.maxWidth,
-                                child: GridView.count(
+                              Center(
+                                child: SizedBox(
+                                  height: Game.gameHeight(),
+                                  width: Game.gameWidth(),
+                                  child: GridView.count(
+                                    physics: const NeverScrollableScrollPhysics(),
                                     crossAxisCount: Game.config().columns,
                                     children: List.generate(Game.countItems(), (index) {
                                       final reversedIndex = (Game.countItems() - 1) - index;
@@ -56,6 +58,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                         return const FilledBlock();
                                       }
                                     })
+                                  ),
                                 ),
                               ),
                               !showWinner && !showLose ? const SizedBox() : SizedBox(

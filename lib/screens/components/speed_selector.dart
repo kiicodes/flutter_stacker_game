@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/screens/components/number_selector.dart';
 
 class SpeedSelector extends StatelessWidget {
   final Function(int?) onChange;
@@ -11,13 +12,13 @@ class SpeedSelector extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
-          const Text("Speed"),
+          Text("Difficult", style: dropdownLabelStyle,),
           DropdownButton(
             value: selectedValue,
-            items: const [
-              DropdownMenuItem(value: 0, child: Text("slow")),
-              DropdownMenuItem(value: 1, child: Text("medium")),
-              DropdownMenuItem(value: 2, child: Text("fast")),
+            items: [
+              DropdownMenuItem(value: 0, child: Text("easy", style: dropdownMenuItemStyle,)),
+              DropdownMenuItem(value: 1, child: Text("normal", style: dropdownMenuItemStyle)),
+              DropdownMenuItem(value: 2, child: Text("hard", style: dropdownMenuItemStyle)),
             ],
             onChanged: onChange,
           )

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+TextStyle dropdownMenuItemStyle = const TextStyle(fontSize: 22);
+TextStyle dropdownLabelStyle = const TextStyle(fontSize: 22);
+
 class NumberSelector extends StatelessWidget {
   final String label;
   final int maxNumber;
@@ -14,11 +17,11 @@ class NumberSelector extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Text(label),
+          Text(label, style: dropdownLabelStyle,),
           DropdownButton(
             value: selectedValue,
             items: [
-              for (int i = minNumber; i <= maxNumber; i++) DropdownMenuItem(value: i, child: Text("$i")),
+              for (int i = minNumber; i <= maxNumber; i++) DropdownMenuItem(value: i, child: Text("$i", style: dropdownMenuItemStyle,)),
             ],
             onChanged: onChange,
           )
