@@ -4,7 +4,11 @@ import 'dart:async';
 import 'package:stacker_game/static_classes/fall_animation.dart';
 
 class Game {
-  static final _levelSpeeds = [500, 450, 300, 250, 200, 150, 100, 100, 100, 100, 100];
+  static final _levelSpeeds = [
+    [600, 300],
+    [500, 200],
+    [350, 80]
+  ];
   static const _startCol = 0;
   static GameConfig _config = const GameConfig();
   static List<int>? _blockState;
@@ -114,8 +118,16 @@ class Game {
     _startTimer();
   }
 
+  static int _calculatedLevelSpeed() {
+    final speedRange = _levelSpeeds[_config.speed];
+    final step = (speedRange[0] - speedRange[1]) / (_config.rows - 1);
+    final result = (speedRange[0] - _currentRow * step).round();
+    print('Speed $result');
+    return result;
+  }
+
   static void _startTimer() {
-    _timer = Timer.periodic(Duration(milliseconds: _levelSpeeds[_level - 1]), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: _calculatedLevelSpeed()), (timer) {
       Game.move();
       if(_refreshCallback != null) {
         _refreshCallback!();
