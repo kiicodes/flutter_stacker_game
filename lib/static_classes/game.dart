@@ -6,7 +6,7 @@ import 'package:stacker_game/static_classes/fall_animation.dart';
 class Game {
   static final _levelSpeeds = [500, 450, 300, 250, 200, 150, 100, 100, 100, 100, 100];
   static const _startCol = 0;
-  static const GameConfig _config = GameConfig();
+  static GameConfig _config = const GameConfig();
   static List<int>? _blockState;
   static List<int>? _expectedColumns;
   static List<int>? _activeColumns;
@@ -48,6 +48,10 @@ class Game {
 
   static GameConfig config() {
     return _config;
+  }
+
+  static void setConfig(GameConfig newConfig) {
+    _config = newConfig;
   }
 
   static int countItems() {
