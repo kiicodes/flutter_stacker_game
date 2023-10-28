@@ -3,7 +3,7 @@ import 'package:stacker_game/app_game/components/empty_block.dart';
 import 'package:stacker_game/app_game/components/filled_block.dart';
 import 'package:stacker_game/app_game/components/lose_text.dart';
 import 'package:stacker_game/app_game/components/winner_text.dart';
-import 'package:stacker_game/static_classes/game.dart';
+import 'package:stacker_game/static_classes/game_static.dart';
 
 class AppGameScreen extends StatefulWidget {
   const AppGameScreen({super.key});
@@ -19,8 +19,8 @@ class _AppGameScreenState extends State<AppGameScreen> {
 
   @override
   void dispose() {
-    Game.stop();
-    Game.reset();
+    GameStatic.stop();
+    GameStatic.reset();
     super.dispose();
   }
 
@@ -38,20 +38,20 @@ class _AppGameScreenState extends State<AppGameScreen> {
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
-                        Game.configure(constraints.maxWidth - 20, constraints.maxHeight - 20);
+                        GameStatic.configure(constraints.maxWidth, constraints.maxHeight);
                         return Center(
                           child: Stack(
                             children: [
                               Center(
                                 child: SizedBox(
-                                  height: Game.gameHeight(),
-                                  width: Game.gameWidth(),
+                                  height: GameStatic.gameHeight(),
+                                  width: GameStatic.gameWidth(),
                                   child: GridView.count(
                                     physics: const NeverScrollableScrollPhysics(),
-                                    crossAxisCount: Game.config().columns,
-                                    children: List.generate(Game.countItems(), (index) {
-                                      final reversedIndex = (Game.countItems() - 1) - index;
-                                      final item = Game.items()[reversedIndex];
+                                    crossAxisCount: GameStatic.config().columns,
+                                    children: List.generate(GameStatic.countItems(), (index) {
+                                      final reversedIndex = (GameStatic.countItems() - 1) - index;
+                                      final item = GameStatic.items()[reversedIndex];
                                       if(item == 0) {
                                         return const EmptyBlock();
                                       } else {
@@ -62,7 +62,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                 ),
                               ),
                               !showWinner && !showLose ? const SizedBox() : SizedBox(
-                                height: Game.gameHeight(),
+                                height: GameStatic.gameHeight(),
                                 width: constraints.maxWidth,
                                 child: Center(
                                     child: showWinner ? const WinnerText() : const LoseText()
@@ -93,8 +93,8 @@ class _AppGameScreenState extends State<AppGameScreen> {
   }
 
   void startOrStopOrContinue() {
-    if(!Game.isStarted()) {
-      Game.start(updateScreen, onWin, onLose);
+    if(!GameStatic.isStarted()) {
+      GameStatic.start(updateScreen, onWin, onLose);
       setState(() {
         isStarted = true;
         showLose = false;
@@ -102,8 +102,8 @@ class _AppGameScreenState extends State<AppGameScreen> {
       });
     } else {
       //Game.move();
-      Game.nextLevel();
-      if(!Game.isStarted()) {
+      GameStatic.nextLevel();
+      if(!GameStatic.isStarted()) {
         setState(() {
           isStarted = false;
         });

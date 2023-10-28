@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:stacker_game/static_classes/fall_animation.dart';
 
-class Game {
+class GameStatic {
   static final _levelSpeeds = [
     [600, 300],
     [500, 200],
@@ -26,10 +26,15 @@ class Game {
   static Function()? _refreshCallback;
   static Function()? _onWin;
   static Function()? _onLose;
+  static const double _margin = 20;
 
   static void configure(double availableWidth, double availableHeight) {
-    _availableHeight = availableHeight;
-    _availableWidth = availableWidth;
+    _availableHeight = availableHeight - _margin;
+    _availableWidth = availableWidth - _margin;
+  }
+
+  static double marginSize() {
+    return _margin;
   }
 
   static double blockSize() {
@@ -128,7 +133,7 @@ class Game {
 
   static void _startTimer() {
     _timer = Timer.periodic(Duration(milliseconds: _calculatedLevelSpeed()), (timer) {
-      Game.move();
+      GameStatic.move();
       if(_refreshCallback != null) {
         _refreshCallback!();
       }
