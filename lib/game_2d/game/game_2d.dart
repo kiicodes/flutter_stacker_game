@@ -1,91 +1,76 @@
-import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
-import 'package:stacker_game/game_classes/game_config.dart';
-
+import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
 import 'package:stacker_game/static_classes/common_static.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
-  late double blockSize;
-  late double gameWidth;
-  late double startX;
-  late double gameHeight;
-  late double startY;
-  late GameConfig gameConfig;
-  FilledBlock2D? currentBlock;
+  FilledBlock2D? activeBlock;
+  List<FilledBlock2D> fixedBlocks = List.empty(growable: true);
   double myDt = 0;
-  int currentIndex = 0;
-  late int maxIndex;
 
   @override
   Future<void> onLoad() async {
-    initValues();
-    add(BackgroundGrid2D(size, blockSize, gameConfig, startX, startY, gameWidth, gameHeight));
-    addBlock2D(1);
-  }
-
-  void initValues() {
-    CommonStatic.configure(size.x, size.y);
-
-    blockSize = CommonStatic.blockSize();
-    gameConfig = CommonStatic.config();
-
-    gameWidth = blockSize * gameConfig.columns;
-    final remainingWidth = size.x - gameWidth;
-    startX = (remainingWidth / 2 + CommonStatic.marginSize() / 2) / 2;
-
-    gameHeight = blockSize * gameConfig.rows;
-    final remainingHeight = size.y - gameHeight;
-    startY = (remainingHeight / 2 + CommonStatic.marginSize() / 2);
-    maxIndex = gameConfig.rows * gameConfig.columns;
+    Game2DStatic.initValues(size);
+    add(
+      BackgroundGrid2D(
+        size,
+        Game2DStatic.blockSize,
+        Game2DStatic.gameConfig,
+        Game2DStatic.startX,
+        Game2DStatic.startY,
+        Game2DStatic.gameWidth,
+        Game2DStatic.gameHeight
+      )
+    );
+    addBlock2D(0);
   }
 
   void addBlock2D(int index) {
-    currentBlock = FilledBlock2D(2, vectorFromIndex(index));
-    add(currentBlock!);
-  }
-
-  Vector2 vectorFromIndex(int index) {
-    final reversedIndex = (gameConfig.columns * gameConfig.rows - 1) - index;
-    final xy = _getPositionFromIndex(reversedIndex, gameConfig.columns);
-    final int x = xy[0];
-    final int y = xy[1];
-    return Vector2(startX + x * blockSize, startY + y * blockSize);
-  }
-
-  static List _getPositionFromIndex(int index, int columns) {
-    final int column = index % columns;
-    final int row = index ~/ columns;
-    return [column, row];
+    activeBlock = FilledBlock2D(CommonStatic.currentBlockColumns, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint);
+    add(activeBlock!);
   }
 
   @override
   void update(double dt) {
-    myDt = myDt + dt;
-    if(myDt > 0.6) {
-      if(currentBlock != null) {
-        print('moving to index $currentIndex');
-        currentBlock!.position = vectorFromIndex(currentIndex);
-        currentIndex++;
-        if(currentIndex == maxIndex) {
-          currentIndex = 0;
+    if(CommonStatic.started) {
+      myDt = myDt + dt;
+      if (myDt > Game2DStatic.currentSpeed / 1000.0) {
+        Game2DStatic.move();
+        if (activeBlock != null) {
+          int newIndex = Game2DStatic.activeIndex;
+          if(newIndex > Game2DStatic.rowEndIndex) {
+            final diff = Game2DStatic.rowEndIndex - newIndex;
+            activeBlock!.changeSize(CommonStatic.currentBlockColumns + diff);
+            newIndex = Game2DStatic.rowEndIndex;
+          } else if(newIndex - CommonStatic.currentBlockColumns + 1 < Game2DStatic.rowStartIndex) {
+            final newSize = newIndex + 1 - Game2DStatic.rowStartIndex;
+            activeBlock!.changeSize(newSize);
+          } else {
+            activeBlock!.changeSize(CommonStatic.currentBlockColumns);
+          }
+          /*Game2DStatic.activeIndex++;
+          if (Game2DStatic.activeIndex == Game2DStatic.maxIndex) {
+            Game2DStatic.activeIndex = 0;
+          }*/
+          activeBlock!.position = Game2DStatic.vectorFromIndex(newIndex);
         }
+        myDt = 0;
       }
-      myDt = 0;
     }
     super.update(dt);
   }
 
-  /*@override
+  @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
-    if (!event.handled) {
-      final touchPoint = event.canvasPosition;
-      add(Square(touchPoint));
+    if (!CommonStatic.started) {
+      Game2DStatic.start();
+    } else {
+      Game2DStatic.changeRow();
     }
-  }*/
+  }
 }
 
 /*class Square extends RectangleComponent with TapCallbacks {

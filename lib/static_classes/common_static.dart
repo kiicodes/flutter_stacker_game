@@ -4,10 +4,22 @@ import 'dart:async';
 import 'package:stacker_game/app_game/static_classes/fall_animation.dart';
 
 class CommonStatic {
+  static final _levelSpeeds = [
+    [600, 300],
+    [500, 200],
+    [350, 80]
+  ];
   static GameConfig _config = const GameConfig();
   static double _availableHeight = 0;
   static double _availableWidth = 0;
   static const double _margin = 20;
+  static int currentRow = 0;
+  static const startCol = 0;
+  static int currentCol = startCol;
+  static int level = 1;
+  static bool reversedMovement = false;
+  static bool started = false;
+  static int currentBlockColumns = 0;
 
   static void configure(double availableWidth, double availableHeight) {
     _availableHeight = availableHeight - _margin;
@@ -31,5 +43,13 @@ class CommonStatic {
 
   static double marginSize() {
     return _margin;
+  }
+
+  static int calculatedLevelSpeed() {
+    final speedRange = _levelSpeeds[CommonStatic.config().speed];
+    final step = (speedRange[0] - speedRange[1]) / (CommonStatic.config().rows - 1);
+    final result = (speedRange[0] - currentRow * step).round();
+    print('Speed $result');
+    return result;
   }
 }

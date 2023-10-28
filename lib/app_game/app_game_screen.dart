@@ -94,7 +94,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
   }
 
   void startOrStopOrContinue() {
-    if(!GameStatic.isStarted()) {
+    if(!CommonStatic.started) {
       GameStatic.start(updateScreen, onWin, onLose);
       setState(() {
         isStarted = true;
@@ -104,7 +104,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
     } else {
       //Game.move();
       GameStatic.nextLevel();
-      if(!GameStatic.isStarted()) {
+      if(!CommonStatic.started) {
         setState(() {
           isStarted = false;
         });
