@@ -1,7 +1,7 @@
-import 'package:stacker_game/game_classes/game_config.dart';
 import 'dart:async';
 
-import 'package:stacker_game/static_classes/fall_animation.dart';
+import 'package:stacker_game/app_game/static_classes/fall_animation.dart';
+import 'package:stacker_game/static_classes/common_static.dart';
 
 class GameStatic {
   static final _levelSpeeds = [
@@ -10,15 +10,12 @@ class GameStatic {
     [350, 80]
   ];
   static const _startCol = 0;
-  static GameConfig _config = const GameConfig();
   static List<int>? _blockState;
   static List<int>? _expectedColumns;
   static List<int>? _activeColumns;
   static int _currentBlockColumns = 0;
   static int _currentRow = 0;
   static int _currentCol = _startCol;
-  static double _availableHeight = 0;
-  static double _availableWidth = 0;
   static bool _started = false;
   static bool _reversedMovement = false;
   static int _level = 1;
@@ -26,23 +23,6 @@ class GameStatic {
   static Function()? _refreshCallback;
   static Function()? _onWin;
   static Function()? _onLose;
-  static const double _margin = 20;
-
-  static void configure(double availableWidth, double availableHeight) {
-    _availableHeight = availableHeight - _margin;
-    _availableWidth = availableWidth - _margin;
-  }
-
-  static double marginSize() {
-    return _margin;
-  }
-
-  static double blockSize() {
-    final byWidth = _availableWidth / _config.columns;
-    final byHeight = _availableHeight / _config.rows;
-
-    return byHeight > byWidth ? byWidth : byHeight;
-  }
 
   static List<int> items() {
     if(_blockState == null) {
@@ -54,24 +34,16 @@ class GameStatic {
     return _blockState!;
   }
 
-  static GameConfig config() {
-    return _config;
-  }
-
-  static void setConfig(GameConfig newConfig) {
-    _config = newConfig;
-  }
-
   static int countItems() {
-    return _config.rows * _config.columns;
+    return CommonStatic.config().rows * CommonStatic.config().columns;
   }
 
   static double gameHeight() {
-    return _config.rows * blockSize();
+    return CommonStatic.config().rows * CommonStatic.blockSize();
   }
 
   static double gameWidth() {
-    return _config.columns * blockSize();
+    return CommonStatic.config().columns * CommonStatic.blockSize();
   }
 
   static bool isStarted() {
@@ -105,7 +77,7 @@ class GameStatic {
     _blockState![0] = 1;
     _currentRow = 0;
     _currentCol = _startCol;
-    _currentBlockColumns = _config.blockColumns;
+    _currentBlockColumns = CommonStatic.config().blockColumns;
     _level = 1;
     for(int i = 1; i < _blockState!.length; i++) {
       _blockState![i] = 0;
@@ -124,8 +96,8 @@ class GameStatic {
   }
 
   static int _calculatedLevelSpeed() {
-    final speedRange = _levelSpeeds[_config.speed];
-    final step = (speedRange[0] - speedRange[1]) / (_config.rows - 1);
+    final speedRange = _levelSpeeds[CommonStatic.config().speed];
+    final step = (speedRange[0] - speedRange[1]) / (CommonStatic.config().rows - 1);
     final result = (speedRange[0] - _currentRow * step).round();
     print('Speed $result');
     return result;
@@ -170,7 +142,7 @@ class GameStatic {
     }
     _timer?.cancel();
     _level++;
-    if(_currentRow < _config.rows - 1) {
+    if(_currentRow < CommonStatic.config().rows - 1) {
       _currentRow++;
       _currentCol = _startCol;
       _startTimer();
@@ -192,13 +164,13 @@ class GameStatic {
 
   static void move() {
     int direction = _reversedMovement ? -1 : 1;
-    if((_currentCol < _config.columns + _currentBlockColumns - 2 && !_reversedMovement) || (_reversedMovement && _currentCol > 0)) {
+    if((_currentCol < CommonStatic.config().columns + _currentBlockColumns - 2 && !_reversedMovement) || (_reversedMovement && _currentCol > 0)) {
       _currentCol = _currentCol + direction;
 
       _activeColumns!.clear();
 
       for(int i = 0; i < _currentBlockColumns; i++) {
-        if(_currentCol - i > -1 && _currentCol - i < _config.columns) {
+        if(_currentCol - i > -1 && _currentCol - i < CommonStatic.config().columns) {
           _activeColumns!.add(_currentCol - i);
         }
       }
@@ -208,7 +180,7 @@ class GameStatic {
         _expectedColumns!.addAll(_activeColumns!);
       }
 
-      for(int i = 0; i < _config.columns; i++) {
+      for(int i = 0; i < CommonStatic.config().columns; i++) {
         if(_activeColumns!.contains(i)) {
           _blockState![_getIndex(i, _currentRow)] = 1;
         } else {
@@ -222,6 +194,6 @@ class GameStatic {
   }
 
   static int _getIndex(int column, int row) {
-    return (row * _config.columns) + column;
+    return (row * CommonStatic.config().columns) + column;
   }
 }

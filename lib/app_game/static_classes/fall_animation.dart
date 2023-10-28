@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stacker_game/static_classes/game_static.dart';
+import 'package:stacker_game/app_game/static_classes/app_game_static.dart';
 
 class FallAnimation {
   static const _speed = 300;

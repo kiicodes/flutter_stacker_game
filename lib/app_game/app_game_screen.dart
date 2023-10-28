@@ -3,7 +3,8 @@ import 'package:stacker_game/app_game/components/empty_block.dart';
 import 'package:stacker_game/app_game/components/filled_block.dart';
 import 'package:stacker_game/app_game/components/lose_text.dart';
 import 'package:stacker_game/app_game/components/winner_text.dart';
-import 'package:stacker_game/static_classes/game_static.dart';
+import 'package:stacker_game/app_game/static_classes/app_game_static.dart';
+import 'package:stacker_game/static_classes/common_static.dart';
 
 class AppGameScreen extends StatefulWidget {
   const AppGameScreen({super.key});
@@ -38,7 +39,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
-                        GameStatic.configure(constraints.maxWidth, constraints.maxHeight);
+                        CommonStatic.configure(constraints.maxWidth, constraints.maxHeight);
                         return Center(
                           child: Stack(
                             children: [
@@ -48,7 +49,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                   width: GameStatic.gameWidth(),
                                   child: GridView.count(
                                     physics: const NeverScrollableScrollPhysics(),
-                                    crossAxisCount: GameStatic.config().columns,
+                                    crossAxisCount: CommonStatic.config().columns,
                                     children: List.generate(GameStatic.countItems(), (index) {
                                       final reversedIndex = (GameStatic.countItems() - 1) - index;
                                       final item = GameStatic.items()[reversedIndex];

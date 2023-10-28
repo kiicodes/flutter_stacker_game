@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacker_game/game_classes/game_config.dart';
 import 'package:stacker_game/screens/components/number_selector.dart';
 import 'package:stacker_game/screens/components/speed_selector.dart';
-import 'package:stacker_game/static_classes/game_static.dart';
+import 'package:stacker_game/static_classes/common_static.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,10 +12,10 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  int columns = GameStatic.config().columns;
-  int rows = GameStatic.config().rows;
-  int initialBlocks = GameStatic.config().blockColumns;
-  int speed = GameStatic.config().speed;
+  int columns = CommonStatic.config().columns;
+  int rows = CommonStatic.config().rows;
+  int initialBlocks = CommonStatic.config().blockColumns;
+  int speed = CommonStatic.config().speed;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                GameStatic.setConfig(
+                CommonStatic.setConfig(
                   GameConfig(
                     blockColumns: initialBlocks,
                     columns: columns,

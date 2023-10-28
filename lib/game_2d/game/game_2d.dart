@@ -5,7 +5,7 @@ import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
 import 'package:stacker_game/game_classes/game_config.dart';
 
-import 'package:stacker_game/static_classes/game_static.dart';
+import 'package:stacker_game/static_classes/common_static.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
   late double blockSize;
@@ -23,20 +23,24 @@ class Game2D extends FlameGame with TapCallbacks {
 
   @override
   Future<void> onLoad() async {
-    GameStatic.configure(size.x, size.y);
+    initValues();
+    add(BackgroundGrid2D(size, blockSize, gameConfig, startX, startY, gameWidth, gameHeight));
+    addBlock2D(1);
+  }
 
-    blockSize = GameStatic.blockSize();
-    gameConfig = GameStatic.config();
+  void initValues() {
+    CommonStatic.configure(size.x, size.y);
+
+    blockSize = CommonStatic.blockSize();
+    gameConfig = CommonStatic.config();
 
     gameWidth = blockSize * gameConfig.columns;
     final remainingWidth = size.x - gameWidth;
-    startX = (remainingWidth / 2 + GameStatic.marginSize() / 2) / 2;
+    startX = (remainingWidth / 2 + CommonStatic.marginSize() / 2) / 2;
 
     gameHeight = blockSize * gameConfig.rows;
     final remainingHeight = size.y - gameHeight;
-    startY = (remainingHeight / 2 + GameStatic.marginSize() / 2);
-    add(BackgroundGrid2D(size, blockSize, gameConfig, startX, startY, gameWidth, gameHeight));
-    addBlock2D(1);
+    startY = (remainingHeight / 2 + CommonStatic.marginSize() / 2);
   }
 
   void addBlock2D(int index) {
@@ -44,7 +48,7 @@ class Game2D extends FlameGame with TapCallbacks {
     final xy = _getPositionFromIndex(reversedIndex, gameConfig.columns);
     final int x = xy[0];
     final int y = xy[1];
-    add(FilledBlock2D(Vector2(startX + x * blockSize, startY + y * blockSize)));
+    add(FilledBlock2D(2, Vector2(startX + x * blockSize, startY + y * blockSize)));
   }
 
   /*@override

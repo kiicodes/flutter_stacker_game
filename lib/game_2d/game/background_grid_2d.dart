@@ -3,7 +3,6 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/game_classes/game_config.dart';
-import 'package:stacker_game/static_classes/game_static.dart';
 
 class BackgroundGrid2D extends Component {
   final Vector2 screenSize;
