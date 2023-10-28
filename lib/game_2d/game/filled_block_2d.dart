@@ -9,7 +9,8 @@ final redPaint = Paint()
 
 
 class FilledBlock2D extends RectangleComponent {
-  FilledBlock2D(int quantity, Vector2 position, Paint blockPaint)
+  int quantity;
+  FilledBlock2D(this.quantity, Vector2 position, Paint blockPaint)
       : super(
     position: position,
     size: quantity == 1 ? Vector2.all(CommonStatic.blockSize()) : Vector2(CommonStatic.blockSize() * quantity, CommonStatic.blockSize()),
@@ -18,6 +19,7 @@ class FilledBlock2D extends RectangleComponent {
   );
 
   void changeSize(int quantityOfBlocks) {
+    quantity = quantityOfBlocks;
     size = quantityOfBlocks == 1 ? Vector2.all(CommonStatic.blockSize()) : Vector2(CommonStatic.blockSize() * quantityOfBlocks, CommonStatic.blockSize());
   }
 }

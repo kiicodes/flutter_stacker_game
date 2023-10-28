@@ -18,6 +18,7 @@ class Game2DStatic {
   static late Paint blockPaint;
   static late int rowStartIndex;
   static late int rowEndIndex;
+  static List<int> expectedIndexes = List.empty(growable: true);
 
   static void initValues(Vector2 size) {
     CommonStatic.configure(size.x, size.y);
@@ -52,10 +53,19 @@ class Game2DStatic {
     rowEndIndex = rowStartIndex + gameConfig.columns - 1;
   }
 
-  static void changeRow() {
-    CommonStatic.currentRow = CommonStatic.currentRow + 1;
-    activeIndex = rowStartIndex + gameConfig.columns - 1;
-    _updateRowIndexRange();
+  static void changeRow(int currentSize) {
+    if(CommonStatic.currentRow < gameConfig.rows - 1) {
+      expectedIndexes.clear();
+      for(int i = 0; i < currentSize; i++) {
+        expectedIndexes.add(activeIndex + i + gameConfig.columns);
+      }
+
+      CommonStatic.currentRow = CommonStatic.currentRow + 1;
+      activeIndex = rowStartIndex + gameConfig.columns - 1;
+      _updateRowIndexRange();
+    } else {
+      CommonStatic.started = false;
+    }
   }
 
   static Vector2 vectorFromIndex(int index) {
