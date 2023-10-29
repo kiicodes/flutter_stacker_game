@@ -50,6 +50,7 @@ class Game2D extends FlameGame with TapCallbacks {
           } else {
             activeBlock!.changeSize(CommonStatic.currentBlockColumns);
           }
+          activeBlock!.blockIndex = newIndex;
           /*Game2DStatic.activeIndex++;
           if (Game2DStatic.activeIndex == Game2DStatic.maxIndex) {
             Game2DStatic.activeIndex = 0;
@@ -68,8 +69,20 @@ class Game2D extends FlameGame with TapCallbacks {
     if (!CommonStatic.started) {
       Game2DStatic.start();
     } else {
-      add(FilledBlock2D(activeBlock!.quantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint));
-      Game2DStatic.changeRow(activeBlock!.quantity);
+      final List<int> hitIndexes = List.empty(growable: true);
+      if(Game2DStatic.expectedIndexes.isNotEmpty) {
+        for(int i = 0; i < activeBlock!.quantity; i++) {
+          if(Game2DStatic.expectedIndexes.contains(activeBlock!.blockIndex - i)) {
+            hitIndexes.add(activeBlock!.blockIndex - i);
+          }
+        }
+        add(FilledBlock2D(hitIndexes.length, Game2DStatic.vectorFromIndex(hitIndexes.first), Game2DStatic.blockPaint));
+        CommonStatic.currentBlockColumns = hitIndexes.length;
+      } else {
+        add(FilledBlock2D(activeBlock!.quantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint));
+        Game2DStatic.expectedIndexes.clear();
+      }
+      Game2DStatic.changeRow(activeBlock!.quantity, hitIndexes);
     }
   }
 }

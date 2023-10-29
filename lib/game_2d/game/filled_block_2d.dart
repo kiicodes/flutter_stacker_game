@@ -10,6 +10,7 @@ final redPaint = Paint()
 
 class FilledBlock2D extends RectangleComponent {
   int quantity;
+  int blockIndex = 0;
   FilledBlock2D(this.quantity, Vector2 position, Paint blockPaint)
       : super(
     position: position,

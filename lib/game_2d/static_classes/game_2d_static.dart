@@ -53,11 +53,10 @@ class Game2DStatic {
     rowEndIndex = rowStartIndex + gameConfig.columns - 1;
   }
 
-  static void changeRow(int currentSize) {
+  static void changeRow(int currentSize, List<int> hitColumns) {
     if(CommonStatic.currentRow < gameConfig.rows - 1) {
-      expectedIndexes.clear();
       for(int i = 0; i < currentSize; i++) {
-        expectedIndexes.add(activeIndex + i + gameConfig.columns);
+        expectedIndexes.add(activeIndex - i + gameConfig.columns);
       }
 
       CommonStatic.currentRow = CommonStatic.currentRow + 1;
