@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/static_classes/common_static.dart';
+import 'package:stacker_game/game_2d/static_classes/fall_animation.dart';
 
 final redPaint = Paint()
 ..color =Colors.red;
@@ -11,6 +13,8 @@ final redPaint = Paint()
 class FilledBlock2D extends RectangleComponent {
   int quantity;
   int blockIndex = 0;
+  FallAnimationItem? fallItem;
+
   FilledBlock2D(this.quantity, Vector2 position, Paint blockPaint)
       : super(
     position: position,

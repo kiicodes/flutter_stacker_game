@@ -2,6 +2,7 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
+import 'package:stacker_game/game_2d/static_classes/fall_animation.dart';
 import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
 import 'package:stacker_game/static_classes/common_static.dart';
 
@@ -37,6 +38,7 @@ class Game2D extends FlameGame with TapCallbacks {
     if(CommonStatic.started) {
       myDt = myDt + dt;
       if (myDt > Game2DStatic.currentSpeed / 1000.0) {
+        FallAnimation.moveIt();
         Game2DStatic.move();
         if (activeBlock != null) {
           int newIndex = Game2DStatic.activeIndex;
@@ -74,14 +76,23 @@ class Game2D extends FlameGame with TapCallbacks {
         for(int i = 0; i < activeBlock!.quantity; i++) {
           if(Game2DStatic.expectedIndexes.contains(activeBlock!.blockIndex - i)) {
             hitIndexes.add(activeBlock!.blockIndex - i);
+          } else {
+            add(FallAnimation.addItem(activeBlock!.blockIndex - i));
           }
         }
-        add(FilledBlock2D(hitIndexes.length, Game2DStatic.vectorFromIndex(hitIndexes.first), Game2DStatic.blockPaint));
-        CommonStatic.currentBlockColumns = hitIndexes.length;
+        if(hitIndexes.isNotEmpty) {
+          add(FilledBlock2D(
+              hitIndexes.length, Game2DStatic.vectorFromIndex(hitIndexes.first),
+              Game2DStatic.blockPaint));
+          CommonStatic.currentBlockColumns = hitIndexes.length;
+        }
       } else {
+        for(int i = 0; i < activeBlock!.quantity; i++) {
+          hitIndexes.add(activeBlock!.blockIndex - i);
+        }
         add(FilledBlock2D(activeBlock!.quantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint));
-        Game2DStatic.expectedIndexes.clear();
       }
+      Game2DStatic.filledIndexes.addAll(hitIndexes);
       Game2DStatic.changeRow(activeBlock!.quantity, hitIndexes);
     }
   }
