@@ -42,6 +42,7 @@ class Game2DStatic {
   }
 
   static void start() {
+    CommonStatic.start();
     CommonStatic.currentBlockColumns = CommonStatic.config().blockColumns;
     CommonStatic.currentRow = 0;
     _updateRowIndexRange();
@@ -64,6 +65,7 @@ class Game2DStatic {
       CommonStatic.currentRow = CommonStatic.currentRow + 1;
       activeIndex = rowStartIndex + gameConfig.columns - 1;
       _updateRowIndexRange();
+      currentSpeed = CommonStatic.calculatedLevelSpeed();
     } else {
       CommonStatic.started = false;
     }

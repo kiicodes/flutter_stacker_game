@@ -52,6 +52,7 @@ class GameStatic {
   }
 
   static void reset() {
+    CommonStatic.reset();
     FallAnimation.clearAll();
     _expectedColumns = null;
     _activeColumns = null;
@@ -59,10 +60,6 @@ class GameStatic {
     _timer?.cancel();
     _timer = null;
     _blockState![0] = 1;
-    CommonStatic.currentRow = 0;
-    CommonStatic.currentCol = CommonStatic.startCol;
-    CommonStatic.currentBlockColumns = CommonStatic.config().blockColumns;
-    CommonStatic.level = 1;
     for(int i = 1; i < _blockState!.length; i++) {
       _blockState![i] = 0;
     }
@@ -70,9 +67,9 @@ class GameStatic {
 
   static void start(Function() refreshCallback, Function() onWin, Function() onLose) {
     reset();
+    CommonStatic.start();
     _expectedColumns = List.empty(growable: true);
     _activeColumns = List.empty(growable: true);
-    CommonStatic.started = true;
     _refreshCallback = refreshCallback;
     _onWin = onWin;
     _onLose = onLose;
@@ -89,9 +86,9 @@ class GameStatic {
   }
 
   static void stop() {
+    CommonStatic.stop();
     FallAnimation.clearAll();
     _timer?.cancel();
-    CommonStatic.started = false;
     _onWin = null;
     _onLose = null;
   }
@@ -130,7 +127,7 @@ class GameStatic {
   static void gameOver(bool won) {
     _timer?.cancel();
     _timer = null;
-    CommonStatic.started = false;
+    CommonStatic.gameOver(won);
     if(won && _onWin != null) {
       _onWin!();
     } else if(!won && _onLose != null) {

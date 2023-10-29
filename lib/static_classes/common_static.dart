@@ -1,7 +1,4 @@
 import 'package:stacker_game/game_classes/game_config.dart';
-import 'dart:async';
-
-import 'package:stacker_game/app_game/static_classes/fall_animation.dart';
 
 class CommonStatic {
   static final _levelSpeeds = [
@@ -51,5 +48,24 @@ class CommonStatic {
     final result = (speedRange[0] - currentRow * step).round();
     print('Speed $result');
     return result;
+  }
+  static void reset() {
+    currentRow = 0;
+    currentCol = CommonStatic.startCol;
+    currentBlockColumns = _config.blockColumns;
+    level = 1;
+  }
+
+  static void start() {
+    reset();
+    CommonStatic.started = true;
+  }
+
+  static void stop() {
+    started = false;
+  }
+
+  static void gameOver(bool won) {
+    started = false;
   }
 }
