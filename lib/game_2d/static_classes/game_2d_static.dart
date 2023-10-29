@@ -42,6 +42,9 @@ class Game2DStatic {
   }
 
   static void start() {
+    activeIndex = 0;
+    expectedIndexes.clear();
+    filledIndexes.clear();
     CommonStatic.start();
     CommonStatic.currentBlockColumns = CommonStatic.config().blockColumns;
     CommonStatic.currentRow = 0;

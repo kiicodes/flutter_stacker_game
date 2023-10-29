@@ -1,4 +1,5 @@
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
+import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
 import 'package:stacker_game/static_classes/common_static.dart';
 
@@ -6,6 +7,7 @@ class FallAnimation {
   static final List<FallAnimationItem> items = List.empty(growable: true);
   static FilledBlock2D addItem(int index) {
     final filledBlock2D = FilledBlock2D(1, Game2DStatic.vectorFromIndex(index), Game2DStatic.blockPaint);
+    Game2D.removeToNewGame.add(filledBlock2D);
     filledBlock2D.fallItem = FallAnimationItem(filledBlock2D: filledBlock2D, currentIndex: index, previousIndex: index);
     items.add(filledBlock2D.fallItem!);
     return filledBlock2D;

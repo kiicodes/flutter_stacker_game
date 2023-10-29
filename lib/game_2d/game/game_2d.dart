@@ -11,11 +11,12 @@ import 'package:stacker_game/static_classes/common_static.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
   FilledBlock2D? activeBlock;
-  List<FilledBlock2D> fixedBlocks = List.empty(growable: true);
+  static List<Component> removeToNewGame = List.empty(growable: true);
   double myDt = 0;
 
   @override
   Future<void> onLoad() async {
+    removeToNewGame.clear();
     Game2DStatic.initValues(size);
     add(
       BackgroundGrid2D(
@@ -28,12 +29,7 @@ class Game2D extends FlameGame with TapCallbacks {
         Game2DStatic.gameHeight
       )
     );
-    addBlock2D(0);
-  }
-
-  void addBlock2D(int index) {
     activeBlock = FilledBlock2D(CommonStatic.currentBlockColumns, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint);
-    add(activeBlock!);
   }
 
   @override
@@ -75,7 +71,10 @@ class Game2D extends FlameGame with TapCallbacks {
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (!CommonStatic.started) {
+      removeAll(removeToNewGame);
+      removeToNewGame.clear();
       Game2DStatic.start();
+      add(activeBlock!);
     } else {
       final List<int> hitIndexes = List.empty(growable: true);
       if(Game2DStatic.expectedIndexes.isNotEmpty) {
@@ -87,9 +86,11 @@ class Game2D extends FlameGame with TapCallbacks {
           }
         }
         if(hitIndexes.isNotEmpty) {
-          add(FilledBlock2D(
+          final fixedBlock = FilledBlock2D(
               hitIndexes.length, Game2DStatic.vectorFromIndex(hitIndexes.first),
-              Game2DStatic.blockPaint));
+              Game2DStatic.blockPaint);
+          removeToNewGame.add(fixedBlock);
+          add(fixedBlock);
           CommonStatic.currentBlockColumns = hitIndexes.length;
         } else {
           gameOver(false);
@@ -103,7 +104,9 @@ class Game2D extends FlameGame with TapCallbacks {
         for(int i = 0; i < activeBlock!.quantity; i++) {
           hitIndexes.add(activeBlock!.blockIndex - i);
         }
-        add(FilledBlock2D(activeBlock!.quantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint));
+        final fixedBlock = FilledBlock2D(activeBlock!.quantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint);
+        removeToNewGame.add(fixedBlock);
+        add(fixedBlock);
       }
       Game2DStatic.filledIndexes.addAll(hitIndexes);
       Game2DStatic.changeRow(activeBlock!.quantity, hitIndexes);
@@ -111,6 +114,8 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void gameOver(bool won) {
+    remove(activeBlock!);
+    activeBlock!.position = Game2DStatic.vectorFromIndex(0);
     final style = TextStyle(
       color: won ? BasicPalette.yellow.color : BasicPalette.red.color,
       fontSize: 80.0, // Change the font size here
@@ -124,14 +129,14 @@ class Game2D extends FlameGame with TapCallbacks {
       ]
     );
     final regular = TextPaint(style: style);
-    add(
-      TextComponent(
+    final textComponent = TextComponent(
         text: won ? "Winner!" : "You Lose!",
         position: Vector2(size.x / 2, size.y / 2),
         anchor: Anchor.center,
         textRenderer: regular
-      )
     );
+    removeToNewGame.add(textComponent);
+    add(textComponent);
     CommonStatic.gameOver(won);
   }
 }
