@@ -22,7 +22,7 @@ class Game2D extends FlameGame with TapCallbacks {
       BackgroundGrid2D(
         size,
         Game2DStatic.blockSize,
-        Game2DStatic.gameConfig,
+        SharedData.config,
         Game2DStatic.startX,
         Game2DStatic.startY,
         Game2DStatic.gameWidth,
@@ -97,7 +97,7 @@ class Game2D extends FlameGame with TapCallbacks {
           gameOver(false);
           return;
         }
-        if(SharedData.currentRow + 1 == Game2DStatic.gameConfig.rows) {
+        if(SharedData.currentRow + 1 == SharedData.config.rows) {
           gameOver(true);
           return;
         }

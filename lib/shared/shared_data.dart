@@ -6,7 +6,7 @@ class SharedData {
     [500, 200],
     [350, 80]
   ];
-  static GameConfig _config = const GameConfig();
+  static GameConfig config = const GameConfig();
   static double _availableHeight = 0;
   static double _availableWidth = 0;
   static const double _margin = 20;
@@ -31,17 +31,9 @@ class SharedData {
     _availableWidth = availableWidth - _margin;
   }
 
-  static GameConfig config() {
-    return _config;
-  }
-
-  static void setConfig(GameConfig newConfig) {
-    _config = newConfig;
-  }
-
   static double blockSize() {
-    final byWidth = _availableWidth / _config.columns;
-    final byHeight = _availableHeight / _config.rows;
+    final byWidth = _availableWidth / config.columns;
+    final byHeight = _availableHeight / config.rows;
 
     return byHeight > byWidth ? byWidth : byHeight;
   }
@@ -51,16 +43,15 @@ class SharedData {
   }
 
   static int calculatedLevelSpeed() {
-    final speedRange = _levelSpeeds[SharedData.config().speed];
-    final step = (speedRange[0] - speedRange[1]) / (SharedData.config().rows - 1);
+    final speedRange = _levelSpeeds[SharedData.config.level];
+    final step = (speedRange[0] - speedRange[1]) / (SharedData.config.rows - 1);
     final result = (speedRange[0] - currentRow * step).round();
-    print('Speed $result');
     return result;
   }
   static void reset() {
     currentRow = 0;
     currentCol = SharedData.startCol;
-    currentBlockColumns = _config.blockColumns;
+    currentBlockColumns = config.blockColumns;
     level = 1;
   }
 

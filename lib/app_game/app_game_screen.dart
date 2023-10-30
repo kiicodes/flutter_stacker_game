@@ -56,7 +56,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                   width: GameStatic.gameWidth(),
                                   child: GridView.count(
                                     physics: const NeverScrollableScrollPhysics(),
-                                    crossAxisCount: SharedData.config().columns,
+                                    crossAxisCount: SharedData.config.columns,
                                     children: List.generate(GameStatic.countItems(), (index) {
                                       final reversedIndex = (GameStatic.countItems() - 1) - index;
                                       final item = GameStatic.items()[reversedIndex];

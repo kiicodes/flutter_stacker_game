@@ -12,10 +12,10 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  int columns = SharedData.config().columns;
-  int rows = SharedData.config().rows;
-  int initialBlocks = SharedData.config().blockColumns;
-  int speed = SharedData.config().speed;
+  int _columns = SharedData.config.columns;
+  int _rows = SharedData.config.rows;
+  int _initialBlocks = SharedData.config.blockColumns;
+  int _level = SharedData.config.level;
 
   @override
   Widget build(BuildContext context) {
@@ -32,28 +32,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 const Spacer(),
                 NumberSelector(
-                  selectedValue: columns,
+                  selectedValue: _columns,
                   label: "Columns",
                   maxNumber: 12,
                   minNumber: 3,
                   onChange: (newValue) {
                     setState(() {
-                      columns = newValue!;
-                      if(columns < initialBlocks + 2) {
-                        initialBlocks = columns - 2;
+                      _columns = newValue!;
+                      if(_columns < _initialBlocks + 2) {
+                        _initialBlocks = _columns - 2;
                       }
                     });
                   }
                 ),
                 const Spacer(),
                 NumberSelector(
-                    selectedValue: rows,
+                    selectedValue: _rows,
                     label: "Rows",
                     maxNumber: 12,
                     minNumber: 3,
                     onChange: (newValue) {
                       setState(() {
-                        rows = newValue!;
+                        _rows = newValue!;
                       });
                     }
                 ),
@@ -64,22 +64,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 const Spacer(),
                 NumberSelector(
-                  selectedValue: initialBlocks,
+                  selectedValue: _initialBlocks,
                   label: "Initial Blocks",
-                  maxNumber: columns - 2,
+                  maxNumber: _columns - 2,
                   minNumber: 1,
                   onChange: (newValue) {
                     setState(() {
-                      initialBlocks = newValue!;
+                      _initialBlocks = newValue!;
                     });
                   }
                 ),
                 const Spacer(),
                 SpeedSelector(
-                  selectedValue: speed,
+                  selectedValue: _level,
                   onChange: (newValue) {
                     setState(() {
-                      speed = newValue!;
+                      _level = newValue!;
                     });
                   }
                 ),
@@ -89,13 +89,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                SharedData.setConfig(
-                  GameConfig(
-                    blockColumns: initialBlocks,
-                    columns: columns,
-                    rows: rows,
-                    speed: speed
-                  )
+                SharedData.config = GameConfig(
+                  blockColumns: _initialBlocks,
+                  columns: _columns,
+                  rows: _rows,
+                  level: _level
                 );
                 Navigator.of(context).pop();
               },

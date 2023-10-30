@@ -18,7 +18,7 @@ class FallAnimation {
     for(int i = 0; i < items.length; i++) {
       final item = items[i];
       item.previousIndex = item.currentIndex;
-      item.currentIndex = item.currentIndex - SharedData.config().columns;
+      item.currentIndex = item.currentIndex - SharedData.config.columns;
       if(item.currentIndex < 0) {
         Game2DStatic.filledIndexes.add(item.previousIndex);
         toRemove.add(item);

@@ -23,15 +23,15 @@ class GameStatic {
   }
 
   static int countItems() {
-    return SharedData.config().rows * SharedData.config().columns;
+    return SharedData.config.rows * SharedData.config.columns;
   }
 
   static double gameHeight() {
-    return SharedData.config().rows * SharedData.blockSize();
+    return SharedData.config.rows * SharedData.blockSize();
   }
 
   static double gameWidth() {
-    return SharedData.config().columns * SharedData.blockSize();
+    return SharedData.config.columns * SharedData.blockSize();
   }
 
   static int getState(int column, int row) {
@@ -117,7 +117,7 @@ class GameStatic {
     }
     _timer?.cancel();
     SharedData.level++;
-    if(SharedData.currentRow < SharedData.config().rows - 1) {
+    if(SharedData.currentRow < SharedData.config.rows - 1) {
       SharedData.currentRow++;
       SharedData.currentCol = SharedData.startCol;
       _startTimer();
@@ -139,13 +139,13 @@ class GameStatic {
 
   static void move() {
     int direction = SharedData.reversedMovement ? -1 : 1;
-    if((SharedData.currentCol < SharedData.config().columns + SharedData.currentBlockColumns - 2 && !SharedData.reversedMovement) || (SharedData.reversedMovement && SharedData.currentCol > 0)) {
+    if((SharedData.currentCol < SharedData.config.columns + SharedData.currentBlockColumns - 2 && !SharedData.reversedMovement) || (SharedData.reversedMovement && SharedData.currentCol > 0)) {
       SharedData.currentCol = SharedData.currentCol + direction;
 
       _activeColumns!.clear();
 
       for(int i = 0; i < SharedData.currentBlockColumns; i++) {
-        if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config().columns) {
+        if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config.columns) {
           _activeColumns!.add(SharedData.currentCol - i);
         }
       }
@@ -155,7 +155,7 @@ class GameStatic {
         _expectedColumns!.addAll(_activeColumns!);
       }
 
-      for(int i = 0; i < SharedData.config().columns; i++) {
+      for(int i = 0; i < SharedData.config.columns; i++) {
         if(_activeColumns!.contains(i)) {
           _blockState![_getIndex(i, SharedData.currentRow)] = 1;
         } else {
@@ -169,6 +169,6 @@ class GameStatic {
   }
 
   static int _getIndex(int column, int row) {
-    return (row * SharedData.config().columns) + column;
+    return (row * SharedData.config.columns) + column;
   }
 }
