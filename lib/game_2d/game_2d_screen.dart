@@ -1,7 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
-import 'package:stacker_game/static_classes/common_static.dart';
 
 Game? game;
 

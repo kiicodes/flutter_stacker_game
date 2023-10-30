@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:stacker_game/game_classes/game_config.dart';
-import 'package:stacker_game/static_classes/common_static.dart';
+import 'package:stacker_game/shared/game_config.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class EmptyBlock extends StatelessWidget {
   const EmptyBlock({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final blockSize = CommonStatic.blockSize();
+    final blockSize = SharedData.blockSize();
     return Container(
       height: blockSize,
       width: blockSize,

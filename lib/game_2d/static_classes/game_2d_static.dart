@@ -2,8 +2,8 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:stacker_game/game_classes/game_config.dart';
-import 'package:stacker_game/static_classes/common_static.dart';
+import 'package:stacker_game/shared/game_config.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2DStatic {
   static int activeIndex = 0;
@@ -22,23 +22,23 @@ class Game2DStatic {
   static List<int> filledIndexes = List.empty(growable: true);
 
   static void initValues(Vector2 size) {
-    CommonStatic.initValues();
+    SharedData.initValues();
     activeIndex = 0;
     currentSpeed = 0;
     expectedIndexes.clear();
     filledIndexes.clear();
-    CommonStatic.onDimensionsSet(size.x, size.y);
+    SharedData.onDimensionsSet(size.x, size.y);
 
-    blockSize = CommonStatic.blockSize();
-    gameConfig = CommonStatic.config();
+    blockSize = SharedData.blockSize();
+    gameConfig = SharedData.config();
 
     gameWidth = blockSize * gameConfig.columns;
     final remainingWidth = size.x - gameWidth;
-    startX = (remainingWidth / 2 + CommonStatic.marginSize() / 2) / 2;
+    startX = (remainingWidth / 2 + SharedData.marginSize() / 2) / 2;
 
     gameHeight = blockSize * gameConfig.rows;
     final remainingHeight = size.y - gameHeight;
-    startY = (remainingHeight / 2 + CommonStatic.marginSize() / 2);
+    startY = (remainingHeight / 2 + SharedData.marginSize() / 2);
     maxIndex = gameConfig.rows * gameConfig.columns;
 
     blockPaint = Paint()
@@ -49,32 +49,32 @@ class Game2DStatic {
     activeIndex = 0;
     expectedIndexes.clear();
     filledIndexes.clear();
-    CommonStatic.start();
-    CommonStatic.currentBlockColumns = CommonStatic.config().blockColumns;
-    CommonStatic.currentRow = 0;
+    SharedData.start();
+    SharedData.currentBlockColumns = SharedData.config().blockColumns;
+    SharedData.currentRow = 0;
     _updateRowIndexRange();
-    currentSpeed = CommonStatic.calculatedLevelSpeed();
-    CommonStatic.started = true;
+    currentSpeed = SharedData.calculatedLevelSpeed();
+    SharedData.started = true;
   }
 
   static void _updateRowIndexRange() {
-    rowStartIndex = CommonStatic.currentRow * gameConfig.columns;
+    rowStartIndex = SharedData.currentRow * gameConfig.columns;
     rowEndIndex = rowStartIndex + gameConfig.columns - 1;
   }
 
   static void changeRow(int currentSize, List<int> hitIndexes) {
-    if(CommonStatic.currentRow < gameConfig.rows - 1) {
+    if(SharedData.currentRow < gameConfig.rows - 1) {
       expectedIndexes.clear();
       for(int i = 0; i < hitIndexes.length; i++) {
         expectedIndexes.add(hitIndexes[i] + gameConfig.columns);
       }
 
-      CommonStatic.currentRow = CommonStatic.currentRow + 1;
+      SharedData.currentRow = SharedData.currentRow + 1;
       activeIndex = rowStartIndex + gameConfig.columns - 1;
       _updateRowIndexRange();
-      currentSpeed = CommonStatic.calculatedLevelSpeed();
+      currentSpeed = SharedData.calculatedLevelSpeed();
     } else {
-      CommonStatic.started = false;
+      SharedData.started = false;
     }
   }
 
@@ -94,14 +94,14 @@ class Game2DStatic {
 
 
   static void move() {
-    int direction = CommonStatic.reversedMovement ? -1 : 1;
-    bool reachedEndLimit = activeIndex + 2 > rowEndIndex + CommonStatic.currentBlockColumns && !CommonStatic.reversedMovement;
-    bool reachedStartLimit = activeIndex - 1 < rowStartIndex && CommonStatic.reversedMovement;
+    int direction = SharedData.reversedMovement ? -1 : 1;
+    bool reachedEndLimit = activeIndex + 2 > rowEndIndex + SharedData.currentBlockColumns && !SharedData.reversedMovement;
+    bool reachedStartLimit = activeIndex - 1 < rowStartIndex && SharedData.reversedMovement;
     bool reachedLimits = reachedEndLimit || reachedStartLimit;
     if(!reachedLimits) {
       activeIndex = activeIndex + direction;
     } else {
-      CommonStatic.reversedMovement = !CommonStatic.reversedMovement;
+      SharedData.reversedMovement = !SharedData.reversedMovement;
       move();
     }
   }

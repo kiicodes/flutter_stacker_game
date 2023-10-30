@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:stacker_game/app_game/static_classes/fall_animation.dart';
-import 'package:stacker_game/static_classes/common_static.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class GameStatic {
   static List<int>? _blockState;
@@ -23,15 +23,15 @@ class GameStatic {
   }
 
   static int countItems() {
-    return CommonStatic.config().rows * CommonStatic.config().columns;
+    return SharedData.config().rows * SharedData.config().columns;
   }
 
   static double gameHeight() {
-    return CommonStatic.config().rows * CommonStatic.blockSize();
+    return SharedData.config().rows * SharedData.blockSize();
   }
 
   static double gameWidth() {
-    return CommonStatic.config().columns * CommonStatic.blockSize();
+    return SharedData.config().columns * SharedData.blockSize();
   }
 
   static int getState(int column, int row) {
@@ -52,7 +52,7 @@ class GameStatic {
   }
 
   static void reset() {
-    CommonStatic.reset();
+    SharedData.reset();
     _blockState = null;
     //CommonStatic.initValues();
     FallAnimation.clearAll();
@@ -69,7 +69,7 @@ class GameStatic {
 
   static void start(Function() refreshCallback, Function() onWin, Function() onLose) {
     reset();
-    CommonStatic.start();
+    SharedData.start();
     _expectedColumns = List.empty(growable: true);
     _activeColumns = List.empty(growable: true);
     _refreshCallback = refreshCallback;
@@ -79,7 +79,7 @@ class GameStatic {
   }
 
   static void _startTimer() {
-    _timer = Timer.periodic(Duration(milliseconds: CommonStatic.calculatedLevelSpeed()), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: SharedData.calculatedLevelSpeed()), (timer) {
       GameStatic.move();
       if(_refreshCallback != null) {
         _refreshCallback!();
@@ -88,7 +88,7 @@ class GameStatic {
   }
 
   static void stop() {
-    CommonStatic.stop();
+    SharedData.stop();
     FallAnimation.clearAll();
     _timer?.cancel();
     _onWin = null;
@@ -99,8 +99,8 @@ class GameStatic {
     final lostColumns = _activeColumns!.where((element) => !_expectedColumns!.contains(element)).toList();
     if(lostColumns.isNotEmpty) {
       for(int i = 0; i < lostColumns.length; i++) {
-        _blockState![_getIndex(lostColumns[i], CommonStatic.currentRow)] = 0;
-        FallAnimation.addFallAnimation(lostColumns[i], CommonStatic.currentRow);
+        _blockState![_getIndex(lostColumns[i], SharedData.currentRow)] = 0;
+        FallAnimation.addFallAnimation(lostColumns[i], SharedData.currentRow);
       }
       if(_refreshCallback != null) {
         _refreshCallback!();
@@ -111,15 +111,15 @@ class GameStatic {
       gameOver(false);
       return;
     } else {
-      CommonStatic.currentBlockColumns = _activeColumns!.length;
+      SharedData.currentBlockColumns = _activeColumns!.length;
       _expectedColumns!.clear();
       _expectedColumns!.addAll(_activeColumns!);
     }
     _timer?.cancel();
-    CommonStatic.level++;
-    if(CommonStatic.currentRow < CommonStatic.config().rows - 1) {
-      CommonStatic.currentRow++;
-      CommonStatic.currentCol = CommonStatic.startCol;
+    SharedData.level++;
+    if(SharedData.currentRow < SharedData.config().rows - 1) {
+      SharedData.currentRow++;
+      SharedData.currentCol = SharedData.startCol;
       _startTimer();
     } else {
       gameOver(true);
@@ -129,7 +129,7 @@ class GameStatic {
   static void gameOver(bool won) {
     _timer?.cancel();
     _timer = null;
-    CommonStatic.gameOver(won);
+    SharedData.gameOver(won);
     if(won && _onWin != null) {
       _onWin!();
     } else if(!won && _onLose != null) {
@@ -138,37 +138,37 @@ class GameStatic {
   }
 
   static void move() {
-    int direction = CommonStatic.reversedMovement ? -1 : 1;
-    if((CommonStatic.currentCol < CommonStatic.config().columns + CommonStatic.currentBlockColumns - 2 && !CommonStatic.reversedMovement) || (CommonStatic.reversedMovement && CommonStatic.currentCol > 0)) {
-      CommonStatic.currentCol = CommonStatic.currentCol + direction;
+    int direction = SharedData.reversedMovement ? -1 : 1;
+    if((SharedData.currentCol < SharedData.config().columns + SharedData.currentBlockColumns - 2 && !SharedData.reversedMovement) || (SharedData.reversedMovement && SharedData.currentCol > 0)) {
+      SharedData.currentCol = SharedData.currentCol + direction;
 
       _activeColumns!.clear();
 
-      for(int i = 0; i < CommonStatic.currentBlockColumns; i++) {
-        if(CommonStatic.currentCol - i > -1 && CommonStatic.currentCol - i < CommonStatic.config().columns) {
-          _activeColumns!.add(CommonStatic.currentCol - i);
+      for(int i = 0; i < SharedData.currentBlockColumns; i++) {
+        if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config().columns) {
+          _activeColumns!.add(SharedData.currentCol - i);
         }
       }
 
-      if(CommonStatic.currentRow == 0) {
+      if(SharedData.currentRow == 0) {
         _expectedColumns!.clear();
         _expectedColumns!.addAll(_activeColumns!);
       }
 
-      for(int i = 0; i < CommonStatic.config().columns; i++) {
+      for(int i = 0; i < SharedData.config().columns; i++) {
         if(_activeColumns!.contains(i)) {
-          _blockState![_getIndex(i, CommonStatic.currentRow)] = 1;
+          _blockState![_getIndex(i, SharedData.currentRow)] = 1;
         } else {
-          _blockState![_getIndex(i, CommonStatic.currentRow)] = 0;
+          _blockState![_getIndex(i, SharedData.currentRow)] = 0;
         }
       }
     } else {
-      CommonStatic.reversedMovement = !CommonStatic.reversedMovement;
+      SharedData.reversedMovement = !SharedData.reversedMovement;
       move();
     }
   }
 
   static int _getIndex(int column, int row) {
-    return (row * CommonStatic.config().columns) + column;
+    return (row * SharedData.config().columns) + column;
   }
 }

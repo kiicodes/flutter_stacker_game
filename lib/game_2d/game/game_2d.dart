@@ -7,7 +7,7 @@ import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
 import 'package:stacker_game/game_2d/static_classes/fall_animation.dart';
 import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
-import 'package:stacker_game/static_classes/common_static.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
   FilledBlock2D? activeBlock;
@@ -29,30 +29,30 @@ class Game2D extends FlameGame with TapCallbacks {
         Game2DStatic.gameHeight
       )
     );
-    activeBlock = FilledBlock2D(CommonStatic.currentBlockColumns, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint);
+    activeBlock = FilledBlock2D(SharedData.currentBlockColumns, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.blockPaint);
   }
 
   @override
   void update(double dt) {
-    if(CommonStatic.started || FallAnimation.items.isNotEmpty) {
+    if(SharedData.started || FallAnimation.items.isNotEmpty) {
       myDt = myDt + dt;
       if (myDt > Game2DStatic.currentSpeed / 1000.0) {
         FallAnimation.moveIt();
-        if(CommonStatic.started) {
+        if(SharedData.started) {
           Game2DStatic.move();
         }
         if (activeBlock != null) {
           int newIndex = Game2DStatic.activeIndex;
           if (newIndex > Game2DStatic.rowEndIndex) {
             final diff = Game2DStatic.rowEndIndex - newIndex;
-            activeBlock!.changeSize(CommonStatic.currentBlockColumns + diff);
+            activeBlock!.changeSize(SharedData.currentBlockColumns + diff);
             newIndex = Game2DStatic.rowEndIndex;
-          } else if (newIndex - CommonStatic.currentBlockColumns + 1 <
+          } else if (newIndex - SharedData.currentBlockColumns + 1 <
               Game2DStatic.rowStartIndex) {
             final newSize = newIndex + 1 - Game2DStatic.rowStartIndex;
             activeBlock!.changeSize(newSize);
           } else {
-            activeBlock!.changeSize(CommonStatic.currentBlockColumns);
+            activeBlock!.changeSize(SharedData.currentBlockColumns);
           }
           activeBlock!.blockIndex = newIndex;
           /*Game2DStatic.activeIndex++;
@@ -70,7 +70,7 @@ class Game2D extends FlameGame with TapCallbacks {
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
-    if (!CommonStatic.started) {
+    if (!SharedData.started) {
       activeBlock!.position = Game2DStatic.vectorFromIndex(0);
       removeAll(removeToNewGame);
       removeToNewGame.clear();
@@ -92,12 +92,12 @@ class Game2D extends FlameGame with TapCallbacks {
               Game2DStatic.blockPaint);
           removeToNewGame.add(fixedBlock);
           add(fixedBlock);
-          CommonStatic.currentBlockColumns = hitIndexes.length;
+          SharedData.currentBlockColumns = hitIndexes.length;
         } else {
           gameOver(false);
           return;
         }
-        if(CommonStatic.currentRow + 1 == Game2DStatic.gameConfig.rows) {
+        if(SharedData.currentRow + 1 == Game2DStatic.gameConfig.rows) {
           gameOver(true);
           return;
         }
@@ -138,7 +138,7 @@ class Game2D extends FlameGame with TapCallbacks {
     );
     removeToNewGame.add(textComponent);
     add(textComponent);
-    CommonStatic.gameOver(won);
+    SharedData.gameOver(won);
   }
 }
 

@@ -1,6 +1,6 @@
-import 'package:stacker_game/game_classes/game_config.dart';
+import 'package:stacker_game/shared/game_config.dart';
 
-class CommonStatic {
+class SharedData {
   static final _levelSpeeds = [
     [600, 300],
     [500, 200],
@@ -51,22 +51,22 @@ class CommonStatic {
   }
 
   static int calculatedLevelSpeed() {
-    final speedRange = _levelSpeeds[CommonStatic.config().speed];
-    final step = (speedRange[0] - speedRange[1]) / (CommonStatic.config().rows - 1);
+    final speedRange = _levelSpeeds[SharedData.config().speed];
+    final step = (speedRange[0] - speedRange[1]) / (SharedData.config().rows - 1);
     final result = (speedRange[0] - currentRow * step).round();
     print('Speed $result');
     return result;
   }
   static void reset() {
     currentRow = 0;
-    currentCol = CommonStatic.startCol;
+    currentCol = SharedData.startCol;
     currentBlockColumns = _config.blockColumns;
     level = 1;
   }
 
   static void start() {
     reset();
-    CommonStatic.started = true;
+    SharedData.started = true;
   }
 
   static void stop() {

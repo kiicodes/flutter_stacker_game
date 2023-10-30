@@ -1,7 +1,7 @@
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
-import 'package:stacker_game/static_classes/common_static.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class FallAnimation {
   static final List<FallAnimationItem> items = List.empty(growable: true);
@@ -18,7 +18,7 @@ class FallAnimation {
     for(int i = 0; i < items.length; i++) {
       final item = items[i];
       item.previousIndex = item.currentIndex;
-      item.currentIndex = item.currentIndex - CommonStatic.config().columns;
+      item.currentIndex = item.currentIndex - SharedData.config().columns;
       if(item.currentIndex < 0) {
         Game2DStatic.filledIndexes.add(item.previousIndex);
         toRemove.add(item);
