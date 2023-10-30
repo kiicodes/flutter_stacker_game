@@ -6,36 +6,33 @@ class SharedData {
     [500, 200],
     [350, 80]
   ];
+  static late int level;
   static GameConfig config = const GameConfig();
-  static double blockSize = 0;
-  static const double _margin = 20;
-  static int currentRow = 0;
+  static late double blockSize;
+  static late int currentBlockColumns;
+  static const double margin = 20;
+
+  static late int currentRow;
   static const startCol = 0;
-  static int currentCol = startCol;
-  static int level = 1;
-  static bool reversedMovement = false;
-  static bool started = false;
-  static int currentBlockColumns = 0;
+  static late int currentCol;
+  static late bool reversedMovement;
+  static late bool started;
 
   static void initValues() {
     currentRow = 0;
     currentCol = startCol;
-    level = 1;
+    level = 0;
     reversedMovement = false;
     started = false;
   }
 
   static void onDimensionsSet(double availableWidth, double availableHeight) {
-    availableHeight = availableHeight - _margin;
-    availableWidth = availableWidth - _margin;
+    availableHeight = availableHeight - margin;
+    availableWidth = availableWidth - margin;
     final byWidth = availableWidth / config.columns;
     final byHeight = availableHeight / config.rows;
 
     blockSize = byHeight > byWidth ? byWidth : byHeight;
-  }
-
-  static double marginSize() {
-    return _margin;
   }
 
   static int calculatedLevelSpeed() {

@@ -7,10 +7,9 @@ class EmptyBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final blockSize = SharedData.blockSize;
     return Container(
-      height: blockSize,
-      width: blockSize,
+      height: SharedData.blockSize,
+      width: SharedData.blockSize,
       decoration: BoxDecoration(
         border: Border.all(color: GameConfig.borderColor),
         color: GameConfig.bgColor

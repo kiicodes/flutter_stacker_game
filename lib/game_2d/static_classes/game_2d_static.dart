@@ -29,11 +29,11 @@ class Game2DStatic {
 
     gameWidth = SharedData.blockSize * SharedData.config.columns;
     final remainingWidth = size.x - gameWidth;
-    startX = (remainingWidth / 2 + SharedData.marginSize() / 2) / 2;
+    startX = (remainingWidth / 2 + SharedData.margin / 2) / 2;
 
     gameHeight = SharedData.blockSize * SharedData.config.rows;
     final remainingHeight = size.y - gameHeight;
-    startY = (remainingHeight / 2 + SharedData.marginSize() / 2);
+    startY = (remainingHeight / 2 + SharedData.margin / 2);
     maxIndex = SharedData.config.rows * SharedData.config.columns;
 
     blockPaint = Paint()
