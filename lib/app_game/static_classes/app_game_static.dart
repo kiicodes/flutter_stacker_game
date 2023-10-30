@@ -53,13 +53,15 @@ class GameStatic {
 
   static void reset() {
     CommonStatic.reset();
+    _blockState = null;
+    //CommonStatic.initValues();
     FallAnimation.clearAll();
     _expectedColumns = null;
     _activeColumns = null;
     _refreshCallback = null;
     _timer?.cancel();
     _timer = null;
-    _blockState![0] = 1;
+    items()[0] = 1;
     for(int i = 1; i < _blockState!.length; i++) {
       _blockState![i] = 0;
     }

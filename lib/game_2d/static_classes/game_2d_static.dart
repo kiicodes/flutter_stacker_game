@@ -22,7 +22,12 @@ class Game2DStatic {
   static List<int> filledIndexes = List.empty(growable: true);
 
   static void initValues(Vector2 size) {
-    CommonStatic.configure(size.x, size.y);
+    CommonStatic.initValues();
+    activeIndex = 0;
+    currentSpeed = 0;
+    expectedIndexes.clear();
+    filledIndexes.clear();
+    CommonStatic.onDimensionsSet(size.x, size.y);
 
     blockSize = CommonStatic.blockSize();
     gameConfig = CommonStatic.config();
@@ -38,7 +43,6 @@ class Game2DStatic {
 
     blockPaint = Paint()
     ..color = GameConfig.activeColor;
-    CommonStatic.currentBlockColumns = CommonStatic.config().blockColumns;
   }
 
   static void start() {

@@ -19,9 +19,15 @@ class _AppGameScreenState extends State<AppGameScreen> {
   bool showLose = false;
 
   @override
+  void initState() {
+    GameStatic.reset();
+    CommonStatic.initValues();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     GameStatic.stop();
-    GameStatic.reset();
     super.dispose();
   }
 
@@ -40,7 +46,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
-                        CommonStatic.configure(constraints.maxWidth, constraints.maxHeight);
+                        CommonStatic.onDimensionsSet(constraints.maxWidth, constraints.maxHeight);
                         return Center(
                           child: Stack(
                             children: [

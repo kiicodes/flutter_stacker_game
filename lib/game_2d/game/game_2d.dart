@@ -71,6 +71,7 @@ class Game2D extends FlameGame with TapCallbacks {
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (!CommonStatic.started) {
+      activeBlock!.position = Game2DStatic.vectorFromIndex(0);
       removeAll(removeToNewGame);
       removeToNewGame.clear();
       Game2DStatic.start();

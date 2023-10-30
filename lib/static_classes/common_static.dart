@@ -18,7 +18,15 @@ class CommonStatic {
   static bool started = false;
   static int currentBlockColumns = 0;
 
-  static void configure(double availableWidth, double availableHeight) {
+  static void initValues() {
+    currentRow = 0;
+    currentCol = startCol;
+    level = 1;
+    reversedMovement = false;
+    started = false;
+  }
+
+  static void onDimensionsSet(double availableWidth, double availableHeight) {
     _availableHeight = availableHeight - _margin;
     _availableWidth = availableWidth - _margin;
   }
