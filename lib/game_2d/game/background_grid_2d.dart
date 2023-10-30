@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
+import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
 import 'package:stacker_game/game_classes/game_config.dart';
 
 class BackgroundGrid2D extends Component {
@@ -21,8 +20,12 @@ class BackgroundGrid2D extends Component {
       ..color = Colors.white;
     final Rect bgBounds = Rect.fromLTRB(0, 0, screenSize.x, screenSize.y,);
     canvas.drawRect(bgBounds, backgroundPaint);
+    final gameBackgroundPaint = Paint()
+      ..color = GameConfig.bgColor;
+    final Rect bgGameBounds = Rect.fromLTRB(startX, startY, startX + Game2DStatic.gameWidth, startY + Game2DStatic.gameHeight,);
+    canvas.drawRect(bgGameBounds, gameBackgroundPaint);
     final paint = Paint()
-      ..color = Colors.blue
+      ..color = GameConfig.borderColor
       ..strokeWidth = 1.0;
 
     for (int i = 0; i <= gameConfig.rows; i++) {
@@ -33,27 +36,5 @@ class BackgroundGrid2D extends Component {
       final lineX = startX + i * blockSize;
       canvas.drawLine(Offset(lineX, startY), Offset(lineX, startY + gameHeight), paint);
     }
-
-    /*/ Draw vertical lines
-    final blockSize = GameStatic.blockSize();
-    final totalX = blockSize * (GameStatic.config().columns + 1);
-    final bordersXSize = screenSize.x - (totalX + blockSize);
-
-    final totalY = blockSize * (GameStatic.config().rows + 1);
-    final bordersYSize = screenSize.y - (totalY + blockSize);
-
-    for (double x = bordersXSize; x < totalX; x += blockSize) {
-      canvas.drawLine(Offset(x, bordersYSize), Offset(x, totalY), paint);
-    }
-
-    // Draw horizontal lines
-    for (double y = bordersYSize; y < totalY; y += blockSize) {
-      canvas.drawLine(Offset(0, y), Offset(screenSize.x, y), paint);
-    }// */
-  }
-
-  @override
-  void update(double dt) {
-    // Add any update logic here if needed
   }
 }
