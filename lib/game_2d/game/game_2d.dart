@@ -21,7 +21,7 @@ class Game2D extends FlameGame with TapCallbacks {
     add(
       BackgroundGrid2D(
         size,
-        Game2DStatic.blockSize,
+        SharedData.blockSize,
         SharedData.config,
         Game2DStatic.startX,
         Game2DStatic.startY,

@@ -27,11 +27,11 @@ class GameStatic {
   }
 
   static double gameHeight() {
-    return SharedData.config.rows * SharedData.blockSize();
+    return SharedData.config.rows * SharedData.blockSize;
   }
 
   static double gameWidth() {
-    return SharedData.config.columns * SharedData.blockSize();
+    return SharedData.config.columns * SharedData.blockSize;
   }
 
   static int getState(int column, int row) {

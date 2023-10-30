@@ -16,13 +16,13 @@ class FilledBlock2D extends RectangleComponent {
   FilledBlock2D(this.quantity, Vector2 position, Paint blockPaint)
       : super(
     position: position,
-    size: quantity == 1 ? Vector2.all(SharedData.blockSize()) : Vector2(SharedData.blockSize() * quantity, SharedData.blockSize()),
+    size: quantity == 1 ? Vector2.all(SharedData.blockSize) : Vector2(SharedData.blockSize * quantity, SharedData.blockSize),
     anchor: Anchor.topLeft,
     paint: blockPaint
   );
 
   void changeSize(int quantityOfBlocks) {
     quantity = quantityOfBlocks;
-    size = quantityOfBlocks == 1 ? Vector2.all(SharedData.blockSize()) : Vector2(SharedData.blockSize() * quantityOfBlocks, SharedData.blockSize());
+    size = quantityOfBlocks == 1 ? Vector2.all(SharedData.blockSize) : Vector2(SharedData.blockSize * quantityOfBlocks, SharedData.blockSize);
   }
 }

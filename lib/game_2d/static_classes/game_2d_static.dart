@@ -7,7 +7,6 @@ import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2DStatic {
   static int activeIndex = 0;
-  static double blockSize = 0;
   static double gameWidth = 0;
   static double startX = 0;
   static double gameHeight = 0;
@@ -28,13 +27,11 @@ class Game2DStatic {
     filledIndexes.clear();
     SharedData.onDimensionsSet(size.x, size.y);
 
-    blockSize = SharedData.blockSize();
-
-    gameWidth = blockSize * SharedData.config.columns;
+    gameWidth = SharedData.blockSize * SharedData.config.columns;
     final remainingWidth = size.x - gameWidth;
     startX = (remainingWidth / 2 + SharedData.marginSize() / 2) / 2;
 
-    gameHeight = blockSize * SharedData.config.rows;
+    gameHeight = SharedData.blockSize * SharedData.config.rows;
     final remainingHeight = size.y - gameHeight;
     startY = (remainingHeight / 2 + SharedData.marginSize() / 2);
     maxIndex = SharedData.config.rows * SharedData.config.columns;
@@ -81,7 +78,7 @@ class Game2DStatic {
     final xy = _getPositionFromIndex(reversedIndex, SharedData.config.columns);
     final int x = xy[0];
     final int y = xy[1];
-    return Vector2(startX + x * blockSize, startY + y * blockSize);
+    return Vector2(startX + x * SharedData.blockSize, startY + y * SharedData.blockSize);
   }
 
   static List _getPositionFromIndex(int index, int columns) {

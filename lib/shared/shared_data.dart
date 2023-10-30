@@ -7,8 +7,7 @@ class SharedData {
     [350, 80]
   ];
   static GameConfig config = const GameConfig();
-  static double _availableHeight = 0;
-  static double _availableWidth = 0;
+  static double blockSize = 0;
   static const double _margin = 20;
   static int currentRow = 0;
   static const startCol = 0;
@@ -27,15 +26,12 @@ class SharedData {
   }
 
   static void onDimensionsSet(double availableWidth, double availableHeight) {
-    _availableHeight = availableHeight - _margin;
-    _availableWidth = availableWidth - _margin;
-  }
+    availableHeight = availableHeight - _margin;
+    availableWidth = availableWidth - _margin;
+    final byWidth = availableWidth / config.columns;
+    final byHeight = availableHeight / config.rows;
 
-  static double blockSize() {
-    final byWidth = _availableWidth / config.columns;
-    final byHeight = _availableHeight / config.rows;
-
-    return byHeight > byWidth ? byWidth : byHeight;
+    blockSize = byHeight > byWidth ? byWidth : byHeight;
   }
 
   static double marginSize() {
