@@ -33,6 +33,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
           child: SafeArea(
               child: Column(
                 children: [
+                  ElevatedButton(onPressed: () { Navigator.pop(context); }, child: const Text("Back")),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(isStarted ? "Tap to Stack" : "Tap to Start", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 23),),

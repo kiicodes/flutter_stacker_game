@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
+import 'package:stacker_game/static_classes/common_static.dart';
 
 Game? game;
 
@@ -22,19 +23,26 @@ class _Game2DScreenState extends State<Game2DScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-          child: Center(
-            child: LayoutBuilder(builder: (context, constraints) {
-              return Container(
-                constraints: const BoxConstraints(
-                  maxWidth: 800,
-                  minWidth: 550,
+          child: Column(
+            children: [
+              ElevatedButton(onPressed: () { Navigator.pop(context); }, child: const Text("Back")),
+              Expanded(
+                child: Center(
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    return Container(
+                      constraints: const BoxConstraints(
+                        maxWidth: 800,
+                        minWidth: 550,
+                      ),
+                      child: GameWidget(
+                        game: game!,
+                      ),
+                    );
+                  },
+                  ),
                 ),
-                child: GameWidget(
-                  game: game!,
-                ),
-              );
-            },
-            ),
+              ),
+            ],
           ),
         ));
   }
