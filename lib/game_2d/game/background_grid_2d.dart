@@ -5,14 +5,14 @@ import 'package:stacker_game/shared/game_config.dart';
 
 class BackgroundGrid2D extends Component {
   final Vector2 screenSize;
-  final double blockSize;
+  final double squareSize;
   final GameConfig gameConfig;
   final double startX;
   final double startY;
   final double gameWidth;
   final double gameHeight;
 
-  BackgroundGrid2D(this.screenSize, this.blockSize, this.gameConfig, this.startX, this.startY, this.gameWidth, this.gameHeight);
+  BackgroundGrid2D(this.screenSize, this.squareSize, this.gameConfig, this.startX, this.startY, this.gameWidth, this.gameHeight);
 
   @override
   void render(Canvas canvas) {
@@ -29,11 +29,11 @@ class BackgroundGrid2D extends Component {
       ..strokeWidth = 1.0;
 
     for (int i = 0; i <= gameConfig.rows; i++) {
-      final lineY = startY + i * blockSize;
+      final lineY = startY + i * squareSize;
       canvas.drawLine(Offset(startX, lineY), Offset(startX + gameWidth, lineY), paint);
     }
     for (int i = 0; i <= gameConfig.columns; i++) {
-      final lineX = startX + i * blockSize;
+      final lineX = startX + i * squareSize;
       canvas.drawLine(Offset(lineX, startY), Offset(lineX, startY + gameHeight), paint);
     }
   }

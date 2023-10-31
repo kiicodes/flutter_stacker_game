@@ -5,7 +5,7 @@ import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class GameStatic {
-  static List<int>? _blockState;
+  static List<int>? _squareState;
   static List<int>? _expectedColumns;
   static List<int>? _activeColumns;
   static Timer? _timer;
@@ -14,13 +14,13 @@ class GameStatic {
   static Function()? _onLose;
 
   static List<int> items() {
-    if(_blockState == null) {
-      _blockState = List.empty(growable: true);
+    if(_squareState == null) {
+      _squareState = List.empty(growable: true);
       for(int i = 0; i < countItems(); i++) {
-        _blockState!.add(0);
+        _squareState!.add(0);
       }
     }
-    return _blockState!;
+    return _squareState!;
   }
 
   static int countItems() {
@@ -28,25 +28,25 @@ class GameStatic {
   }
 
   static double gameHeight() {
-    return SharedData.config.rows * GameConfig.blockSize;
+    return SharedData.config.rows * GameConfig.squareSize;
   }
 
   static double gameWidth() {
-    return SharedData.config.columns * GameConfig.blockSize;
+    return SharedData.config.columns * GameConfig.squareSize;
   }
 
   static int getState(int column, int row) {
-    if(_blockState == null) {
+    if(_squareState == null) {
       return 0;
     }
-    return _blockState![_getIndex(column, row)] ;
+    return _squareState![_getIndex(column, row)] ;
   }
 
   static void changeState(int column, int row, int newState) {
-    if(_blockState == null) {
+    if(_squareState == null) {
       return;
     }
-    _blockState![_getIndex(column, row)] = newState;
+    _squareState![_getIndex(column, row)] = newState;
     if(_refreshCallback != null) {
       _refreshCallback!();
     }
@@ -54,7 +54,7 @@ class GameStatic {
 
   static void reset() {
     SharedData.reset();
-    _blockState = null;
+    _squareState = null;
     //CommonStatic.initValues();
     FallAnimation.clearAll();
     _expectedColumns = null;
@@ -63,8 +63,8 @@ class GameStatic {
     _timer?.cancel();
     _timer = null;
     items()[0] = 1;
-    for(int i = 1; i < _blockState!.length; i++) {
-      _blockState![i] = 0;
+    for(int i = 1; i < _squareState!.length; i++) {
+      _squareState![i] = 0;
     }
   }
 
@@ -100,7 +100,7 @@ class GameStatic {
     final lostColumns = _activeColumns!.where((element) => !_expectedColumns!.contains(element)).toList();
     if(lostColumns.isNotEmpty) {
       for(int i = 0; i < lostColumns.length; i++) {
-        _blockState![_getIndex(lostColumns[i], SharedData.currentRow)] = 0;
+        _squareState![_getIndex(lostColumns[i], SharedData.currentRow)] = 0;
         FallAnimation.addFallAnimation(lostColumns[i], SharedData.currentRow);
       }
       if(_refreshCallback != null) {
@@ -112,7 +112,7 @@ class GameStatic {
       gameOver(false);
       return;
     } else {
-      SharedData.currentBlockColumns = _activeColumns!.length;
+      SharedData.currentSquareQuantity = _activeColumns!.length;
       _expectedColumns!.clear();
       _expectedColumns!.addAll(_activeColumns!);
     }
@@ -139,12 +139,12 @@ class GameStatic {
 
   static void move() {
     int direction = SharedData.reversedMovement ? -1 : 1;
-    if((SharedData.currentCol < SharedData.config.columns + SharedData.currentBlockColumns - 2 && !SharedData.reversedMovement) || (SharedData.reversedMovement && SharedData.currentCol > 0)) {
+    if((SharedData.currentCol < SharedData.config.columns + SharedData.currentSquareQuantity - 2 && !SharedData.reversedMovement) || (SharedData.reversedMovement && SharedData.currentCol > 0)) {
       SharedData.currentCol = SharedData.currentCol + direction;
 
       _activeColumns!.clear();
 
-      for(int i = 0; i < SharedData.currentBlockColumns; i++) {
+      for(int i = 0; i < SharedData.currentSquareQuantity; i++) {
         if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config.columns) {
           _activeColumns!.add(SharedData.currentCol - i);
         }
@@ -157,9 +157,9 @@ class GameStatic {
 
       for(int i = 0; i < SharedData.config.columns; i++) {
         if(_activeColumns!.contains(i)) {
-          _blockState![_getIndex(i, SharedData.currentRow)] = 1;
+          _squareState![_getIndex(i, SharedData.currentRow)] = 1;
         } else {
-          _blockState![_getIndex(i, SharedData.currentRow)] = 0;
+          _squareState![_getIndex(i, SharedData.currentRow)] = 0;
         }
       }
     } else {

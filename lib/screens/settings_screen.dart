@@ -14,7 +14,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   int _columns = SharedData.config.columns;
   int _rows = SharedData.config.rows;
-  int _initialBlocks = SharedData.config.blockColumns;
+  int _initialSquareQuantity = SharedData.config.squareQuantity;
   int _level = SharedData.config.level;
 
   @override
@@ -39,8 +39,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onChange: (newValue) {
                     setState(() {
                       _columns = newValue!;
-                      if(_columns < _initialBlocks + 2) {
-                        _initialBlocks = _columns - 2;
+                      if(_columns < _initialSquareQuantity + 2) {
+                        _initialSquareQuantity = _columns - 2;
                       }
                     });
                   }
@@ -64,13 +64,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 const Spacer(),
                 NumberSelector(
-                  selectedValue: _initialBlocks,
-                  label: "Initial Blocks",
+                  selectedValue: _initialSquareQuantity,
+                  label: "Initial Squares",
                   maxNumber: _columns - 2,
                   minNumber: 1,
                   onChange: (newValue) {
                     setState(() {
-                      _initialBlocks = newValue!;
+                      _initialSquareQuantity = newValue!;
                     });
                   }
                 ),
@@ -90,7 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ElevatedButton(
               onPressed: () {
                 SharedData.config = GameConfig(
-                  blockColumns: _initialBlocks,
+                  squareQuantity: _initialSquareQuantity,
                   columns: _columns,
                   rows: _rows,
                   level: _level

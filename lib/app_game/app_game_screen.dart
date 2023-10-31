@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stacker_game/app_game/components/empty_block.dart';
-import 'package:stacker_game/app_game/components/filled_block.dart';
+import 'package:stacker_game/app_game/components/empty_square.dart';
+import 'package:stacker_game/app_game/components/filled_square.dart';
 import 'package:stacker_game/app_game/components/lose_text.dart';
 import 'package:stacker_game/app_game/components/winner_text.dart';
 import 'package:stacker_game/app_game/static_classes/app_game_static.dart';
@@ -61,9 +61,9 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                       final reversedIndex = (GameStatic.countItems() - 1) - index;
                                       final item = GameStatic.items()[reversedIndex];
                                       if(item == 0) {
-                                        return const EmptyBlock();
+                                        return const EmptySquare();
                                       } else {
-                                        return const FilledBlock();
+                                        return const FilledSquare();
                                       }
                                     })
                                   ),

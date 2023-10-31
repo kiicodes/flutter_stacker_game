@@ -2,8 +2,7 @@ import 'package:stacker_game/shared/game_config.dart';
 
 class SharedData {
   static GameConfig config = const GameConfig();
-  static late int currentBlockColumns;
-  static const double margin = 20;
+  static late int currentSquareQuantity;
 
   static late int currentRow;
   static const startCol = 0;
@@ -19,13 +18,13 @@ class SharedData {
   }
 
   static void onDimensionsSet(double availableWidth, double availableHeight) {
-    availableHeight = availableHeight - margin;
-    availableWidth = availableWidth - margin;
+    availableHeight = availableHeight - GameConfig.margin;
+    availableWidth = availableWidth - GameConfig.margin;
     final byWidth = availableWidth / config.columns;
     final byHeight = availableHeight / config.rows;
 
     // size of each game square (filled or not)
-    GameConfig.blockSize = byHeight > byWidth ? byWidth : byHeight;
+    GameConfig.squareSize = byHeight > byWidth ? byWidth : byHeight;
   }
 
   static int calculateLevelSpeed() {
@@ -38,7 +37,7 @@ class SharedData {
   static void reset() {
     currentRow = 0;
     currentCol = SharedData.startCol;
-    currentBlockColumns = config.blockColumns;
+    currentSquareQuantity = config.squareQuantity;
   }
 
   static void start() {

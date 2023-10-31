@@ -13,7 +13,7 @@ class Game2DStatic {
   static double startY = 0;
   static late int maxIndex;
   static int currentSpeed = 0;
-  static late Paint blockPaint;
+  static late Paint squarePaint;
   static late int rowStartIndex;
   static late int rowEndIndex;
   static List<int> expectedIndexes = List.empty(growable: true);
@@ -27,16 +27,16 @@ class Game2DStatic {
     filledIndexes.clear();
     SharedData.onDimensionsSet(size.x, size.y);
 
-    gameWidth = GameConfig.blockSize * SharedData.config.columns;
+    gameWidth = GameConfig.squareSize * SharedData.config.columns;
     final remainingWidth = size.x - gameWidth;
-    startX = (remainingWidth / 2 + SharedData.margin / 2) / 2;
+    startX = (remainingWidth / 2 + GameConfig.margin / 2) / 2;
 
-    gameHeight = GameConfig.blockSize * SharedData.config.rows;
+    gameHeight = GameConfig.squareSize * SharedData.config.rows;
     final remainingHeight = size.y - gameHeight;
-    startY = (remainingHeight / 2 + SharedData.margin / 2);
+    startY = (remainingHeight / 2 + GameConfig.margin / 2);
     maxIndex = SharedData.config.rows * SharedData.config.columns;
 
-    blockPaint = Paint()
+    squarePaint = Paint()
     ..color = GameConfig.activeColor;
   }
 
@@ -45,7 +45,7 @@ class Game2DStatic {
     expectedIndexes.clear();
     filledIndexes.clear();
     SharedData.start();
-    SharedData.currentBlockColumns = SharedData.config.blockColumns;
+    SharedData.currentSquareQuantity = SharedData.config.squareQuantity;
     SharedData.currentRow = 0;
     _updateRowIndexRange();
     currentSpeed = SharedData.calculateLevelSpeed();
@@ -78,7 +78,7 @@ class Game2DStatic {
     final xy = _getPositionFromIndex(reversedIndex, SharedData.config.columns);
     final int x = xy[0];
     final int y = xy[1];
-    return Vector2(startX + x * GameConfig.blockSize, startY + y * GameConfig.blockSize);
+    return Vector2(startX + x * GameConfig.squareSize, startY + y * GameConfig.squareSize);
   }
 
   static List _getPositionFromIndex(int index, int columns) {
@@ -90,7 +90,7 @@ class Game2DStatic {
 
   static void move() {
     int direction = SharedData.reversedMovement ? -1 : 1;
-    bool reachedEndLimit = activeIndex + 2 > rowEndIndex + SharedData.currentBlockColumns && !SharedData.reversedMovement;
+    bool reachedEndLimit = activeIndex + 2 > rowEndIndex + SharedData.currentSquareQuantity && !SharedData.reversedMovement;
     bool reachedStartLimit = activeIndex - 1 < rowStartIndex && SharedData.reversedMovement;
     bool reachedLimits = reachedEndLimit || reachedStartLimit;
     if(!reachedLimits) {

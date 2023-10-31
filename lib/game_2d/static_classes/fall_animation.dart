@@ -1,16 +1,16 @@
-import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
+import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class FallAnimation {
   static final List<FallAnimationItem> items = List.empty(growable: true);
-  static FilledBlock2D addItem(int index) {
-    final filledBlock2D = FilledBlock2D(1, Game2DStatic.vectorFromIndex(index), Game2DStatic.blockPaint);
-    Game2D.removeToNewGame.add(filledBlock2D);
-    filledBlock2D.fallItem = FallAnimationItem(filledBlock2D: filledBlock2D, currentIndex: index, previousIndex: index);
-    items.add(filledBlock2D.fallItem!);
-    return filledBlock2D;
+  static FilledSquare2D addItem(int index) {
+    final filledSquare2D = FilledSquare2D(1, Game2DStatic.vectorFromIndex(index), Game2DStatic.squarePaint);
+    Game2D.removeToNewGame.add(filledSquare2D);
+    filledSquare2D.fallItem = FallAnimationItem(filledSquare2D: filledSquare2D, currentIndex: index, previousIndex: index);
+    items.add(filledSquare2D.fallItem!);
+    return filledSquare2D;
   }
 
   static void moveIt() {
@@ -27,7 +27,7 @@ class FallAnimation {
           Game2DStatic.filledIndexes.add(item.previousIndex);
           toRemove.add(item);
         } else {
-          item.filledBlock2D.position =
+          item.filledSquare2D.position =
               Game2DStatic.vectorFromIndex(item.currentIndex);
         }
       }
@@ -41,6 +41,6 @@ class FallAnimation {
 class FallAnimationItem {
   int currentIndex;
   int previousIndex;
-  final FilledBlock2D filledBlock2D;
-  FallAnimationItem({required this.filledBlock2D, required this.currentIndex, required this.previousIndex});
+  final FilledSquare2D filledSquare2D;
+  FallAnimationItem({required this.filledSquare2D, required this.currentIndex, required this.previousIndex});
 }
