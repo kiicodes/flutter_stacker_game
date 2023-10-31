@@ -10,11 +10,12 @@ class SharedData {
   static late bool reversedMovement;
   static late bool started;
 
-  static void initValues() {
+  static void reset() {
     currentRow = 0;
-    currentCol = startCol;
     reversedMovement = false;
     started = false;
+    currentCol = startCol;
+    currentSquareQuantity = config.squareQuantity;
   }
 
   static void onDimensionsSet(double availableWidth, double availableHeight) {
@@ -33,11 +34,6 @@ class SharedData {
     final step = (speedRange[0] - speedRange[1]) / (SharedData.config.rows - 1);
     // Get the speed for current row
     return (speedRange[0] - currentRow * step).round();
-  }
-  static void reset() {
-    currentRow = 0;
-    currentCol = SharedData.startCol;
-    currentSquareQuantity = config.squareQuantity;
   }
 
   static void start() {

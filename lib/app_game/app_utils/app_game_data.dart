@@ -1,10 +1,9 @@
 import 'dart:async';
-
-import 'package:stacker_game/app_game/static_classes/fall_animation.dart';
+import 'package:stacker_game/app_game/app_utils/fall_animation.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
-class GameStatic {
+class AppGameData {
   static List<int>? _squareState;
   static List<int>? _expectedColumns;
   static List<int>? _activeColumns;
@@ -81,7 +80,7 @@ class GameStatic {
 
   static void _startTimer() {
     _timer = Timer.periodic(Duration(milliseconds: SharedData.calculateLevelSpeed()), (timer) {
-      GameStatic.move();
+      AppGameData.move();
       if(_refreshCallback != null) {
         _refreshCallback!();
       }

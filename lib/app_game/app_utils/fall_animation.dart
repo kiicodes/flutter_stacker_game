@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stacker_game/app_game/static_classes/app_game_static.dart';
+import 'package:stacker_game/app_game/app_utils/app_game_data.dart';
 
 class FallAnimation {
   static const _speed = 300;
@@ -30,20 +30,20 @@ class _FallAnimationItem {
   _FallAnimationItem(this.column, this.row);
 
   void start() {
-    GameStatic.changeState(column, row, 1);
+    AppGameData.changeState(column, row, 1);
     timer = Timer.periodic(const Duration(milliseconds: FallAnimation._speed), (_) {
-      GameStatic.changeState(column, row, 0);
+      AppGameData.changeState(column, row, 0);
       row--;
       if(row < 0) {
-        GameStatic.changeState(column, row + 1, 1);
+        AppGameData.changeState(column, row + 1, 1);
         stop(true);
       } else {
-        if(GameStatic.getState(column, row) == 1) {
-          GameStatic.changeState(column, row + 1, 1);
+        if(AppGameData.getState(column, row) == 1) {
+          AppGameData.changeState(column, row + 1, 1);
           stop(true);
           return;
         }
-        GameStatic.changeState(column, row, 1);
+        AppGameData.changeState(column, row, 1);
       }
     });
   }

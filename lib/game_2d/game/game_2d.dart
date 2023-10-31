@@ -5,8 +5,8 @@ import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
-import 'package:stacker_game/game_2d/static_classes/fall_animation.dart';
-import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
+import 'package:stacker_game/game_2d/utils/fall_animation.dart';
+import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
@@ -18,39 +18,39 @@ class Game2D extends FlameGame with TapCallbacks {
   @override
   Future<void> onLoad() async {
     removeToNewGame.clear();
-    Game2DStatic.initValues(size);
+    Game2DData.initValues(size);
     add(
       BackgroundGrid2D(
         size,
         GameConfig.squareSize,
         SharedData.config,
-        Game2DStatic.startX,
-        Game2DStatic.startY,
-        Game2DStatic.gameWidth,
-        Game2DStatic.gameHeight
+        Game2DData.startX,
+        Game2DData.startY,
+        Game2DData.gameWidth,
+        Game2DData.gameHeight
       )
     );
-    activeSquares = FilledSquare2D(SharedData.currentSquareQuantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.squarePaint);
+    activeSquares = FilledSquare2D(SharedData.currentSquareQuantity, Game2DData.vectorFromIndex(Game2DData.activeIndex), Game2DData.squarePaint);
   }
 
   @override
   void update(double dt) {
     if(SharedData.started || FallAnimation.items.isNotEmpty) {
       myDt = myDt + dt;
-      if (myDt > Game2DStatic.currentSpeed / 1000.0) {
+      if (myDt > Game2DData.currentSpeed / 1000.0) {
         FallAnimation.moveIt();
         if(SharedData.started) {
-          Game2DStatic.move();
+          Game2DData.move();
         }
         if (activeSquares != null) {
-          int newIndex = Game2DStatic.activeIndex;
-          if (newIndex > Game2DStatic.rowEndIndex) {
-            final diff = Game2DStatic.rowEndIndex - newIndex;
+          int newIndex = Game2DData.activeIndex;
+          if (newIndex > Game2DData.rowEndIndex) {
+            final diff = Game2DData.rowEndIndex - newIndex;
             activeSquares!.changeSize(SharedData.currentSquareQuantity + diff);
-            newIndex = Game2DStatic.rowEndIndex;
+            newIndex = Game2DData.rowEndIndex;
           } else if (newIndex - SharedData.currentSquareQuantity + 1 <
-              Game2DStatic.rowStartIndex) {
-            final newSize = newIndex + 1 - Game2DStatic.rowStartIndex;
+              Game2DData.rowStartIndex) {
+            final newSize = newIndex + 1 - Game2DData.rowStartIndex;
             activeSquares!.changeSize(newSize);
           } else {
             activeSquares!.changeSize(SharedData.currentSquareQuantity);
@@ -60,7 +60,7 @@ class Game2D extends FlameGame with TapCallbacks {
           if (Game2DStatic.activeIndex == Game2DStatic.maxIndex) {
             Game2DStatic.activeIndex = 0;
           }*/
-          activeSquares!.position = Game2DStatic.vectorFromIndex(newIndex);
+          activeSquares!.position = Game2DData.vectorFromIndex(newIndex);
         }
         myDt = 0;
       }
@@ -72,16 +72,16 @@ class Game2D extends FlameGame with TapCallbacks {
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (!SharedData.started) {
-      activeSquares!.position = Game2DStatic.vectorFromIndex(0);
+      activeSquares!.position = Game2DData.vectorFromIndex(0);
       removeAll(removeToNewGame);
       removeToNewGame.clear();
-      Game2DStatic.start();
+      Game2DData.start();
       add(activeSquares!);
     } else {
       final List<int> hitIndexes = List.empty(growable: true);
-      if(Game2DStatic.expectedIndexes.isNotEmpty) {
+      if(Game2DData.expectedIndexes.isNotEmpty) {
         for(int i = 0; i < activeSquares!.quantity; i++) {
-          if(Game2DStatic.expectedIndexes.contains(activeSquares!.squareIndex - i)) {
+          if(Game2DData.expectedIndexes.contains(activeSquares!.squareIndex - i)) {
             hitIndexes.add(activeSquares!.squareIndex - i);
           } else {
             add(FallAnimation.addItem(activeSquares!.squareIndex - i));
@@ -89,8 +89,8 @@ class Game2D extends FlameGame with TapCallbacks {
         }
         if(hitIndexes.isNotEmpty) {
           final fixedSquare = FilledSquare2D(
-              hitIndexes.length, Game2DStatic.vectorFromIndex(hitIndexes.first),
-              Game2DStatic.squarePaint);
+              hitIndexes.length, Game2DData.vectorFromIndex(hitIndexes.first),
+              Game2DData.squarePaint);
           removeToNewGame.add(fixedSquare);
           add(fixedSquare);
           SharedData.currentSquareQuantity = hitIndexes.length;
@@ -106,18 +106,18 @@ class Game2D extends FlameGame with TapCallbacks {
         for(int i = 0; i < activeSquares!.quantity; i++) {
           hitIndexes.add(activeSquares!.squareIndex - i);
         }
-        final fixedSquare = FilledSquare2D(activeSquares!.quantity, Game2DStatic.vectorFromIndex(Game2DStatic.activeIndex), Game2DStatic.squarePaint);
+        final fixedSquare = FilledSquare2D(activeSquares!.quantity, Game2DData.vectorFromIndex(Game2DData.activeIndex), Game2DData.squarePaint);
         removeToNewGame.add(fixedSquare);
         add(fixedSquare);
       }
-      Game2DStatic.filledIndexes.addAll(hitIndexes);
-      Game2DStatic.changeRow(activeSquares!.quantity, hitIndexes);
+      Game2DData.filledIndexes.addAll(hitIndexes);
+      Game2DData.changeRow(activeSquares!.quantity, hitIndexes);
     }
   }
 
   void gameOver(bool won) {
     remove(activeSquares!);
-    activeSquares!.position = Game2DStatic.vectorFromIndex(0);
+    activeSquares!.position = Game2DData.vectorFromIndex(0);
     final style = TextStyle(
       color: won ? BasicPalette.yellow.color : BasicPalette.red.color,
       fontSize: 80.0, // Change the font size here

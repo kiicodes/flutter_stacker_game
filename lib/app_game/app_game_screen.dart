@@ -3,7 +3,7 @@ import 'package:stacker_game/app_game/components/empty_square.dart';
 import 'package:stacker_game/app_game/components/filled_square.dart';
 import 'package:stacker_game/app_game/components/lose_text.dart';
 import 'package:stacker_game/app_game/components/winner_text.dart';
-import 'package:stacker_game/app_game/static_classes/app_game_static.dart';
+import 'package:stacker_game/app_game/app_utils/app_game_data.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class AppGameScreen extends StatefulWidget {
@@ -14,20 +14,19 @@ class AppGameScreen extends StatefulWidget {
 }
 
 class _AppGameScreenState extends State<AppGameScreen> {
-  bool isStarted = false;
-  bool showWinner = false;
-  bool showLose = false;
+  bool _isStarted = false;
+  bool _showWinner = false;
+  bool _showLose = false;
 
   @override
   void initState() {
-    GameStatic.reset();
-    SharedData.initValues();
+    AppGameData.reset();
     super.initState();
   }
 
   @override
   void dispose() {
-    GameStatic.stop();
+    AppGameData.stop();
     super.dispose();
   }
 
@@ -42,7 +41,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                   ElevatedButton(onPressed: () { Navigator.pop(context); }, child: const Text("Back")),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Text(isStarted ? "Tap to Stack" : "Tap to Start", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 23),),
+                    child: Text(_isStarted ? "Tap to Stack" : "Tap to Start", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 23),),
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
@@ -52,14 +51,14 @@ class _AppGameScreenState extends State<AppGameScreen> {
                             children: [
                               Center(
                                 child: SizedBox(
-                                  height: GameStatic.gameHeight(),
-                                  width: GameStatic.gameWidth(),
+                                  height: AppGameData.gameHeight(),
+                                  width: AppGameData.gameWidth(),
                                   child: GridView.count(
                                     physics: const NeverScrollableScrollPhysics(),
                                     crossAxisCount: SharedData.config.columns,
-                                    children: List.generate(GameStatic.countItems(), (index) {
-                                      final reversedIndex = (GameStatic.countItems() - 1) - index;
-                                      final item = GameStatic.items()[reversedIndex];
+                                    children: List.generate(AppGameData.countItems(), (index) {
+                                      final reversedIndex = (AppGameData.countItems() - 1) - index;
+                                      final item = AppGameData.items()[reversedIndex];
                                       if(item == 0) {
                                         return const EmptySquare();
                                       } else {
@@ -69,11 +68,11 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                   ),
                                 ),
                               ),
-                              if(showWinner || showLose) ...[SizedBox(
-                                height: GameStatic.gameHeight(),
+                              if(_showWinner || _showLose) ...[SizedBox(
+                                height: AppGameData.gameHeight(),
                                 width: constraints.maxWidth,
                                 child: Center(
-                                    child: showWinner ? const WinnerText() : const LoseText()
+                                    child: _showWinner ? const WinnerText() : const LoseText()
                                 )
                               )],
                             ]
@@ -90,29 +89,29 @@ class _AppGameScreenState extends State<AppGameScreen> {
 
   void onWin() {
     setState(() {
-      showWinner = true;
+      _showWinner = true;
     });
   }
 
   void onLose() {
     setState(() {
-      showLose = true;
+      _showLose = true;
     });
   }
 
   void startOrStopOrContinue() {
     if(!SharedData.started) {
-      GameStatic.start(updateScreen, onWin, onLose);
+      AppGameData.start(updateScreen, onWin, onLose);
       setState(() {
-        isStarted = true;
-        showLose = false;
-        showWinner = false;
+        _isStarted = true;
+        _showLose = false;
+        _showWinner = false;
       });
     } else {
-      GameStatic.nextLevel();
+      AppGameData.nextLevel();
       if(!SharedData.started) {
         setState(() {
-          isStarted = false;
+          _isStarted = false;
         });
       }
       updateScreen();

@@ -1,11 +1,10 @@
-// Moved by array indexes
 import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
-class Game2DStatic {
+class Game2DData {
   static int activeIndex = 0;
   static double gameWidth = 0;
   static double startX = 0;
@@ -20,7 +19,7 @@ class Game2DStatic {
   static List<int> filledIndexes = List.empty(growable: true);
 
   static void initValues(Vector2 size) {
-    SharedData.initValues();
+    SharedData.reset();
     activeIndex = 0;
     currentSpeed = 0;
     expectedIndexes.clear();

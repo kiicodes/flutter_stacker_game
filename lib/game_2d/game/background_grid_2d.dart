@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
+import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/shared/game_config.dart';
 
 class BackgroundGrid2D extends Component {
@@ -22,7 +22,7 @@ class BackgroundGrid2D extends Component {
     canvas.drawRect(bgBounds, backgroundPaint);
     final gameBackgroundPaint = Paint()
       ..color = GameConfig.bgColor;
-    final Rect bgGameBounds = Rect.fromLTRB(startX, startY, startX + Game2DStatic.gameWidth, startY + Game2DStatic.gameHeight,);
+    final Rect bgGameBounds = Rect.fromLTRB(startX, startY, startX + Game2DData.gameWidth, startY + Game2DData.gameHeight,);
     canvas.drawRect(bgGameBounds, gameBackgroundPaint);
     final paint = Paint()
       ..color = GameConfig.borderColor

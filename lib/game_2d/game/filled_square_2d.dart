@@ -2,8 +2,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/shared/game_config.dart';
-import 'package:stacker_game/shared/shared_data.dart';
-import 'package:stacker_game/game_2d/static_classes/fall_animation.dart';
+import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 
 final redPaint = Paint()
 ..color =Colors.red;
