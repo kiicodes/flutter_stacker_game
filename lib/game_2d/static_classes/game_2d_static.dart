@@ -27,11 +27,11 @@ class Game2DStatic {
     filledIndexes.clear();
     SharedData.onDimensionsSet(size.x, size.y);
 
-    gameWidth = SharedData.blockSize * SharedData.config.columns;
+    gameWidth = GameConfig.blockSize * SharedData.config.columns;
     final remainingWidth = size.x - gameWidth;
     startX = (remainingWidth / 2 + SharedData.margin / 2) / 2;
 
-    gameHeight = SharedData.blockSize * SharedData.config.rows;
+    gameHeight = GameConfig.blockSize * SharedData.config.rows;
     final remainingHeight = size.y - gameHeight;
     startY = (remainingHeight / 2 + SharedData.margin / 2);
     maxIndex = SharedData.config.rows * SharedData.config.columns;
@@ -48,7 +48,7 @@ class Game2DStatic {
     SharedData.currentBlockColumns = SharedData.config.blockColumns;
     SharedData.currentRow = 0;
     _updateRowIndexRange();
-    currentSpeed = SharedData.calculatedLevelSpeed();
+    currentSpeed = SharedData.calculateLevelSpeed();
     SharedData.started = true;
   }
 
@@ -67,7 +67,7 @@ class Game2DStatic {
       SharedData.currentRow = SharedData.currentRow + 1;
       activeIndex = rowStartIndex + SharedData.config.columns - 1;
       _updateRowIndexRange();
-      currentSpeed = SharedData.calculatedLevelSpeed();
+      currentSpeed = SharedData.calculateLevelSpeed();
     } else {
       SharedData.started = false;
     }
@@ -78,7 +78,7 @@ class Game2DStatic {
     final xy = _getPositionFromIndex(reversedIndex, SharedData.config.columns);
     final int x = xy[0];
     final int y = xy[1];
-    return Vector2(startX + x * SharedData.blockSize, startY + y * SharedData.blockSize);
+    return Vector2(startX + x * GameConfig.blockSize, startY + y * GameConfig.blockSize);
   }
 
   static List _getPositionFromIndex(int index, int columns) {

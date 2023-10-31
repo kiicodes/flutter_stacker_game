@@ -8,8 +8,8 @@ class EmptyBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SharedData.blockSize,
-      width: SharedData.blockSize,
+      height: GameConfig.blockSize,
+      width: GameConfig.blockSize,
       decoration: BoxDecoration(
         border: Border.all(color: GameConfig.borderColor),
         color: GameConfig.bgColor

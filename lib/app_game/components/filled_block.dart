@@ -7,7 +7,7 @@ class FilledBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final blockSize = SharedData.blockSize;
+    final blockSize = GameConfig.blockSize;
     return Container(
       height: blockSize,
       width: blockSize,

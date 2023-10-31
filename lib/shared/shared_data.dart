@@ -1,14 +1,7 @@
 import 'package:stacker_game/shared/game_config.dart';
 
 class SharedData {
-  static final _levelSpeeds = [
-    [600, 300],
-    [500, 200],
-    [350, 80]
-  ];
-  static late int level;
   static GameConfig config = const GameConfig();
-  static late double blockSize;
   static late int currentBlockColumns;
   static const double margin = 20;
 
@@ -21,7 +14,6 @@ class SharedData {
   static void initValues() {
     currentRow = 0;
     currentCol = startCol;
-    level = 0;
     reversedMovement = false;
     started = false;
   }
@@ -32,20 +24,21 @@ class SharedData {
     final byWidth = availableWidth / config.columns;
     final byHeight = availableHeight / config.rows;
 
-    blockSize = byHeight > byWidth ? byWidth : byHeight;
+    // size of each game square (filled or not)
+    GameConfig.blockSize = byHeight > byWidth ? byWidth : byHeight;
   }
 
-  static int calculatedLevelSpeed() {
-    final speedRange = _levelSpeeds[SharedData.config.level];
+  static int calculateLevelSpeed() {
+    final speedRange = GameConfig.levelSpeeds[SharedData.config.level];
+    // Divide speed range to rows to make each row faster than the previous one
     final step = (speedRange[0] - speedRange[1]) / (SharedData.config.rows - 1);
-    final result = (speedRange[0] - currentRow * step).round();
-    return result;
+    // Get the speed for current row
+    return (speedRange[0] - currentRow * step).round();
   }
   static void reset() {
     currentRow = 0;
     currentCol = SharedData.startCol;
     currentBlockColumns = config.blockColumns;
-    level = 1;
   }
 
   static void start() {
@@ -57,7 +50,7 @@ class SharedData {
     started = false;
   }
 
-  static void gameOver(bool won) {
-    started = false;
+  static void gameOver() {
+    stop();
   }
 }

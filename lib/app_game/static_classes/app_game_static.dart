@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:stacker_game/app_game/static_classes/fall_animation.dart';
+import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class GameStatic {
@@ -27,11 +28,11 @@ class GameStatic {
   }
 
   static double gameHeight() {
-    return SharedData.config.rows * SharedData.blockSize;
+    return SharedData.config.rows * GameConfig.blockSize;
   }
 
   static double gameWidth() {
-    return SharedData.config.columns * SharedData.blockSize;
+    return SharedData.config.columns * GameConfig.blockSize;
   }
 
   static int getState(int column, int row) {
@@ -79,7 +80,7 @@ class GameStatic {
   }
 
   static void _startTimer() {
-    _timer = Timer.periodic(Duration(milliseconds: SharedData.calculatedLevelSpeed()), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: SharedData.calculateLevelSpeed()), (timer) {
       GameStatic.move();
       if(_refreshCallback != null) {
         _refreshCallback!();
@@ -116,7 +117,6 @@ class GameStatic {
       _expectedColumns!.addAll(_activeColumns!);
     }
     _timer?.cancel();
-    SharedData.level++;
     if(SharedData.currentRow < SharedData.config.rows - 1) {
       SharedData.currentRow++;
       SharedData.currentCol = SharedData.startCol;
@@ -129,7 +129,7 @@ class GameStatic {
   static void gameOver(bool won) {
     _timer?.cancel();
     _timer = null;
-    SharedData.gameOver(won);
+    SharedData.gameOver();
     if(won && _onWin != null) {
       _onWin!();
     } else if(!won && _onLose != null) {

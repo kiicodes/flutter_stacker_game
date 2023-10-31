@@ -7,6 +7,7 @@ import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_block_2d.dart';
 import 'package:stacker_game/game_2d/static_classes/fall_animation.dart';
 import 'package:stacker_game/game_2d/static_classes/game_2d_static.dart';
+import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
@@ -21,7 +22,7 @@ class Game2D extends FlameGame with TapCallbacks {
     add(
       BackgroundGrid2D(
         size,
-        SharedData.blockSize,
+        GameConfig.blockSize,
         SharedData.config,
         Game2DStatic.startX,
         Game2DStatic.startY,
@@ -138,7 +139,7 @@ class Game2D extends FlameGame with TapCallbacks {
     );
     removeToNewGame.add(textComponent);
     add(textComponent);
-    SharedData.gameOver(won);
+    SharedData.gameOver();
   }
 }
 
