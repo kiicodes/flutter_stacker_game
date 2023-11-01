@@ -58,8 +58,8 @@ class _AppGameScreenState extends State<AppGameScreen> {
                                     crossAxisCount: SharedData.config.columns,
                                     children: List.generate(AppGameData.countItems(), (index) {
                                       final reversedIndex = (AppGameData.countItems() - 1) - index;
-                                      final item = AppGameData.items()[reversedIndex];
-                                      if(item == 0) {
+                                      final item = AppGameData.squareState![reversedIndex];
+                                      if(!item) {
                                         return const EmptySquare();
                                       } else {
                                         return const FilledSquare();

@@ -30,20 +30,20 @@ class _FallAnimationItem {
   _FallAnimationItem(this.column, this.row);
 
   void start() {
-    AppGameData.changeState(column, row, 1);
+    AppGameData.changeState(column, row, true);
     timer = Timer.periodic(const Duration(milliseconds: FallAnimation._speed), (_) {
-      AppGameData.changeState(column, row, 0);
+      AppGameData.changeState(column, row, false);
       row--;
       if(row < 0) {
-        AppGameData.changeState(column, row + 1, 1);
+        AppGameData.changeState(column, row + 1, true);
         stop(true);
       } else {
         if(AppGameData.getState(column, row) == 1) {
-          AppGameData.changeState(column, row + 1, 1);
+          AppGameData.changeState(column, row + 1, true);
           stop(true);
           return;
         }
-        AppGameData.changeState(column, row, 1);
+        AppGameData.changeState(column, row, true);
       }
     });
   }
