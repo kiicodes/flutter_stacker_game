@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
@@ -40,11 +41,12 @@ class Game2DData {
   }
 
   static void start() {
+    SharedData.reset();
     activeIndex = 0;
     expectedIndexes.clear();
+    expectedIndexes.add(activeIndex);
     filledIndexes.clear();
     SharedData.start();
-    SharedData.currentSquareQuantity = SharedData.config.squareQuantity;
     SharedData.currentRow = 0;
     _updateRowIndexRange();
     currentSpeed = SharedData.calculateLevelSpeed();
@@ -56,7 +58,7 @@ class Game2DData {
     rowEndIndex = rowStartIndex + SharedData.config.columns - 1;
   }
 
-  static void changeRow(int currentSize, List<int> hitIndexes) {
+  static void changeRow(FilledSquare2D activeSquares, List<int> hitIndexes) {
     if(SharedData.currentRow < SharedData.config.rows - 1) {
       expectedIndexes.clear();
       for(int i = 0; i < hitIndexes.length; i++) {
@@ -64,9 +66,12 @@ class Game2DData {
       }
 
       SharedData.currentRow = SharedData.currentRow + 1;
-      activeIndex = rowStartIndex + SharedData.config.columns - 1;
+      activeIndex = rowStartIndex + SharedData.config.columns;
       _updateRowIndexRange();
       currentSpeed = SharedData.calculateLevelSpeed();
+      activeSquares.position = Game2DData.vectorFromIndex(activeIndex);
+      activeSquares.squareIndex = activeIndex;
+      activeSquares.changeSize(1);
     } else {
       SharedData.started = false;
     }

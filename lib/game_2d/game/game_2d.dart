@@ -73,6 +73,7 @@ class Game2D extends FlameGame with TapCallbacks {
     super.onTapDown(event);
     if (!SharedData.started) {
       activeSquares!.position = Game2DData.vectorFromIndex(0);
+      activeSquares!.changeSize(1);
       removeAll(removeToNewGame);
       removeToNewGame.clear();
       Game2DData.start();
@@ -111,7 +112,8 @@ class Game2D extends FlameGame with TapCallbacks {
         add(fixedSquare);
       }
       Game2DData.filledIndexes.addAll(hitIndexes);
-      Game2DData.changeRow(activeSquares!.quantity, hitIndexes);
+      myDt = 0;
+      Game2DData.changeRow(activeSquares!, hitIndexes);
     }
   }
 
