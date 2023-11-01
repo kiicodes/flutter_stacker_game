@@ -4,8 +4,8 @@ import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class AppGameData {
-  static List<bool> squareState = List.empty(growable: true);
-  static List<int> _expectedColumns = List.empty(growable: true);
+  static final List<bool> squareState = List.empty(growable: true);
+  static final List<int> _expectedColumns = List.empty(growable: true);
   static List<int> _activeColumns = List.empty(growable: true);
   static Timer? _timer;
   static Function()? _refreshCallback;
@@ -50,7 +50,6 @@ class AppGameData {
     _refreshCallback = null;
     _timer?.cancel();
     _timer = null;
-    SharedData.currentCol = SharedData.startCol;
     initItems();
   }
 
@@ -93,10 +92,7 @@ class AppGameData {
     _onLose = null;
   }
 
-  static void nextLevel() {
-    if(_activeColumns.isEmpty) {
-      return;
-    }
+  static void _addFallAnimationIfNeeded() {
     final lostColumns = _activeColumns.where((element) => !_expectedColumns.contains(element)).toList();
     if(lostColumns.isNotEmpty) {
       for(int i = 0; i < lostColumns.length; i++) {
@@ -107,6 +103,12 @@ class AppGameData {
         _refreshCallback!();
       }
     }
+  }
+
+  static void nextLevel() {
+    _addFallAnimationIfNeeded();
+
+    // Verify if some activeColumn matches with expectedColumns
     _activeColumns = _activeColumns.where((element) => _expectedColumns.contains(element)).toList(growable: true);
     if(_activeColumns.isEmpty && SharedData.currentRow > 0) {
       gameOver(false);
@@ -116,8 +118,11 @@ class AppGameData {
       _expectedColumns.clear();
       _expectedColumns.addAll(_activeColumns);
     }
+
+    // should create another timer with the speed increased
     _timer?.cancel();
-    if(SharedData.currentRow < SharedData.config.rows - 1) {
+    final isNotTheLastRow = SharedData.currentRow < SharedData.config.rows - 1;
+    if(isNotTheLastRow) {
       SharedData.currentRow++;
       placeInReversedSide();
       if(_refreshCallback != null) {
@@ -161,16 +166,13 @@ class AppGameData {
     final bool shouldReturnFromEnd = (SharedData.currentCol == maxColumnPosition() && !SharedData.reversedMovement);
     final bool shouldAdvanceFromStart = (SharedData.reversedMovement && SharedData.currentCol == minColumnPosition);
 
-    print(SharedData.currentCol);
     if(shouldReturnFromEnd || shouldAdvanceFromStart) {
       SharedData.reversedMovement = !SharedData.reversedMovement;
     }
     final int direction = SharedData.reversedMovement ? -1 : 1;
-
     SharedData.currentCol = SharedData.currentCol + direction;
 
     _activeColumns.clear();
-
     for(int i = 0; i < SharedData.currentSquareQuantity; i++) {
       if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config.columns) {
         _activeColumns.add(SharedData.currentCol - i);

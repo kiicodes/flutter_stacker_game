@@ -38,7 +38,7 @@ class _FallAnimationItem {
         AppGameData.changeState(column, row + 1, true);
         stop(true);
       } else {
-        if(AppGameData.getState(column, row) == 1) {
+        if(AppGameData.getState(column, row)) {
           AppGameData.changeState(column, row + 1, true);
           stop(true);
           return;
