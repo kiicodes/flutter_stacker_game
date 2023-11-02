@@ -12,6 +12,8 @@ class AppGameData {
   static Function()? _onWin;
   static Function()? _onLose;
   static const int minColumnPosition = 0;
+  static late int currentCol;
+  static const startCol = 0;
 
   static void initItems() {
     for(int i = 0; i < countItems(); i++) {
@@ -44,6 +46,7 @@ class AppGameData {
 
   static void reset() {
     SharedData.reset();
+    currentCol = startCol;
     squareState.clear();
     FallAnimation.clearAll();
     _expectedColumns.clear();
@@ -135,18 +138,18 @@ class AppGameData {
   }
 
   static void placeInReversedSide() {
-    bool someSquareAtStart = SharedData.currentCol == SharedData.startCol || SharedData.currentCol - SharedData.currentSquareQuantity < SharedData.startCol;
+    bool someSquareAtStart = currentCol == startCol || currentCol - SharedData.currentSquareQuantity < startCol;
     if(!someSquareAtStart) {
-      SharedData.currentCol = SharedData.startCol;
+      currentCol = startCol;
     } else {
-      SharedData.currentCol = maxColumnPosition();
+      currentCol = maxColumnPosition();
     }
 
     _activeColumns.clear();
     for(int i = 0; i < SharedData.currentSquareQuantity; i++) {
-      if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config.columns) {
-        _activeColumns.add(SharedData.currentCol - i);
-        squareState[_getIndex(SharedData.currentCol - i, SharedData.currentRow)] = true;
+      if(currentCol - i > -1 && currentCol - i < SharedData.config.columns) {
+        _activeColumns.add(currentCol - i);
+        squareState[_getIndex(currentCol - i, SharedData.currentRow)] = true;
       }
     }
   }
@@ -163,19 +166,19 @@ class AppGameData {
   }
 
   static void move() {
-    final bool shouldReturnFromEnd = (SharedData.currentCol == maxColumnPosition() && !SharedData.reversedMovement);
-    final bool shouldAdvanceFromStart = (SharedData.reversedMovement && SharedData.currentCol == minColumnPosition);
+    final bool shouldReturnFromEnd = (currentCol == maxColumnPosition() && !SharedData.reversedMovement);
+    final bool shouldAdvanceFromStart = (SharedData.reversedMovement && currentCol == minColumnPosition);
 
     if(shouldReturnFromEnd || shouldAdvanceFromStart) {
       SharedData.reversedMovement = !SharedData.reversedMovement;
     }
     final int direction = SharedData.reversedMovement ? -1 : 1;
-    SharedData.currentCol = SharedData.currentCol + direction;
+    currentCol = currentCol + direction;
 
     _activeColumns.clear();
     for(int i = 0; i < SharedData.currentSquareQuantity; i++) {
-      if(SharedData.currentCol - i > -1 && SharedData.currentCol - i < SharedData.config.columns) {
-        _activeColumns.add(SharedData.currentCol - i);
+      if(currentCol - i > -1 && currentCol - i < SharedData.config.columns) {
+        _activeColumns.add(currentCol - i);
       }
     }
 

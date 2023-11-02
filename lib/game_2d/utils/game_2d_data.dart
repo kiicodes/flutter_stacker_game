@@ -58,23 +58,34 @@ class Game2DData {
     rowEndIndex = rowStartIndex + SharedData.config.columns - 1;
   }
 
+  static void placeInReversedSide(FilledSquare2D activeSquares) {
+    bool someSquareAtStart = activeIndex == rowStartIndex || activeIndex - SharedData.currentSquareQuantity <= rowStartIndex;
+    _updateRowIndexRange();
+    if(!someSquareAtStart) {
+      activeIndex = rowStartIndex;
+      activeSquares.position = Game2DData.vectorFromIndex(activeIndex);
+    } else {
+      activeSquares.position = Game2DData.vectorFromIndex(rowEndIndex);
+      activeIndex = rowEndIndex + SharedData.currentSquareQuantity - 1;
+    }
+
+    activeSquares.squareIndex = activeIndex;
+    activeSquares.changeSize(1);
+  }
+
   static void changeRow(FilledSquare2D activeSquares, List<int> hitIndexes) {
-    if(SharedData.currentRow < SharedData.config.rows - 1) {
+    //if(SharedData.currentRow < SharedData.config.rows - 1) {
       expectedIndexes.clear();
       for(int i = 0; i < hitIndexes.length; i++) {
         expectedIndexes.add(hitIndexes[i] + SharedData.config.columns);
       }
 
       SharedData.currentRow = SharedData.currentRow + 1;
-      activeIndex = rowStartIndex + SharedData.config.columns;
-      _updateRowIndexRange();
       currentSpeed = SharedData.calculateLevelSpeed();
-      activeSquares.position = Game2DData.vectorFromIndex(activeIndex);
-      activeSquares.squareIndex = activeIndex;
-      activeSquares.changeSize(1);
-    } else {
-      SharedData.started = false;
-    }
+      placeInReversedSide(activeSquares);
+    //} else {
+    //  SharedData.started = false;
+    //}
   }
 
   static Vector2 vectorFromIndex(int index) {

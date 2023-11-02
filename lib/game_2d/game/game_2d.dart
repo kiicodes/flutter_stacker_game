@@ -88,13 +88,24 @@ class Game2D extends FlameGame with TapCallbacks {
             add(FallAnimation.addItem(activeSquares!.squareIndex - i));
           }
         }
-        if(hitIndexes.isNotEmpty) {
-          final fixedSquare = FilledSquare2D(
+        if(hitIndexes.isNotEmpty || SharedData.currentRow == 0) {
+          FilledSquare2D fixedSquare;
+          if(SharedData.currentRow == 0) {
+            hitIndexes.clear();
+            for(int i = activeSquares!.squareIndex; i > activeSquares!.squareIndex - activeSquares!.quantity; i--) {
+              hitIndexes.add(i);
+            }
+          }
+          fixedSquare = FilledSquare2D(
               hitIndexes.length, Game2DData.vectorFromIndex(hitIndexes.first),
               Game2DData.squarePaint);
           removeToNewGame.add(fixedSquare);
           add(fixedSquare);
-          SharedData.currentSquareQuantity = hitIndexes.length;
+          if(SharedData.currentRow == 0) {
+            SharedData.currentSquareQuantity = activeSquares!.quantity;
+          } else {
+            SharedData.currentSquareQuantity = hitIndexes.length;
+          }
         } else {
           gameOver(false);
           return;

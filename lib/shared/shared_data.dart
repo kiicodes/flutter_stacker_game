@@ -5,8 +5,6 @@ class SharedData {
   static late int currentSquareQuantity;
 
   static late int currentRow;
-  static const startCol = 0;
-  static late int currentCol;
   static late bool reversedMovement;
   static late bool started;
 
@@ -14,7 +12,6 @@ class SharedData {
     currentRow = 0;
     reversedMovement = false;
     started = false;
-    currentCol = startCol;
     currentSquareQuantity = config.squareQuantity;
   }
 
