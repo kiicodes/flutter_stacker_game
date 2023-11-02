@@ -14,10 +14,12 @@ class Game2D extends FlameGame with TapCallbacks {
   FilledSquare2D? activeSquares;
   static List<Component> removeToNewGame = List.empty(growable: true);
   double myDt = 0;
+  late TextComponent tip;
 
   @override
   Future<void> onLoad() async {
     removeToNewGame.clear();
+    initTipComponent();
     Game2DData.initValues(size);
     add(
       BackgroundGrid2D(
@@ -27,10 +29,34 @@ class Game2D extends FlameGame with TapCallbacks {
         Game2DData.startX,
         Game2DData.startY,
         Game2DData.gameWidth,
-        Game2DData.gameHeight
+        Game2DData.gameHeight,
       )
     );
-    activeSquares = FilledSquare2D(SharedData.currentSquareQuantity, Game2DData.vectorFromIndex(Game2DData.activeIndex), Game2DData.squarePaint);
+    add(tip);
+    activeSquares = FilledSquare2D(SharedData.currentSquareQuantity, Game2DData.activeIndex, Game2DData.squarePaint);
+  }
+
+  void initTipComponent() {
+    final style = TextStyle(
+        color: BasicPalette.black.color,
+        fontSize: 20.0,
+    );
+    final normalText = TextPaint(style: style);
+    tip = TextComponent(
+        text: "",
+        position: Vector2(size.x / 2, 20),
+        anchor: Anchor.center,
+        textRenderer: normalText
+    );
+    updateTip();
+  }
+
+  void updateTip() {
+    if(SharedData.started) {
+      tip.text = "Tap to Stack";
+    } else {
+      tip.text = "Tap to Start";
+    }
   }
 
   @override
@@ -46,21 +72,16 @@ class Game2D extends FlameGame with TapCallbacks {
           int newIndex = Game2DData.activeIndex;
           if (newIndex > Game2DData.rowEndIndex) {
             final diff = Game2DData.rowEndIndex - newIndex;
-            activeSquares!.changeSize(SharedData.currentSquareQuantity + diff);
+            activeSquares!.quantity = SharedData.currentSquareQuantity + diff;
             newIndex = Game2DData.rowEndIndex;
           } else if (newIndex - SharedData.currentSquareQuantity + 1 <
               Game2DData.rowStartIndex) {
             final newSize = newIndex + 1 - Game2DData.rowStartIndex;
-            activeSquares!.changeSize(newSize);
+            activeSquares!.quantity = newSize;
           } else {
-            activeSquares!.changeSize(SharedData.currentSquareQuantity);
+            activeSquares!.quantity = SharedData.currentSquareQuantity;
           }
           activeSquares!.squareIndex = newIndex;
-          /*Game2DStatic.activeIndex++;
-          if (Game2DStatic.activeIndex == Game2DStatic.maxIndex) {
-            Game2DStatic.activeIndex = 0;
-          }*/
-          activeSquares!.position = Game2DData.vectorFromIndex(newIndex);
         }
         myDt = 0;
       }
@@ -72,8 +93,9 @@ class Game2D extends FlameGame with TapCallbacks {
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (!SharedData.started) {
-      activeSquares!.position = Game2DData.vectorFromIndex(0);
-      activeSquares!.changeSize(1);
+      myDt = 0;
+      activeSquares!.squareIndex = 0;
+      activeSquares!.quantity = 1;
       removeAll(removeToNewGame);
       removeToNewGame.clear();
       Game2DData.start();
@@ -81,11 +103,14 @@ class Game2D extends FlameGame with TapCallbacks {
     } else {
       final List<int> hitIndexes = List.empty(growable: true);
       if(Game2DData.expectedIndexes.isNotEmpty) {
-        for(int i = 0; i < activeSquares!.quantity; i++) {
-          if(Game2DData.expectedIndexes.contains(activeSquares!.squareIndex - i)) {
-            hitIndexes.add(activeSquares!.squareIndex - i);
-          } else {
-            add(FallAnimation.addItem(activeSquares!.squareIndex - i));
+        if(SharedData.currentRow > 0) {
+          for (int i = 0; i < activeSquares!.quantity; i++) {
+            if (Game2DData.expectedIndexes.contains(
+                activeSquares!.squareIndex - i)) {
+              hitIndexes.add(activeSquares!.squareIndex - i);
+            } else {
+              add(FallAnimation.addItem(activeSquares!.squareIndex - i));
+            }
           }
         }
         if(hitIndexes.isNotEmpty || SharedData.currentRow == 0) {
@@ -97,7 +122,7 @@ class Game2D extends FlameGame with TapCallbacks {
             }
           }
           fixedSquare = FilledSquare2D(
-              hitIndexes.length, Game2DData.vectorFromIndex(hitIndexes.first),
+              hitIndexes.length, hitIndexes.first,
               Game2DData.squarePaint);
           removeToNewGame.add(fixedSquare);
           add(fixedSquare);
@@ -118,7 +143,7 @@ class Game2D extends FlameGame with TapCallbacks {
         for(int i = 0; i < activeSquares!.quantity; i++) {
           hitIndexes.add(activeSquares!.squareIndex - i);
         }
-        final fixedSquare = FilledSquare2D(activeSquares!.quantity, Game2DData.vectorFromIndex(Game2DData.activeIndex), Game2DData.squarePaint);
+        final fixedSquare = FilledSquare2D(activeSquares!.quantity, Game2DData.activeIndex, Game2DData.squarePaint);
         removeToNewGame.add(fixedSquare);
         add(fixedSquare);
       }
@@ -126,6 +151,7 @@ class Game2D extends FlameGame with TapCallbacks {
       myDt = 0;
       Game2DData.changeRow(activeSquares!, hitIndexes);
     }
+    updateTip();
   }
 
   void gameOver(bool won) {
@@ -133,7 +159,7 @@ class Game2D extends FlameGame with TapCallbacks {
     activeSquares!.position = Game2DData.vectorFromIndex(0);
     final style = TextStyle(
       color: won ? BasicPalette.yellow.color : BasicPalette.red.color,
-      fontSize: 80.0, // Change the font size here
+      fontSize: 70.0, // Change the font size here
       fontWeight: FontWeight.bold,
       shadows: const [
         Shadow(
@@ -153,6 +179,7 @@ class Game2D extends FlameGame with TapCallbacks {
     removeToNewGame.add(textComponent);
     add(textComponent);
     SharedData.gameOver();
+    updateTip();
   }
 }
 

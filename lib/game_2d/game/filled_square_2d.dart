@@ -1,6 +1,7 @@
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 
@@ -9,20 +10,36 @@ final redPaint = Paint()
 
 
 class FilledSquare2D extends RectangleComponent {
-  int quantity;
-  int squareIndex = 0;
+  int _quantity = 1;
+  int _squareIndex = 0;
   FallAnimationItem? fallItem;
 
-  FilledSquare2D(this.quantity, Vector2 position, Paint squarePaint)
+  FilledSquare2D(int quantity, int squareIndex, Paint squarePaint)
       : super(
-    position: position,
-    size: quantity == 1 ? Vector2.all(GameConfig.squareSize) : Vector2(GameConfig.squareSize * quantity, GameConfig.squareSize),
+    position: Game2DData.vectorFromIndex(squareIndex),
+    size: _fromQuantity(quantity),
     anchor: Anchor.topLeft,
     paint: squarePaint
-  );
+  ) {
+    _quantity = quantity;
+    _squareIndex = squareIndex;
+  }
 
-  void changeSize(int quantityOfSquares) {
-    quantity = quantityOfSquares;
-    size = quantityOfSquares == 1 ? Vector2.all(GameConfig.squareSize) : Vector2(GameConfig.squareSize * quantityOfSquares, GameConfig.squareSize);
+  int get squareIndex => _squareIndex;
+
+  set squareIndex(int newSquareIndex) {
+    _squareIndex = newSquareIndex;
+    position = Game2DData.vectorFromIndex(_squareIndex);
+  }
+
+  int get quantity => _quantity;
+
+  set quantity(int quantityOfSquares) {
+    _quantity = quantityOfSquares;
+    size = _fromQuantity(quantity);
+  }
+
+  static Vector2 _fromQuantity(int quantity) {
+    return quantity == 1 ? Vector2.all(GameConfig.squareSize) : Vector2(GameConfig.squareSize * quantity, GameConfig.squareSize);
   }
 }

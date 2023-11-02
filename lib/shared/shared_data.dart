@@ -6,7 +6,7 @@ class SharedData {
 
   static late int currentRow;
   static late bool reversedMovement;
-  static late bool started;
+  static bool started = false;
 
   static void reset() {
     currentRow = 0;

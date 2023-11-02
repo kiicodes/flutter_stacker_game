@@ -9,7 +9,7 @@ class FallAnimation {
   static FilledSquare2D addItem(int index) {
     final filledSquare2D = FilledSquare2D(
         1,
-        Game2DData.vectorFromIndex(index),
+        index,
         Game2DData.squarePaint
     );
     filledSquare2D.fallItem = FallAnimationItem(

@@ -69,8 +69,12 @@ class Game2DData {
       activeIndex = rowEndIndex + SharedData.currentSquareQuantity - 1;
     }
 
-    activeSquares.squareIndex = activeIndex;
-    activeSquares.changeSize(1);
+    if(activeIndex > rowEndIndex) {
+      activeSquares.squareIndex = rowEndIndex;
+    } else {
+      activeSquares.squareIndex = activeIndex;
+    }
+    activeSquares.quantity = 1;
   }
 
   static void changeRow(FilledSquare2D activeSquares, List<int> hitIndexes) {
@@ -101,7 +105,6 @@ class Game2DData {
     final int row = index ~/ columns;
     return [column, row];
   }
-
 
   static void move() {
     int direction = SharedData.reversedMovement ? -1 : 1;
