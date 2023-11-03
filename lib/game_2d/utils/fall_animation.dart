@@ -17,7 +17,7 @@ class FallAnimation {
         currentIndex: index,
         previousIndex: index
     );
-    Game2D.removeToNewGame.add(filledSquare2D);
+    Game2D.expendables.add(filledSquare2D);
     items.add(filledSquare2D.fallItem!);
     return filledSquare2D;
   }

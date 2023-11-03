@@ -22,7 +22,6 @@ class Game2DData {
   static void initValues(Vector2 size) {
     SharedData.reset();
     activeIndex = 0;
-    currentSpeed = 0;
     expectedIndexes.clear();
     filledIndexes.clear();
     SharedData.onDimensionsSet(size.x, size.y);
@@ -106,7 +105,7 @@ class Game2DData {
     return [column, row];
   }
 
-  static void move() {
+  static void moveValues() {
     int direction = SharedData.reversedMovement ? -1 : 1;
     bool reachedEndLimit = activeIndex + 2 > rowEndIndex + SharedData.currentSquareQuantity && !SharedData.reversedMovement;
     bool reachedStartLimit = activeIndex - 1 < rowStartIndex && SharedData.reversedMovement;
@@ -115,7 +114,7 @@ class Game2DData {
       activeIndex = activeIndex + direction;
     } else {
       SharedData.reversedMovement = !SharedData.reversedMovement;
-      move();
+      moveValues();
     }
   }
 }
