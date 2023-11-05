@@ -14,12 +14,12 @@ class FilledSquare2D extends RectangleComponent {
   int _squareIndex = 0;
   FallAnimationItem? fallItem;
 
-  FilledSquare2D(int quantity, int squareIndex, Paint squarePaint)
+  FilledSquare2D(int quantity, int squareIndex)
       : super(
     position: Game2DData.vectorFromIndex(squareIndex),
     size: _fromQuantity(quantity),
     anchor: Anchor.topLeft,
-    paint: squarePaint
+    paint: Game2DData.squarePaint
   ) {
     _quantity = quantity;
     _squareIndex = squareIndex;

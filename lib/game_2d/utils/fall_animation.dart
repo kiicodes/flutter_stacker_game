@@ -7,15 +7,11 @@ class FallAnimation {
   static final List<FallAnimationItem> items = List.empty(growable: true);
 
   static FilledSquare2D addItem(int index) {
-    final filledSquare2D = FilledSquare2D(
-        1,
-        index,
-        Game2DData.squarePaint
-    );
+    final filledSquare2D = FilledSquare2D(1, index,);
     filledSquare2D.fallItem = FallAnimationItem(
-        filledSquare2D: filledSquare2D,
-        currentIndex: index,
-        previousIndex: index
+      filledSquare2D: filledSquare2D,
+      currentIndex: index,
+      previousIndex: index
     );
     Game2D.expendables.add(filledSquare2D);
     items.add(filledSquare2D.fallItem!);

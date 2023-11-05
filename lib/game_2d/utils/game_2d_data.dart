@@ -2,28 +2,30 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
+import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2DData {
   static int activeIndex = 0;
   static double gameWidth = 0;
-  static double startX = 0;
   static double gameHeight = 0;
+  static double startX = 0;
   static double startY = 0;
   static late int maxIndex;
   static int currentSpeed = 0;
   static late Paint squarePaint;
   static late int rowStartIndex;
   static late int rowEndIndex;
+  // Current row indexes based on previous row indexes to stack in
   static List<int> expectedIndexes = List.empty(growable: true);
+  // Indexes that already have a fixed square
   static List<int> filledIndexes = List.empty(growable: true);
 
   static void initValues(Vector2 size) {
-    SharedData.reset();
-    activeIndex = 0;
-    expectedIndexes.clear();
-    filledIndexes.clear();
+    //SharedData.reset();
+    //activeIndex = 0;
+    //filledIndexes.clear();
     SharedData.onDimensionsSet(size.x, size.y);
 
     gameWidth = GameConfig.squareSize * SharedData.config.columns;
@@ -39,17 +41,18 @@ class Game2DData {
     ..color = GameConfig.activeColor;
   }
 
+  static void stop() {
+    SharedData.stop();
+  }
+
   static void start() {
-    SharedData.reset();
+    //SharedData.reset();
     activeIndex = 0;
     expectedIndexes.clear();
-    expectedIndexes.add(activeIndex);
     filledIndexes.clear();
     SharedData.start();
-    SharedData.currentRow = 0;
     _updateRowIndexRange();
     currentSpeed = SharedData.calculateLevelSpeed();
-    SharedData.started = true;
   }
 
   static void _updateRowIndexRange() {
@@ -77,18 +80,14 @@ class Game2DData {
   }
 
   static void changeRow(FilledSquare2D activeSquares, List<int> hitIndexes) {
-    //if(SharedData.currentRow < SharedData.config.rows - 1) {
-      expectedIndexes.clear();
-      for(int i = 0; i < hitIndexes.length; i++) {
-        expectedIndexes.add(hitIndexes[i] + SharedData.config.columns);
-      }
+    expectedIndexes.clear();
+    for(int i = 0; i < hitIndexes.length; i++) {
+      expectedIndexes.add(hitIndexes[i] + SharedData.config.columns);
+    }
 
-      SharedData.currentRow = SharedData.currentRow + 1;
-      currentSpeed = SharedData.calculateLevelSpeed();
-      placeInReversedSide(activeSquares);
-    //} else {
-    //  SharedData.started = false;
-    //}
+    SharedData.currentRow = SharedData.currentRow + 1;
+    currentSpeed = SharedData.calculateLevelSpeed();
+    placeInReversedSide(activeSquares);
   }
 
   static Vector2 vectorFromIndex(int index) {

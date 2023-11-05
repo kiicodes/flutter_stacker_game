@@ -21,23 +21,26 @@ class Game2D extends FlameGame with TapCallbacks {
     Game2DData.initValues(size);
     add(BackgroundGrid2D(size));
     add(tip);
-    movingSquares = FilledSquare2D(1, 0, Game2DData.squarePaint);
+    movingSquares = FilledSquare2D(1, 0);
   }
 
   @override
   void update(double dt) {
     if(!SharedData.started && FallAnimation.items.isEmpty) {
+      super.update(dt);
       return;
     }
 
     myDt = myDt + dt;
     if(myDt < Game2DData.currentSpeed / 1000.0) {
+      super.update(dt);
       return;
     }
 
     myDt = 0;
     FallAnimation.moveIt();
     if(!SharedData.started) {
+      super.update(dt);
       return;
     }
 
@@ -71,41 +74,31 @@ class Game2D extends FlameGame with TapCallbacks {
       myDt = 0;
       movingSquares.squareIndex = 0;
       movingSquares.quantity = 1;
-      removeAll(expendables);
-      expendables.clear();
+      if(expendables.isNotEmpty) {
+        removeAll(expendables);
+        expendables.clear();
+      }
       Game2DData.start();
       add(movingSquares);
     } else {
       final List<int> hitIndexes = List.empty(growable: true);
-      if(Game2DData.expectedIndexes.isNotEmpty) {
-        if(SharedData.currentRow > 0) {
-          for (int i = 0; i < movingSquares.quantity; i++) {
-            if (Game2DData.expectedIndexes.contains(
-                movingSquares.squareIndex - i)) {
-              hitIndexes.add(movingSquares.squareIndex - i);
-            } else {
-              add(FallAnimation.addItem(movingSquares.squareIndex - i));
-            }
+      if(SharedData.currentRow > 0) {
+        for (int i = 0; i < movingSquares.quantity; i++) {
+          if (Game2DData.expectedIndexes.contains(
+              movingSquares.squareIndex - i)) {
+            hitIndexes.add(movingSquares.squareIndex - i);
+          } else {
+            add(FallAnimation.addItem(movingSquares.squareIndex - i));
           }
         }
-        if(hitIndexes.isNotEmpty || SharedData.currentRow == 0) {
-          FilledSquare2D fixedSquare;
-          if(SharedData.currentRow == 0) {
-            hitIndexes.clear();
-            for(int i = movingSquares.squareIndex; i > movingSquares.squareIndex - movingSquares.quantity; i--) {
-              hitIndexes.add(i);
-            }
-          }
-          fixedSquare = FilledSquare2D(
-              hitIndexes.length, hitIndexes.first,
-              Game2DData.squarePaint);
+        if(hitIndexes.isNotEmpty) {
+          final fixedSquare = FilledSquare2D(
+            hitIndexes.length,
+            hitIndexes.first,
+          );
           expendables.add(fixedSquare);
           add(fixedSquare);
-          if(SharedData.currentRow == 0) {
-            SharedData.currentSquareQuantity = movingSquares.quantity;
-          } else {
-            SharedData.currentSquareQuantity = hitIndexes.length;
-          }
+          SharedData.currentSquareQuantity = hitIndexes.length;
         } else {
           gameOver(false);
           return;
@@ -115,10 +108,12 @@ class Game2D extends FlameGame with TapCallbacks {
           return;
         }
       } else {
+        // first row is automatically a hit
         for(int i = 0; i < movingSquares.quantity; i++) {
           hitIndexes.add(movingSquares.squareIndex - i);
         }
-        final fixedSquare = FilledSquare2D(movingSquares.quantity, Game2DData.activeIndex, Game2DData.squarePaint);
+        SharedData.currentSquareQuantity = movingSquares.quantity;
+        final fixedSquare = FilledSquare2D(hitIndexes.length, hitIndexes.first);
         expendables.add(fixedSquare);
         add(fixedSquare);
       }
@@ -129,9 +124,13 @@ class Game2D extends FlameGame with TapCallbacks {
     updateTipText();
   }
 
+  void stop() {
+    expendables.clear();
+    Game2DData.stop();
+  }
+
   void gameOver(bool won) {
     remove(movingSquares);
-    movingSquares.position = Game2DData.vectorFromIndex(0);
     final style = TextStyle(
       color: won ? BasicPalette.yellow.color : BasicPalette.red.color,
       fontSize: 70.0, // Change the font size here
@@ -146,10 +145,10 @@ class Game2D extends FlameGame with TapCallbacks {
     );
     final regular = TextPaint(style: style);
     final textComponent = TextComponent(
-        text: won ? "Winner!" : "You Lose!",
-        position: Vector2(size.x / 2, size.y / 2),
-        anchor: Anchor.center,
-        textRenderer: regular
+      text: won ? "Winner!" : "You Lose!",
+      position: Vector2(size.x / 2, size.y / 2),
+      anchor: Anchor.center,
+      textRenderer: regular
     );
     expendables.add(textComponent);
     add(textComponent);
@@ -163,10 +162,10 @@ class Game2D extends FlameGame with TapCallbacks {
       fontSize: 20.0,
     );
     tip = TextComponent(
-        text: "",
-        position: Vector2(size.x / 2, 20),
-        anchor: Anchor.center,
-        textRenderer: TextPaint(style: style)
+      text: "",
+      position: Vector2(size.x / 2, 20),
+      anchor: Anchor.center,
+      textRenderer: TextPaint(style: style)
     );
     updateTipText();
   }
