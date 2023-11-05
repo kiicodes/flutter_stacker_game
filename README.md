@@ -3,6 +3,7 @@
 ![App Game](readme_images/app_game.png)
 ![2D Game](readme_images/2d_game.png)
 ![2D Game](readme_images/settings.png)
+![2D Game](readme_images/2d_playing.gif)
 
 Welcome to the Stack and Win game, a simple Flutter project designed to help you explore and understand the key differences between building an App Game and a 2D Game using the Flame package.
 
@@ -11,7 +12,6 @@ Welcome to the Stack and Win game, a simple Flutter project designed to help you
 This project is intended to serve as a practical example for those who are interested in game development with Flutter. We aim to provide a side-by-side comparison of building a traditional app-style game and a 2D game using the powerful Flame game development framework.
 
 ### The Game
-![2D Game](readme_images/2d_playing.gif)
 
 "Stack and Win" is an engaging and skill-based game that challenges your timing and precision. The objective is simple: stack squares on top of each other without losing any to earn victory.
 
