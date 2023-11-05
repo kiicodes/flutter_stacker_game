@@ -6,6 +6,39 @@ Welcome to the Stack and Win game, a simple Flutter project designed to help you
 
 This project is intended to serve as a practical example for those who are interested in game development with Flutter. We aim to provide a side-by-side comparison of building a traditional app-style game and a 2D game using the powerful Flame game development framework.
 
+### App Game
+
+The app game utilizes a `GridView.count` widget to create a grid with a dynamic number of rows and columns based on user-configured settings. Each cell's rendering is conditionally determined by evaluating a boolean array, which controls whether a cell is filled or not.
+
+#### Game Logic
+
+The game's logic is orchestrated by a timer that operates at a user-defined speed (level). When the timer triggers, the game's internal state is updated, and the `setState` method is employed to refresh the grid. This dynamic interaction between the timer and `setState` ensures that the grid is consistently updated to reflect the game's progress.
+
+Key Features:
+- **Dynamic Grid:** The grid's dimensions are responsive to user settings, allowing for a customized gaming experience.
+- **Boolean Array Control:** The boolean array plays a crucial role in rendering individual grid cells, providing flexibility for game dynamics.
+- **Real-time Updates:** Utilizing the `setState` method and timer, the grid is kept up to date with the game's logic, ensuring real-time feedback to players.
+
+### 2D Game
+
+The 2D game leverages the powerful Flame package for rendering, offering a versatile and high-performance approach to creating a dynamic gaming experience.
+
+#### Key Components
+
+1. **Custom BackgroundGrid2D Component**: The game features a specialized `BackgroundGrid2D` component responsible for rendering backgrounds and grid lines. This component enhances the visual aesthetics of the game while maintaining optimal performance.
+
+2. **Custom FilledSquare2D Component**: The heart of the game's rendering, the `FilledSquare2D` component, is custom-designed to allow precise control over square positions and the number of squares to render side by side.
+
+#### Dynamic Speed Calculation
+
+In this rendering mode, game speed is calculated dynamically by accumulating the time between the last frame update.
+
+#### Unique Logic
+
+Differing from the app game, the 2D game employs a distinct logic for rendering. Instead of relying on a boolean array to track grid item states, it manages array indexes to precisely control the display of filled square components. This method grants you the flexibility to specify the exact index at which the filled square component should be showcased, allowing for intricate and customizable game visuals.
+
+While the Flame package offers extensive capabilities, this 2D game rendering mode keeps things simple, making it an ideal starting point for those looking to explore game development concepts without overwhelming complexity.
+
 ## What You'll Learn
 
 1. **Flutter Game Development**: You will get hands-on experience with game development in Flutter, one of the most versatile and popular cross-platform frameworks available.
