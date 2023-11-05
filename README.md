@@ -1,5 +1,7 @@
 # Stack and Win Game - Flutter App vs 2D flame game
-![Game Preview](readme_images/main.png)
+![Main Screen](readme_images/main.png)
+![App Game](readme_images/app_game.png)
+![2D Game](readme_images/2d_game.png)
 
 Welcome to the Stack and Win game, a simple Flutter project designed to help you explore and understand the key differences between building an App Game and a 2D Game using the Flame package.
 
