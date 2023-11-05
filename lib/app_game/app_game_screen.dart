@@ -41,7 +41,7 @@ class _AppGameScreenState extends State<AppGameScreen> {
                   ElevatedButton(onPressed: () { Navigator.pop(context); }, child: const Text("Back")),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Text(_isStarted ? "Tap to Stack" : "Tap to Start", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 23),),
+                    child: Text(_isStarted ? "Tap to Stack (App game)" : "Tap to Start (App game)", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 23),),
                   ),
                   Expanded(
                       child: LayoutBuilder(builder: (_, constraints) {
