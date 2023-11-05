@@ -6,6 +6,18 @@ Welcome to the Stack and Win game, a simple Flutter project designed to help you
 
 This project is intended to serve as a practical example for those who are interested in game development with Flutter. We aim to provide a side-by-side comparison of building a traditional app-style game and a 2D game using the powerful Flame game development framework.
 
+### The Game
+
+"Stack and Win" is an engaging and skill-based game that challenges your timing and precision. The objective is simple: stack squares on top of each other without losing any to earn victory.
+
+#### Gameplay Mechanics
+
+- **Horizontal Movement**: You are presented with a set number of squares that move horizontally across the screen. Your goal is to tap or click at the right moment to make them come to a stop.
+
+- **Stacking Strategy**: As soon as you successfully halt the squares, an identical set of squares appears in the row above. Your task is to stack them directly on top of the squares from the previous row, aligning them perfectly.
+
+- **Avoiding Loss**: The key challenge is to ensure that the new squares stack precisely on the previous row. If you miss this alignment, the bottom row of squares will disappear, and you'll lose them.
+
 ### App Game
 
 The app game utilizes a `GridView.count` widget to create a grid with a dynamic number of rows and columns based on user-configured settings. Each cell's rendering is conditionally determined by evaluating a boolean array, which controls whether a cell is filled or not.
