@@ -12,7 +12,8 @@ class GameConfig {
   static final levelSpeeds = [
     [600, 300],
     [500, 200],
-    [350, 80]
+    [350, 80],
+    [180, 20]
   ];
   static late double squareSize;
   static const double margin = 20;

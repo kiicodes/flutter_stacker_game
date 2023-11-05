@@ -19,6 +19,7 @@ class SpeedSelector extends StatelessWidget {
               DropdownMenuItem(value: 0, child: Text("easy", style: dropdownMenuItemStyle,)),
               DropdownMenuItem(value: 1, child: Text("normal", style: dropdownMenuItemStyle)),
               DropdownMenuItem(value: 2, child: Text("hard", style: dropdownMenuItemStyle)),
+              DropdownMenuItem(value: 3, child: Text("very hard", style: dropdownMenuItemStyle)),
             ],
             onChanged: onChange,
           )
