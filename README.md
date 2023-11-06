@@ -1,3 +1,13 @@
+# Welcome to the Simple Example
+
+This branch, often referred to as the "master" branch, is designed to provide a clear and accessible introduction to our project. It offers a straightforward and easy-to-understand version of our game, making it an ideal starting point for newcomers and those looking to grasp the fundamentals.
+
+## Exploring Complexity
+
+For those interested in delving into more advanced features and complexity, we've got you covered in our "production" branch. This is where we're pushing the boundaries and exploring intricate aspects of our project. If you're up for a challenge or want to see what lies beyond the basics, the "production" branch is the place to be.
+
+We believe in offering a balanced experience, catering to both beginners and enthusiasts. So whether you're here to learn the ropes or ready to tackle advanced challenges, you'll find a suitable path in our project.
+
 # Stack and Win Game - Flutter App vs 2D flame game
 ![Main Screen](readme_images/main.png)
 ![App Game](readme_images/app_game.png)
