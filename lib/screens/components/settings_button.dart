@@ -12,16 +12,19 @@ class SettingsButton extends StatelessWidget {
         children: [
           InkWell(
             onTap: onTap,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.settings),
-                Container(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Text("Settings",
-                  style: Theme.of(context).textTheme.titleLarge,)
-                )
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.settings, size: 45,),
+                  Container(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text("Settings",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30),)
+                  )
+                ],
+              ),
             ),
           ),
         ],

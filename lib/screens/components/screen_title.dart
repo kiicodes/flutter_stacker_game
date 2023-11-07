@@ -7,8 +7,9 @@ class ScreenTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "Choose Game Render Mode:",
-        style: Theme.of(context).textTheme.titleLarge,
+        "Stack\nAnd\nWin",
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 50),
       ),
     );
   }

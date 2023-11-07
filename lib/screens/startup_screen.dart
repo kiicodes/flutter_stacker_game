@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:stacker_game/app_game/app_game_screen.dart';
 import 'package:stacker_game/game_2d/game_2d_screen.dart';
 import 'package:stacker_game/screens/components/game_option_button.dart';
 import 'package:stacker_game/screens/components/screen_title.dart';
@@ -16,7 +17,7 @@ class StartupScreen extends StatelessWidget {
         child: Column(
           children: [
             const Expanded(
-              flex: 4,
+              flex: 5,
               child: ScreenTitle(),
             ),
             Expanded(
@@ -24,10 +25,8 @@ class StartupScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const Spacer(),
-                  GameOptionButton(name: "App Game", onPressed: () { navigateTo(context, const AppGameScreen()); },),
+                  GameOptionButton(name: "Start Game", onPressed: () { navigateTo(context, const Game2DScreen()); },),
                   const Spacer(),
-                  GameOptionButton(name: "2D Game", onPressed: () { navigateTo(context, const Game2DScreen()); },),
-                  const Spacer()
                 ],
               )
             ),
