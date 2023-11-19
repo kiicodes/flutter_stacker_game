@@ -12,5 +12,12 @@ class GameLevels {
     const GameConfig(columns: 6, rows: 9, squareQuantity: 3, startMs: 350, lastMs: 80),
     const GameConfig(columns: 6, rows: 12, squareQuantity: 3, startMs: 350, lastMs: 80),
     const GameConfig(columns: 6, rows: 7, squareQuantity: 3, startMs: 180, lastMs: 20),
+    const GameConfig(columns: 6, rows: 9, squareQuantity: 3, startMs: 180, lastMs: 20),
+    const GameConfig(columns: 6, rows: 12, squareQuantity: 3, startMs: 180, lastMs: 20),
+    const GameConfig(columns: 10, rows: 12, squareQuantity: 2, startMs: 180, lastMs: 20),
+    const GameConfig(columns: 10, rows: 12, squareQuantity: 1, startMs: 180, lastMs: 20),
   ];
+
+  static int maxEnabledLevel = 0;
+  static int currentLevel = 0;
 }

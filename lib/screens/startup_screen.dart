@@ -36,13 +36,8 @@ class StartupScreen extends StatelessWidget {
                 ],
               )
             ),
-            Expanded(
+            const Spacer(
               flex: 4,
-              child: SettingsButton(
-                onTap: () {
-                  GlobalFunctions.navigateTo(context, const SettingsScreen());
-                }
-              ),
             ),
           ],
         )

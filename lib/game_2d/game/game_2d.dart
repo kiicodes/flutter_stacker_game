@@ -3,10 +3,12 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
+import 'package:stacker_game/shared/game_levels.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
@@ -130,6 +132,10 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void gameOver(bool won) {
+    if(won && GameLevels.currentLevel + 1 > GameLevels.maxEnabledLevel) {
+      GameLevels.maxEnabledLevel = GameLevels.currentLevel + 1;
+      SharedPreferences.getInstance().then((value) => value.setInt('currentLevel', GameLevels.maxEnabledLevel));
+    }
     remove(movingSquares);
     final style = TextStyle(
       color: won ? BasicPalette.yellow.color : BasicPalette.red.color,
