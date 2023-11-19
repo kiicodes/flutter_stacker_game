@@ -15,7 +15,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   int _columns = SharedData.config.columns;
   int _rows = SharedData.config.rows;
   int _initialSquareQuantity = SharedData.config.squareQuantity;
-  int _level = SharedData.config.level;
+  int _level = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                SharedData.config = GameConfig(
+                /*SharedData.config = GameConfig(
                   squareQuantity: _initialSquareQuantity,
                   columns: _columns,
                   rows: _rows,
                   level: _level
-                );
+                );*/
                 Navigator.of(context).pop();
               },
               child: const Text("Save", style: TextStyle(fontSize: 20),)

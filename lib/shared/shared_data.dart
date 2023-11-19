@@ -1,7 +1,9 @@
+import 'package:flame/game.dart';
 import 'package:stacker_game/shared/game_config.dart';
+import 'package:stacker_game/shared/game_levels.dart';
 
 class SharedData {
-  static GameConfig config = const GameConfig();
+  static GameConfig config = const GameConfig(columns: 6, rows: 7, squareQuantity: 3, startMs: 600, lastMs: 300);
   static late int currentSquareQuantity;
 
   static late int currentRow;
@@ -26,7 +28,7 @@ class SharedData {
   }
 
   static int calculateLevelSpeed() {
-    final speedRange = GameConfig.levelSpeeds[SharedData.config.level];
+    final speedRange = [SharedData.config.startMs, SharedData.config.lastMs];
     // Divide speed range to rows to make each row faster than the previous one
     final step = (speedRange[0] - speedRange[1]) / (SharedData.config.rows - 1);
     // Get the speed for current row

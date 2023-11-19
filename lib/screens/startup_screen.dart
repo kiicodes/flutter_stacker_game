@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:stacker_game/game_2d/game_2d_screen.dart';
 import 'package:stacker_game/screens/components/game_option_button.dart';
 import 'package:stacker_game/screens/components/screen_title.dart';
 import 'package:stacker_game/screens/components/settings_button.dart';
+import 'package:stacker_game/screens/level_selection_screen.dart';
 import 'package:stacker_game/screens/settings_screen.dart';
+import 'package:stacker_game/shared/global_functions.dart';
 
 class StartupScreen extends StatelessWidget {
   const StartupScreen({super.key});
@@ -25,22 +26,27 @@ class StartupScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const Spacer(),
-                  GameOptionButton(name: "Start Game", onPressed: () { navigateTo(context, const Game2DScreen()); },),
+                  GameOptionButton(
+                    name: "Start Game",
+                    onPressed: () {
+                      GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
+                    },
+                  ),
                   const Spacer(),
                 ],
               )
             ),
             Expanded(
               flex: 4,
-              child: SettingsButton(onTap: () { navigateTo(context, const SettingsScreen()); }),
+              child: SettingsButton(
+                onTap: () {
+                  GlobalFunctions.navigateTo(context, const SettingsScreen());
+                }
+              ),
             ),
           ],
         )
       ),
     );
-  }
-
-  void navigateTo(BuildContext context, Widget targetWidget) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => targetWidget));
   }
 }
