@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:stacker_game/theme/app_colors.dart';
 
 class ScreenTitle extends StatelessWidget {
   const ScreenTitle({super.key});
@@ -9,7 +11,7 @@ class ScreenTitle extends StatelessWidget {
       child: Text(
         "Stack\nAnd\nWin",
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 50),
+        style: GoogleFonts.permanentMarker(fontSize: 50, color: AppColors.defaultColor),
       ),
     );
   }

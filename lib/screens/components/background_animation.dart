@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/theme/app_colors.dart';
 
 class BackgroundAnimation extends StatefulWidget {
   const BackgroundAnimation({super.key});
@@ -24,38 +25,50 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
         duration: const Duration(milliseconds: 1500)
     );
     _controller.repeat(reverse: true);
-    /*
-    _controller.forward();
-    _controller.addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
-        _controller.reverse();
-      } else if(status == AnimationStatus.dismissed){
-        _controller.forward();
-      }
-    });// */
   }
 
   @override
   Widget build(BuildContext context) {
+    final customWidth = (MediaQuery.of(context).size.width + 100);
+    const endDiff = 75;
+
     return Column(
       children: [
-        const Spacer(),
+        const SizedBox(height: 220,),
         AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(
-                    ((MediaQuery.of(context).size.width + 100) * _controller.value) - 85, 0.0
-                ),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  color: Colors.orange,
-                ),
-              );
-            }
+          animation: _controller,
+          builder: (context, child) {
+            return Transform.translate(
+              offset: Offset(
+                  (customWidth * _controller.value) - endDiff, 0.0
+              ),
+              child: Container(
+                width: 50,
+                height: 50,
+                color: AppColors.defaultColor,
+              ),
+            );
+          }
         ),
-        const Spacer(),
+        const Spacer(flex: 3,),
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            double newPosition = customWidth - (customWidth * _controller.value) - endDiff;
+            return Transform.translate(
+              offset: Offset(
+                newPosition,
+                0.0,
+              ),
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                color: AppColors.defaultColor,
+              ),
+            );
+          },
+        ),
+        const Spacer(flex: 5,),
       ],
     );
   }

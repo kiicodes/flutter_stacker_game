@@ -19,8 +19,8 @@ class StartupScreen extends StatelessWidget {
                 const BackgroundAnimation(),
                 Column(
                   children: [
-                    const Expanded(
-                      flex: 5,
+                    const SizedBox(
+                      height: 220,
                       child: ScreenTitle(),
                     ),
                     Expanded(

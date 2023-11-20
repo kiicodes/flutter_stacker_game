@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/screens/startup_screen.dart';
+import 'package:stacker_game/theme/custom_dark_theme.dart';
+import 'package:stacker_game/theme/custom_light_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stacker (Stack And Win)',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: CustomLightTheme.getThemeData(),
+      darkTheme: CustomDarkTheme.getThemeData(),
       home: const StartupScreen(),
     );
   }

@@ -47,6 +47,7 @@ class _LevelListState extends State<LevelList> {
                   itemCount: GameLevels.levels.length,
                   itemBuilder: (BuildContext context, int index) {
                     if(GameLevels.maxEnabledLevel >= index) {
+                      final levelDone = GameLevels.maxEnabledLevel > index;
                       return Center(
                         child: InkWell(
                           child: Padding(
@@ -54,7 +55,10 @@ class _LevelListState extends State<LevelList> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(GameLevels.maxEnabledLevel > index ? Icons.check : Icons.play_arrow),
+                                Icon(
+                                  levelDone ? Icons.check : Icons.play_arrow,
+                                  color: levelDone ? Colors.green : Colors.blue,
+                                ),
                                 Text("Level ${index + 1}", style: levelStyle,),
                               ],
                             ),
