@@ -40,6 +40,7 @@ class _Game2DScreenState extends State<Game2DScreen> {
                       maxWidth: 800,
                       minWidth: 550,
                     ),
+                    color: Colors.green,
                     child: GameWidget(
                       game: game!,
                     ),

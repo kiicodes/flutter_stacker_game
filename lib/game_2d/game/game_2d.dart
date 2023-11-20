@@ -178,9 +178,9 @@ class Game2D extends FlameGame with TapCallbacks {
 
   void updateTipText() {
     if(SharedData.started) {
-      tip.text = "Tap to Stack (2D game)";
+      tip.text = "Tap to Stack";
     } else {
-      tip.text = "Tap to Start (2D game)";
+      tip.text = "Tap to Start";
     }
   }
 }
