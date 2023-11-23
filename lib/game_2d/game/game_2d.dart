@@ -5,6 +5,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
+import 'package:stacker_game/game_2d/game/clock_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/score_2d.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
@@ -17,13 +18,15 @@ class Game2D extends FlameGame with TapCallbacks {
   static List<Component> expendables = List.empty(growable: true);
   double myDt = 0;
   late TextComponent tip;
+  late Clock2D _clock2d;
   late Score2D _scoreComponent;
   bool _showingScore = false;
 
   @override
   Future<void> onLoad() async {
     initTipComponent();
-    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2));
+    _clock2d = await Clock2D.create(Vector2(size.x / 2, size.y / 2 + 10));
+    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 50));
     Game2DData.initValues(size);
     add(BackgroundGrid2D(size));
     add(tip);
@@ -166,9 +169,11 @@ class Game2D extends FlameGame with TapCallbacks {
     );
     expendables.add(textComponent);
     expendables.add(_scoreComponent);
+    expendables.add(_clock2d);
     add(textComponent);
     _scoreComponent.setScore(2000);
     add(_scoreComponent);
+    add(_clock2d);
     _showingScore = true;
     SharedData.gameOver();
     updateTipText();

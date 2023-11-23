@@ -36,7 +36,6 @@ class Score2D extends TextComponent {
       text = "$_score pts";
       return false;
     }
-    // Custom cubic easing function for smoother animation
     double easingFactor = _timeSpent / totalTime;
     double cubicEased = easingFactor * easingFactor * easingFactor;
 
