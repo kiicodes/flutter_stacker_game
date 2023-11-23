@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/screens/components/level_list.dart';
-import 'package:stacker_game/theme/app_colors.dart';
 
 class LevelSelectionScreen extends StatelessWidget {
   const LevelSelectionScreen({super.key});
