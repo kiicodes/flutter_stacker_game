@@ -7,7 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/clock_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
+import 'package:stacker_game/game_2d/game/new_record_2d.dart';
 import 'package:stacker_game/game_2d/game/score_2d.dart';
+import 'package:stacker_game/game_2d/game/score_details_2d.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/shared/game_levels.dart';
@@ -18,15 +20,18 @@ class Game2D extends FlameGame with TapCallbacks {
   static List<Component> expendables = List.empty(growable: true);
   double myDt = 0;
   late TextComponent tip;
-  late Clock2D _clock2d;
   late Score2D _scoreComponent;
+  late ScoreDetails2D _scoreDetails2D;
+  late NewRecord2D _newRecord2D;
   bool _showingScore = false;
+  bool _animatingScore = false;
 
   @override
   Future<void> onLoad() async {
     initTipComponent();
-    _clock2d = await Clock2D.create(Vector2(size.x / 2, size.y / 2 + 10));
-    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 50));
+    _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
+    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
+    _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40));
     Game2DData.initValues(size);
     add(BackgroundGrid2D(size));
     add(tip);
@@ -35,8 +40,10 @@ class Game2D extends FlameGame with TapCallbacks {
 
   @override
   void update(double dt) {
-    if(_showingScore) {
-      _showingScore = _scoreComponent.updateScore(dt);
+    if(_animatingScore) {
+      _animatingScore = _scoreComponent.updateScore(dt);
+    } else if(_showingScore) {
+      _newRecord2D.updateBlink(dt);
     }
 
     if(!SharedData.started && FallAnimation.items.isEmpty) {
@@ -169,11 +176,15 @@ class Game2D extends FlameGame with TapCallbacks {
     );
     expendables.add(textComponent);
     expendables.add(_scoreComponent);
-    expendables.add(_clock2d);
+    expendables.add(_scoreDetails2D);
+    expendables.add(_newRecord2D);
     add(textComponent);
     _scoreComponent.setScore(2000);
+    _scoreDetails2D.updateText(12.5, 2);
     add(_scoreComponent);
-    add(_clock2d);
+    add(_scoreDetails2D);
+    add(_newRecord2D);
+    _animatingScore = true;
     _showingScore = true;
     SharedData.gameOver();
     updateTipText();
