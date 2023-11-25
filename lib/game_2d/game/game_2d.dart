@@ -5,9 +5,9 @@ import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
-import 'package:stacker_game/game_2d/game/clock_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/new_record_2d.dart';
+import 'package:stacker_game/game_2d/game/next_component.dart';
 import 'package:stacker_game/game_2d/game/score_2d.dart';
 import 'package:stacker_game/game_2d/game/score_details_2d.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
@@ -23,8 +23,10 @@ class Game2D extends FlameGame with TapCallbacks {
   late Score2D _scoreComponent;
   late ScoreDetails2D _scoreDetails2D;
   late NewRecord2D _newRecord2D;
+  late NextComponent _nextComponent;
   bool _showingScore = false;
   bool _animatingScore = false;
+  bool _alreadyPlayed = false;
 
   @override
   Future<void> onLoad() async {
@@ -32,6 +34,7 @@ class Game2D extends FlameGame with TapCallbacks {
     _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
     _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
     _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40));
+    _nextComponent = NextComponent(position: Vector2(size.x / 2, size.y / 2 + 90), size: Vector2(120, 45));
     Game2DData.initValues(size);
     add(BackgroundGrid2D(size));
     add(tip);
@@ -150,6 +153,7 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void gameOver(bool won) {
+    _alreadyPlayed = true;
     if(won && GameLevels.currentLevel + 1 > GameLevels.maxEnabledLevel) {
       GameLevels.maxEnabledLevel = GameLevels.currentLevel + 1;
       SharedPreferences.getInstance().then((value) => value.setInt('currentLevel', GameLevels.maxEnabledLevel));
@@ -178,12 +182,14 @@ class Game2D extends FlameGame with TapCallbacks {
     expendables.add(_scoreComponent);
     expendables.add(_scoreDetails2D);
     expendables.add(_newRecord2D);
+    expendables.add(_nextComponent);
     add(textComponent);
     _scoreComponent.setScore(2000);
     _scoreDetails2D.updateText(12.5, 2);
     add(_scoreComponent);
     add(_scoreDetails2D);
     add(_newRecord2D);
+    add(_nextComponent);
     _animatingScore = true;
     _showingScore = true;
     SharedData.gameOver();
@@ -208,7 +214,11 @@ class Game2D extends FlameGame with TapCallbacks {
     if(SharedData.started) {
       tip.text = "Tap to Stack";
     } else {
-      tip.text = "Tap to Start";
+      if(_alreadyPlayed) {
+        tip.text = "Tap to Restart";
+      } else {
+        tip.text = "Tap to Start";
+      }
     }
   }
 }

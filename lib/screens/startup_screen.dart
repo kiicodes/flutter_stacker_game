@@ -29,7 +29,7 @@ class StartupScreen extends StatelessWidget {
                           children: [
                             const Spacer(),
                             GameOptionButton(
-                              name: "Start Game",
+                              name: "Start",
                               onPressed: () {
                                 GlobalFunctions.navigateTo(
                                     context, const LevelSelectionScreen());
