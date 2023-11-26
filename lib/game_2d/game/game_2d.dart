@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
-import 'package:stacker_game/game_2d/game/new_record_2d.dart';
-import 'package:stacker_game/game_2d/game/next_component.dart';
-import 'package:stacker_game/game_2d/game/score_2d.dart';
-import 'package:stacker_game/game_2d/game/score_details_2d.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
+import 'package:stacker_game/game_2d/utils/level_manager.dart';
+import 'package:stacker_game/game_2d/utils/score_manager.dart';
 import 'package:stacker_game/shared/game_levels.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
@@ -20,21 +18,13 @@ class Game2D extends FlameGame with TapCallbacks {
   static List<Component> expendables = List.empty(growable: true);
   double myDt = 0;
   late TextComponent tip;
-  late Score2D _scoreComponent;
-  late ScoreDetails2D _scoreDetails2D;
-  late NewRecord2D _newRecord2D;
-  late NextComponent _nextComponent;
-  bool _showingScore = false;
-  bool _animatingScore = false;
   bool _alreadyPlayed = false;
 
   @override
   Future<void> onLoad() async {
     initTipComponent();
-    _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
-    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
-    _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40));
-    _nextComponent = NextComponent(position: Vector2(size.x / 2, size.y / 2 + 90), size: Vector2(120, 45));
+    ScoreManager.initScore(size);
+    LevelManager.initManager(size, () { reset(); });
     Game2DData.initValues(size);
     add(BackgroundGrid2D(size));
     add(tip);
@@ -43,11 +33,7 @@ class Game2D extends FlameGame with TapCallbacks {
 
   @override
   void update(double dt) {
-    if(_animatingScore) {
-      _animatingScore = _scoreComponent.updateScore(dt);
-    } else if(_showingScore) {
-      _newRecord2D.updateBlink(dt);
-    }
+    ScoreManager.update(dt);
 
     if(!SharedData.started && FallAnimation.items.isEmpty) {
       super.update(dt);
@@ -90,17 +76,23 @@ class Game2D extends FlameGame with TapCallbacks {
     movingSquares.squareIndex = newIndex;
   }
 
+  void reset() {
+    Game2DData.initValues(size);
+    myDt = 0;
+    movingSquares.squareIndex = 0;
+    movingSquares.quantity = 1;
+    if(expendables.isNotEmpty) {
+      removeAll(expendables);
+      expendables.clear();
+    }
+    ScoreManager.hideScore();
+  }
+
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (!SharedData.started) {
-      myDt = 0;
-      movingSquares.squareIndex = 0;
-      movingSquares.quantity = 1;
-      if(expendables.isNotEmpty) {
-        removeAll(expendables);
-        expendables.clear();
-      }
+      reset();
       Game2DData.start();
       add(movingSquares);
     } else {
@@ -179,19 +171,11 @@ class Game2D extends FlameGame with TapCallbacks {
       textRenderer: regular
     );
     expendables.add(textComponent);
-    expendables.add(_scoreComponent);
-    expendables.add(_scoreDetails2D);
-    expendables.add(_newRecord2D);
-    expendables.add(_nextComponent);
     add(textComponent);
-    _scoreComponent.setScore(2000);
-    _scoreDetails2D.updateText(12.5, 2);
-    add(_scoreComponent);
-    add(_scoreDetails2D);
-    add(_newRecord2D);
-    add(_nextComponent);
-    _animatingScore = true;
-    _showingScore = true;
+    if(won) {
+      ScoreManager.showScore(expendables, this);
+      LevelManager.showIfNeeded(expendables, this);
+    }
     SharedData.gameOver();
     updateTipText();
   }

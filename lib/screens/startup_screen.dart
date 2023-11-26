@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:stacker_game/screens/components/background_animation.dart';
 import 'package:stacker_game/screens/components/game_option_button.dart';
