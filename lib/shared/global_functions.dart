@@ -25,4 +25,24 @@ class GlobalFunctions {
 
     return MaterialColor(color.value, shades);
   }
+
+  static String formatElapsedTime(Duration elapsedTime) {
+    int hours = elapsedTime.inHours;
+    int minutes = (elapsedTime.inMinutes % 60);
+    int seconds = (elapsedTime.inSeconds % 60);
+    StringBuffer finalString = StringBuffer();
+    if(hours < 10) {
+      finalString.write("0");
+    }
+    finalString.write("$hours:");
+    if(minutes < 10) {
+      finalString.write("0");
+    }
+    finalString.write("$minutes:");
+    if(seconds < 10) {
+      finalString.write("0");
+    }
+    finalString.write("$seconds");
+    return finalString.toString();
+  }
 }

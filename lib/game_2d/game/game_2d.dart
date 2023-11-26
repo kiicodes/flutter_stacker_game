@@ -11,12 +11,15 @@ import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/game_2d/utils/level_manager.dart';
 import 'package:stacker_game/game_2d/utils/score_manager.dart';
 import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
   late FilledSquare2D movingSquares;
   static List<Component> expendables = List.empty(growable: true);
   double myDt = 0;
+  double _rowSpentTime = 0;
+  late DateTime _startedDateTime;
   late TextComponent tip;
   bool _alreadyPlayed = false;
 
@@ -41,6 +44,9 @@ class Game2D extends FlameGame with TapCallbacks {
     }
 
     myDt = myDt + dt;
+    if(_rowSpentTime < ScoreManager.maxTimeSpent) {
+      _rowSpentTime += dt;
+    }
     if(myDt < Game2DData.currentSpeed / 1000.0) {
       super.update(dt);
       return;
@@ -88,13 +94,23 @@ class Game2D extends FlameGame with TapCallbacks {
     ScoreManager.hideScore();
   }
 
+  void startGame() {
+    _rowSpentTime = 0;
+    _startedDateTime = DateTime.now();
+    reset();
+    Game2DData.start();
+    add(movingSquares);
+  }
+
+  void finishedRow(int lostBlocks) {
+    ScoreManager.addPoints(Game2DData.currentSpeed, lostBlocks, _rowSpentTime);
+  }
+
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     if (!SharedData.started) {
-      reset();
-      Game2DData.start();
-      add(movingSquares);
+      startGame();
     } else {
       final List<int> hitIndexes = List.empty(growable: true);
       if(SharedData.currentRow > 0) {
@@ -113,6 +129,7 @@ class Game2D extends FlameGame with TapCallbacks {
           );
           expendables.add(fixedSquare);
           add(fixedSquare);
+          finishedRow(SharedData.currentSquareQuantity - hitIndexes.length);
           SharedData.currentSquareQuantity = hitIndexes.length;
         } else {
           gameOver(false);
@@ -127,6 +144,7 @@ class Game2D extends FlameGame with TapCallbacks {
         for(int i = 0; i < movingSquares.quantity; i++) {
           hitIndexes.add(movingSquares.squareIndex - i);
         }
+        finishedRow(SharedData.currentSquareQuantity - movingSquares.quantity);
         SharedData.currentSquareQuantity = movingSquares.quantity;
         final fixedSquare = FilledSquare2D(hitIndexes.length, hitIndexes.first);
         expendables.add(fixedSquare);
@@ -173,7 +191,8 @@ class Game2D extends FlameGame with TapCallbacks {
     expendables.add(textComponent);
     add(textComponent);
     if(won) {
-      ScoreManager.showScore(expendables, this);
+      final formattedTimeSpent = GlobalFunctions.formatElapsedTime(DateTime.now().difference(_startedDateTime));
+      ScoreManager.showScore(expendables, this, formattedTimeSpent);
       LevelManager.showIfNeeded(expendables, this);
     }
     SharedData.gameOver();

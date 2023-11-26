@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class ScoreDetails2D extends TextComponent {
   ScoreDetails2D(Vector2 position)
@@ -23,7 +24,8 @@ class ScoreDetails2D extends TextComponent {
     );
   }
 
-  void updateText(double timeSpent, int lostSquares) {
-    text = "\n(Time: 13.01s   Lost Squares: 1)";
+  void updateText(String timeSpent) {
+    final lostSquares = SharedData.config.squareQuantity - SharedData.currentSquareQuantity;
+    text = "\n(Time: ${timeSpent}s   Lost Squares: $lostSquares)";
   }
 }

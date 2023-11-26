@@ -27,6 +27,7 @@ class Score2D extends TextComponent {
   }
 
   void setScore(int newScore) {
+    _timeSpent = 0;
     _score = newScore;
   }
 
