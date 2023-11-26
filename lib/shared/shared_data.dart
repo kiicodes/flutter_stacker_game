@@ -21,7 +21,7 @@ class SharedData {
     availableHeight = availableHeight - GameConfig.margin;
     availableWidth = availableWidth - GameConfig.margin;
     final byWidth = availableWidth / config.columns;
-    final byHeight = availableHeight / config.rows;
+    final byHeight = (availableHeight - 45) / config.rows;
 
     // size of each game square (filled or not)
     GameConfig.squareSize = byHeight > byWidth ? byWidth : byHeight;

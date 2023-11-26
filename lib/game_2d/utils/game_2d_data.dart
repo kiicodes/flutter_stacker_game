@@ -29,8 +29,8 @@ class Game2DData {
     SharedData.onDimensionsSet(size.x, size.y);
 
     gameWidth = GameConfig.squareSize * SharedData.config.columns;
-    final remainingWidth = size.x - gameWidth;
-    startX = (remainingWidth / 2 + GameConfig.margin / 2) / 2;
+    final remainingWidth = size.x - gameWidth - (2 * GameConfig.margin);
+    startX = remainingWidth / 2 + GameConfig.margin;
 
     gameHeight = GameConfig.squareSize * SharedData.config.rows;
     final remainingHeight = size.y - gameHeight;
