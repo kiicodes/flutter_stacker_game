@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:stacker_game/game_2d/game/new_record_2d.dart';
 import 'package:stacker_game/game_2d/game/score_2d.dart';
 import 'package:stacker_game/game_2d/game/score_details_2d.dart';
+import 'package:stacker_game/leaderboard/manager/leaderboard_manager.dart';
+import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class ScoreManager {
@@ -37,7 +38,7 @@ class ScoreManager {
     _showingScore = false;
   }
 
-  static void showScore(List<Component> expendables, Component game, String formattedSpentTime) {
+  static void showScore(List<Component> expendables, Component game, String formattedSpentTime, int spentTimeMs) {
     _animatingScore = false;
     _scoreDetails2D.updateText(formattedSpentTime);
     expendables.add(_scoreComponent);
@@ -49,6 +50,15 @@ class ScoreManager {
     game.add(_newRecord2D);
     _animatingScore = true;
     _showingScore = true;
+    LeaderboardManager.insertLeaderboardEntry(
+      SharedData.config.getLevelKey(),
+      LeaderboardEntry(
+        calculatedPoints: _currentScore,
+        spentTime: spentTimeMs,
+        lostSquaresCount: 2,
+        datetime: DateTime.now().toIso8601String(),
+      )
+    );
   }
 
   static void addPoints(int speedMS, int lostBlocks, double timeSpent) {

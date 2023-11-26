@@ -12,5 +12,9 @@ class GameConfig {
   static late double squareSize;
   static const double margin = 20;
 
+  String getLevelKey() {
+    return "$startMs|$lastMs|$columns|$rows|$squareQuantity";
+  }
+
   const GameConfig({Key? key, required this.columns, required this.rows, required this.squareQuantity, required this.startMs, required this.lastMs});
 }

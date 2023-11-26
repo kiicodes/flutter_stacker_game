@@ -191,8 +191,9 @@ class Game2D extends FlameGame with TapCallbacks {
     expendables.add(textComponent);
     add(textComponent);
     if(won) {
-      final formattedTimeSpent = GlobalFunctions.formatElapsedTime(DateTime.now().difference(_startedDateTime));
-      ScoreManager.showScore(expendables, this, formattedTimeSpent);
+      final diff = DateTime.now().difference(_startedDateTime);
+      final formattedTimeSpent = GlobalFunctions.formatElapsedTime(diff);
+      ScoreManager.showScore(expendables, this, formattedTimeSpent, diff.inMilliseconds);
       LevelManager.showIfNeeded(expendables, this);
     }
     SharedData.gameOver();

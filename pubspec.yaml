@@ -13,6 +13,7 @@ dependencies:
   flame: 1.7.3
   shared_preferences: ^2.2.2
   google_fonts: ^6.1.0
+  games_services: ^4.0.0
 
 dev_dependencies:
   flutter_test:
