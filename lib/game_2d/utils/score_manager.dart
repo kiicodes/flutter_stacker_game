@@ -56,7 +56,7 @@ class ScoreManager {
         calculatedPoints: _currentScore,
         spentTime: spentTimeMs,
         lostSquaresCount: 2,
-        datetime: DateTime.now().toIso8601String(),
+        datetime: DateTime.now(),
       )
     );
   }

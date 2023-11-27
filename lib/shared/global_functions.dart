@@ -31,10 +31,10 @@ class GlobalFunctions {
     int minutes = (elapsedTime.inMinutes % 60);
     int seconds = (elapsedTime.inSeconds % 60);
     StringBuffer finalString = StringBuffer();
-    if(hours < 10) {
+    /*if(hours < 10) {
       finalString.write("0");
     }
-    finalString.write("$hours:");
+    finalString.write("$hours:");*/
     if(minutes < 10) {
       finalString.write("0");
     }

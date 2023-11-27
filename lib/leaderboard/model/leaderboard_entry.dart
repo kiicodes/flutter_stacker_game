@@ -2,7 +2,7 @@ class LeaderboardEntry {
   final int calculatedPoints;
   final int spentTime;
   final int lostSquaresCount;
-  final String datetime;
+  final DateTime datetime;
 
   LeaderboardEntry({
     required this.calculatedPoints,
@@ -16,7 +16,7 @@ class LeaderboardEntry {
       'calculatedPoints': calculatedPoints,
       'spentTime': spentTime,
       'lostSquaresCount': lostSquaresCount,
-      'datetime': datetime,
+      'datetime': datetime.toIso8601String(),
     };
   }
 
@@ -25,7 +25,7 @@ class LeaderboardEntry {
       calculatedPoints: map['calculatedPoints'],
       spentTime: map['spentTime'],
       lostSquaresCount: map['lostSquaresCount'],
-      datetime: map['datetime'],
+      datetime: DateTime.parse(map['datetime']),
     );
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/leaderboard/manager/leaderboard_manager.dart';
+import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
+import 'package:stacker_game/screens/components/leaderboard_list.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/game_config.dart';
 
@@ -12,11 +15,20 @@ class LeaderboardScreen extends StatefulWidget {
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   late GameConfig currentLevel;
+  List<LeaderboardEntry> _items = List.empty();
 
   @override
   void initState() {
     currentLevel = widget.levelConfig;
+    loadItems();
     super.initState();
+  }
+
+  void loadItems() async {
+    final items = await LeaderboardManager.getLeaderboardEntries(currentLevel.getLevelKey());
+    setState(() {
+      _items = items;
+    });
   }
 
   @override
@@ -39,7 +51,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 ],
               ),
               const Spacer(),
-              const Text("List here"),
+              Expanded(child: LeaderboardList(items: _items,)),
               const Spacer(flex: 2,),
             ],
           ),
