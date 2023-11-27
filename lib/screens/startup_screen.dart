@@ -4,6 +4,8 @@ import 'package:stacker_game/screens/components/game_option_button.dart';
 import 'package:stacker_game/screens/components/screen_title.dart';
 import 'package:stacker_game/screens/level_selection_screen.dart';
 import 'package:stacker_game/shared/global_functions.dart';
+import 'package:stacker_game/shared/leaderboard_button.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class StartupScreen extends StatelessWidget {
   const StartupScreen({super.key});
@@ -29,15 +31,18 @@ class StartupScreen extends StatelessWidget {
                             GameOptionButton(
                               name: "Start",
                               onPressed: () {
-                                GlobalFunctions.navigateTo(
-                                    context, const LevelSelectionScreen());
+                                GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
                               },
                             ),
                             const Spacer(),
                           ],
                         )),
                     const Spacer(
-                      flex: 4,
+                      flex: 2,
+                    ),
+                    Container(
+                        margin: const EdgeInsets.only(bottom: 30),
+                        child: LeaderboardButton(levelConfig: SharedData.config)
                     ),
                   ],
                 ),

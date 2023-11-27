@@ -1,6 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
+import 'package:stacker_game/shared/custom_back_button.dart';
+import 'package:stacker_game/shared/leaderboard_button.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 Game2D? game;
 
@@ -31,7 +34,13 @@ class _Game2DScreenState extends State<Game2DScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            ElevatedButton(onPressed: () { Navigator.pop(context); }, child: const Text("Back")),
+            Row(
+              children: [
+                LeaderboardButton(levelConfig: SharedData.config),
+                const Spacer(),
+                const CustomBackButton(noMargin: true),
+              ],
+            ),
             Expanded(
               child: Center(
                 child: LayoutBuilder(builder: (context, constraints) {
