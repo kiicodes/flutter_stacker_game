@@ -1,9 +1,8 @@
-import 'package:flame/game.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/game_levels.dart';
 
 class SharedData {
-  static GameConfig config = const GameConfig(columns: 6, rows: 7, squareQuantity: 3, startMs: 600, lastMs: 300);
+  static GameConfig config = GameLevels.levels[0];
   static late int currentSquareQuantity;
 
   static late int currentRow;

@@ -45,7 +45,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 children: [
                   ElevatedButton(onPressed: () {}, child: const Text("Previous")),
                   const Spacer(),
-                  const Text("Level 1"),
+                  Text(currentLevel.name),
                   const Spacer(),
                   ElevatedButton(onPressed: () {}, child: const Text("Next")),
                 ],

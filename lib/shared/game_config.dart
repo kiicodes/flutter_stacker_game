@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class GameConfig {
+  final String name;
   final int columns;
   final int rows;
   final int squareQuantity;
@@ -16,5 +17,5 @@ class GameConfig {
     return "$startMs|$lastMs|$columns|$rows|$squareQuantity";
   }
 
-  const GameConfig({Key? key, required this.columns, required this.rows, required this.squareQuantity, required this.startMs, required this.lastMs});
+  const GameConfig({Key? key, required this.name, required this.columns, required this.rows, required this.squareQuantity, required this.startMs, required this.lastMs});
 }
