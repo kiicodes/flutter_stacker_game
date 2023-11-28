@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 
 class LeaderboardManager {
+  static const maxEntries = 8;
 
   static Future<void> insertLeaderboardEntry(String levelKey, LeaderboardEntry entry) async {
     final prefs = await SharedPreferences.getInstance();
@@ -16,7 +17,7 @@ class LeaderboardManager {
       return entryB.calculatedPoints.compareTo(entryA.calculatedPoints);
     });
 
-    final top5Entries = leaderboardEntries.take(5).toList();
+    final top5Entries = leaderboardEntries.take(maxEntries).toList();
     await prefs.setStringList(levelKey, top5Entries);
   }
 

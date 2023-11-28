@@ -42,7 +42,7 @@ class StartupScreen extends StatelessWidget {
                     ),
                     Container(
                         margin: const EdgeInsets.only(bottom: 30),
-                        child: LeaderboardButton(levelConfig: SharedData.config)
+                        child: const LeaderboardButton()
                     ),
                   ],
                 ),

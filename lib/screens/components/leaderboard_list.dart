@@ -1,9 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 
-const List<double> headerSizes = [30,80,90,40];
+const List<double> headerSizes = [30,80,80,30];
 
 class LeaderboardList extends StatelessWidget {
   final List<LeaderboardEntry> items;
@@ -26,10 +28,13 @@ class LeaderboardList extends StatelessWidget {
                   Expanded(child: Text(DateFormat('MM/dd HH:mm').format(item.datetime))),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
-                    child: SizedBox(width: headerSizes[1], child: Text(item.calculatedPoints.toString(), textAlign: TextAlign.end,)),
+                    child: SizedBox(width: headerSizes[1], child: Text(
+                      item.calculatedPoints.toString(), textAlign: TextAlign.end,
+                      style: const TextStyle(fontFeatures: [FontFeature.tabularFigures()]),
+                    )),
                   ),
                   SizedBox(width: headerSizes[2], child: Text("${spentTime}s")),
-                  SizedBox(width: headerSizes[3], child: Text(item.lostSquaresCount.toString())),
+                  SizedBox(width: headerSizes[3], child: Text("-${item.lostSquaresCount}", textAlign: TextAlign.center,)),
                 ],
               );
             }
@@ -50,7 +55,7 @@ class LeaderboardList extends StatelessWidget {
           child: SizedBox(width: headerSizes[1], child: const Text("Points", textAlign: TextAlign.end, style: textStyle,)),
         ),
         SizedBox(width: headerSizes[2], child: const Text("Time", style: textStyle,)),
-        SizedBox(width: headerSizes[3], child: const Text("Lost", style: textStyle,))
+        SizedBox(width: headerSizes[3], child: const Text("Sqr", style: textStyle,))
       ],
     );
   }
