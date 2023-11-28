@@ -12,16 +12,20 @@ class ScoreManager {
   static const double maxTimeSpent = 20.0;
   static const double _losePointsEachSeconds = 0.5;
   static const maxPointsPerRow = 500;
+
   static late Score2D _scoreComponent;
   static late ScoreDetails2D _scoreDetails2D;
   static late NewRecord2D _newRecord2D;
+
   static bool _showingScore = false;
   static bool _animatingScore = false;
   static int _currentScore = 0;
+  static int _lostSquares = 0;
   static bool _alreadyInitialized = false;
 
   static void initScore(Vector2 size) {
     _currentScore = 0;
+    _lostSquares = 0;
     if(!_alreadyInitialized) {
       _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
       _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
@@ -42,7 +46,7 @@ class ScoreManager {
     _showingScore = false;
   }
 
-  static void showScore(List<Component> expendables, Component game, String formattedSpentTime, int spentTimeMs, int lostSquares) async {
+  static void showScore(List<Component> expendables, Component game, String formattedSpentTime, int spentTimeMs) async {
     _animatingScore = false;
     _scoreDetails2D.updateText(formattedSpentTime);
     expendables.add(_scoreComponent);
@@ -57,7 +61,7 @@ class ScoreManager {
       LeaderboardEntry(
         calculatedPoints: _currentScore,
         spentTime: spentTimeMs,
-        lostSquaresCount: lostSquares,
+        lostSquaresCount: _lostSquares,
         datetime: DateTime.now(),
       )
     );
@@ -68,6 +72,7 @@ class ScoreManager {
   }
 
   static void addPoints(int speedMS, int lostSquares, double timeSpent) {
+    _lostSquares += lostSquares;
     final maxRowPoints = (maxPointsPerRow - (maxPointsPerRow * (speedMS / 1000))).toInt();
     int points = (maxRowPoints * pow(1.2, -timeSpent / _losePointsEachSeconds)).toInt();
     final remainingSquares = SharedData.currentSquareQuantity - lostSquares;

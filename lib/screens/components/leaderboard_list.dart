@@ -23,18 +23,19 @@ class LeaderboardList extends StatelessWidget {
               final item = items[index];
               final spentTime = GlobalFunctions.formatElapsedTime(Duration(milliseconds: item.spentTime));
               final lostSquaresText = item.lostSquaresCount > 0 ? "-${item.lostSquaresCount}" : "-";
+              const textStyleSameWidth = TextStyle(fontFeatures: [FontFeature.tabularFigures()]);
               return Row(
                 children: [
                   SizedBox(width: headerSizes[0], child: Text("${index + 1}")),
-                  Expanded(child: Text(DateFormat('MM/dd HH:mm').format(item.datetime))),
+                  Expanded(child: Text(DateFormat('MM/dd HH:mm').format(item.datetime), style: textStyleSameWidth,)),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: SizedBox(width: headerSizes[1], child: Text(
                       item.calculatedPoints.toString(), textAlign: TextAlign.end,
-                      style: const TextStyle(fontFeatures: [FontFeature.tabularFigures()]),
+                      style: textStyleSameWidth,
                     )),
                   ),
-                  SizedBox(width: headerSizes[2], child: Text("${spentTime}s")),
+                  SizedBox(width: headerSizes[2], child: Text(spentTime, style: textStyleSameWidth,)),
                   SizedBox(width: headerSizes[3], child: Text(lostSquaresText, textAlign: TextAlign.center,)),
                 ],
               );

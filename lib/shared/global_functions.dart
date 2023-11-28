@@ -30,6 +30,7 @@ class GlobalFunctions {
     int hours = elapsedTime.inHours;
     int minutes = (elapsedTime.inMinutes % 60);
     int seconds = (elapsedTime.inSeconds % 60);
+    int milliseconds = (elapsedTime.inMilliseconds ~/ 10) % 100;
     StringBuffer finalString = StringBuffer();
     /*if(hours < 10) {
       finalString.write("0");
@@ -42,7 +43,11 @@ class GlobalFunctions {
     if(seconds < 10) {
       finalString.write("0");
     }
-    finalString.write("$seconds");
+    finalString.write("$seconds.");
+    if(milliseconds < 10) {
+      finalString.write("0");
+    }
+    finalString.write("$milliseconds");
     return finalString.toString();
   }
 }
