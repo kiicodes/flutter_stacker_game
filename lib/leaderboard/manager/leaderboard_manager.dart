@@ -5,11 +5,12 @@ import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 class LeaderboardManager {
   static const maxEntries = 8;
 
-  static Future<void> insertLeaderboardEntry(String levelKey, LeaderboardEntry entry) async {
+  static Future<bool> insertLeaderboardEntry(String levelKey, LeaderboardEntry entry) async {
     final prefs = await SharedPreferences.getInstance();
     final leaderboardEntries = prefs.getStringList(levelKey) ?? [];
 
-    leaderboardEntries.add(jsonEncode(entry.toMap()));
+    final jsonEncoded = jsonEncode(entry.toMap());
+    leaderboardEntries.add(jsonEncoded);
 
     leaderboardEntries.sort((a, b) {
       final entryA = LeaderboardEntry.fromMap(jsonDecode(a));
@@ -17,8 +18,9 @@ class LeaderboardManager {
       return entryB.calculatedPoints.compareTo(entryA.calculatedPoints);
     });
 
-    final top5Entries = leaderboardEntries.take(maxEntries).toList();
-    await prefs.setStringList(levelKey, top5Entries);
+    final topEntries = leaderboardEntries.take(maxEntries).toList();
+    await prefs.setStringList(levelKey, topEntries);
+    return LeaderboardEntry.fromMap(jsonDecode(topEntries.first)).datetime == entry.datetime;
   }
 
   static Future<List<LeaderboardEntry>> getLeaderboardEntries(String levelKey) async {

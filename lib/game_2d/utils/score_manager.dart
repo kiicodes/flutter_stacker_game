@@ -18,12 +18,16 @@ class ScoreManager {
   static bool _showingScore = false;
   static bool _animatingScore = false;
   static int _currentScore = 0;
+  static bool _alreadyInitialized = false;
 
   static void initScore(Vector2 size) {
     _currentScore = 0;
-    _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
-    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
-    _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40));
+    if(!_alreadyInitialized) {
+      _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
+      _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
+      _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40));
+      _alreadyInitialized = true;
+    }
   }
 
   static void update(double dt) {
@@ -38,33 +42,35 @@ class ScoreManager {
     _showingScore = false;
   }
 
-  static void showScore(List<Component> expendables, Component game, String formattedSpentTime, int spentTimeMs) {
+  static void showScore(List<Component> expendables, Component game, String formattedSpentTime, int spentTimeMs, int lostSquares) async {
     _animatingScore = false;
     _scoreDetails2D.updateText(formattedSpentTime);
     expendables.add(_scoreComponent);
     expendables.add(_scoreDetails2D);
-    expendables.add(_newRecord2D);
     _scoreComponent.setScore(_currentScore);
     game.add(_scoreComponent);
     game.add(_scoreDetails2D);
-    game.add(_newRecord2D);
     _animatingScore = true;
     _showingScore = true;
-    LeaderboardManager.insertLeaderboardEntry(
+    final isNewRecord = await LeaderboardManager.insertLeaderboardEntry(
       SharedData.config.getLevelKey(),
       LeaderboardEntry(
         calculatedPoints: _currentScore,
         spentTime: spentTimeMs,
-        lostSquaresCount: 2,
+        lostSquaresCount: lostSquares,
         datetime: DateTime.now(),
       )
     );
+    if(isNewRecord) {
+      expendables.add(_newRecord2D);
+      game.add(_newRecord2D);
+    }
   }
 
-  static void addPoints(int speedMS, int lostBlocks, double timeSpent) {
+  static void addPoints(int speedMS, int lostSquares, double timeSpent) {
     final maxRowPoints = (maxPointsPerRow - (maxPointsPerRow * (speedMS / 1000))).toInt();
     int points = (maxRowPoints * pow(1.2, -timeSpent / _losePointsEachSeconds)).toInt();
-    final remainingSquares = SharedData.currentSquareQuantity - lostBlocks;
+    final remainingSquares = SharedData.currentSquareQuantity - lostSquares;
     final squarePoints = (points / SharedData.currentSquareQuantity);
     points = (squarePoints * remainingSquares).toInt();
     _currentScore += points;

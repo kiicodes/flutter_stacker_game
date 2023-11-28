@@ -95,6 +95,7 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void startGame() {
+    ScoreManager.initScore(size);
     _rowSpentTime = 0;
     _startedDateTime = DateTime.now();
     reset();
@@ -193,7 +194,7 @@ class Game2D extends FlameGame with TapCallbacks {
     if(won) {
       final diff = DateTime.now().difference(_startedDateTime);
       final formattedTimeSpent = GlobalFunctions.formatElapsedTime(diff);
-      ScoreManager.showScore(expendables, this, formattedTimeSpent, diff.inMilliseconds);
+      ScoreManager.showScore(expendables, this, formattedTimeSpent, diff.inMilliseconds, SharedData.currentSquareQuantity - movingSquares.quantity);
       LevelManager.showIfNeeded(expendables, this);
     }
     SharedData.gameOver();

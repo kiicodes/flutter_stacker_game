@@ -22,6 +22,7 @@ class LeaderboardList extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               final spentTime = GlobalFunctions.formatElapsedTime(Duration(milliseconds: item.spentTime));
+              final lostSquaresText = item.lostSquaresCount > 0 ? "-${item.lostSquaresCount}" : "-";
               return Row(
                 children: [
                   SizedBox(width: headerSizes[0], child: Text("${index + 1}")),
@@ -34,7 +35,7 @@ class LeaderboardList extends StatelessWidget {
                     )),
                   ),
                   SizedBox(width: headerSizes[2], child: Text("${spentTime}s")),
-                  SizedBox(width: headerSizes[3], child: Text("-${item.lostSquaresCount}", textAlign: TextAlign.center,)),
+                  SizedBox(width: headerSizes[3], child: Text(lostSquaresText, textAlign: TextAlign.center,)),
                 ],
               );
             }

@@ -3,7 +3,7 @@ import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
 class NewRecord2D extends TextComponent {
-  final totalTime = 1.0;
+  final totalTime = 0.8;
   final newRecordText = "New Record!";
   bool _showing = true;
   bool _isFirstTime = true;
