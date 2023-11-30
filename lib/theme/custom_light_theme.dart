@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/theme/app_colors.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class CustomLightTheme {
   static ThemeData getThemeData() {
     return ThemeData(
+      extensions: const [
+        CustomAppTheme(
+          gameBorderColor: Color(0xFFD0E0E3),
+          gameBackgroundColor:  Color(0xFFECEFF1),
+          gameEmptyBackgroundColor: Colors.white,
+          activeColor: Color(0xFFFF6E40),
+          textColor: Colors.black,
+        )
+      ],
       useMaterial3: true,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

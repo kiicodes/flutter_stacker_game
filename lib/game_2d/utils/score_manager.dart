@@ -7,6 +7,7 @@ import 'package:stacker_game/game_2d/game/score_details_2d.dart';
 import 'package:stacker_game/leaderboard/manager/leaderboard_manager.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/shared/shared_data.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class ScoreManager {
   static const double maxTimeSpent = 20.0;
@@ -23,13 +24,13 @@ class ScoreManager {
   static int _lostSquares = 0;
   static bool _alreadyInitialized = false;
 
-  static void initScore(Vector2 size) {
+  static void initScore(Vector2 size, CustomAppTheme customAppTheme) {
     _currentScore = 0;
     _lostSquares = 0;
     if(!_alreadyInitialized) {
       _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
-      _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25));
-      _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40));
+      _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25), customAppTheme);
+      _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40), customAppTheme);
       _alreadyInitialized = true;
     }
   }

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class BackgroundGrid2D extends Component {
   final Vector2 screenSize;
+  final CustomAppTheme customAppTheme;
 
-  BackgroundGrid2D(this.screenSize);
+  BackgroundGrid2D(this.screenSize, this.customAppTheme);
 
   @override
   void render(Canvas canvas) {
@@ -15,15 +17,15 @@ class BackgroundGrid2D extends Component {
     final startY = Game2DData.startY;
 
     final backgroundPaint = Paint()
-      ..color = Colors.white;
+      ..color = customAppTheme.gameEmptyBackgroundColor!;
     final Rect bgBounds = Rect.fromLTRB(0, 0, screenSize.x, screenSize.y,);
     canvas.drawRect(bgBounds, backgroundPaint);
     final gameBackgroundPaint = Paint()
-      ..color = GameConfig.bgColor;
+      ..color = customAppTheme.gameBackgroundColor!;
     final Rect bgGameBounds = Rect.fromLTRB(startX, startY, startX + Game2DData.gameWidth, startY + Game2DData.gameHeight,);
     canvas.drawRect(bgGameBounds, gameBackgroundPaint);
     final paint = Paint()
-      ..color = GameConfig.borderColor
+      ..color = customAppTheme.gameBorderColor!
       ..strokeWidth = 1.0;
 
     for (int i = 0; i <= SharedData.config.rows; i++) {

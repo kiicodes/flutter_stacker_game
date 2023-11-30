@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/leaderboard_button.dart';
-import 'package:stacker_game/shared/shared_data.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 Game2D? game;
 
@@ -17,7 +17,6 @@ class Game2DScreen extends StatefulWidget {
 class _Game2DScreenState extends State<Game2DScreen> {
   @override
   void initState() {
-    game = Game2D();
     super.initState();
   }
 
@@ -44,6 +43,7 @@ class _Game2DScreenState extends State<Game2DScreen> {
             Expanded(
               child: Center(
                 child: LayoutBuilder(builder: (context, constraints) {
+                  game ??= Game2D(customAppTheme: Theme.of(context).extension<CustomAppTheme>()!);
                   return Container(
                     constraints: const BoxConstraints(
                       maxWidth: 800,

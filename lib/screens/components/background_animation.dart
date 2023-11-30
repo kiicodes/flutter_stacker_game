@@ -22,7 +22,7 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
     super.initState();
     _controller = AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 1500)
+        duration: const Duration(milliseconds: 1800)
     );
     _controller.repeat(reverse: true);
   }

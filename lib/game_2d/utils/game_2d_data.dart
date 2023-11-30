@@ -5,6 +5,7 @@ import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/shared/game_config.dart';
 import 'package:stacker_game/shared/shared_data.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class Game2DData {
   static int activeIndex = 0;
@@ -22,7 +23,7 @@ class Game2DData {
   // Indexes that already have a fixed square
   static List<int> filledIndexes = List.empty(growable: true);
 
-  static void initValues(Vector2 size) {
+  static void initValues(Vector2 size, CustomAppTheme customAppTheme) {
     //SharedData.reset();
     //activeIndex = 0;
     //filledIndexes.clear();
@@ -38,7 +39,7 @@ class Game2DData {
     maxIndex = SharedData.config.rows * SharedData.config.columns;
 
     squarePaint = Paint()
-    ..color = GameConfig.activeColor;
+    ..color = customAppTheme.activeColor!;
   }
 
   static void stop() {

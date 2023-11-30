@@ -13,8 +13,10 @@ import 'package:stacker_game/game_2d/utils/score_manager.dart';
 import 'package:stacker_game/shared/game_levels.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/shared_data.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class Game2D extends FlameGame with TapCallbacks {
+  CustomAppTheme customAppTheme;
   late FilledSquare2D movingSquares;
   static List<Component> expendables = List.empty(growable: true);
   double myDt = 0;
@@ -23,13 +25,15 @@ class Game2D extends FlameGame with TapCallbacks {
   late TextComponent tip;
   bool _alreadyPlayed = false;
 
+  Game2D({required this.customAppTheme});
+
   @override
   Future<void> onLoad() async {
     initTipComponent();
-    ScoreManager.initScore(size);
+    ScoreManager.initScore(size, customAppTheme);
     LevelManager.initManager(size, () { reset(); });
-    Game2DData.initValues(size);
-    add(BackgroundGrid2D(size));
+    Game2DData.initValues(size, customAppTheme);
+    add(BackgroundGrid2D(size, customAppTheme));
     add(tip);
     movingSquares = FilledSquare2D(1, 0);
   }
@@ -83,19 +87,19 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void reset() {
-    Game2DData.initValues(size);
-    myDt = 0;
-    movingSquares.squareIndex = 0;
-    movingSquares.quantity = 1;
     if(expendables.isNotEmpty) {
       removeAll(expendables);
       expendables.clear();
     }
+    Game2DData.initValues(size, customAppTheme);
+    myDt = 0;
+    movingSquares.squareIndex = 0;
+    movingSquares.quantity = 1;
     ScoreManager.hideScore();
   }
 
   void startGame() {
-    ScoreManager.initScore(size);
+    ScoreManager.initScore(size, customAppTheme);
     _rowSpentTime = 0;
     _startedDateTime = DateTime.now();
     reset();
@@ -159,6 +163,7 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void stop() {
+    removeAll(expendables);
     expendables.clear();
     Game2DData.stop();
   }
@@ -203,7 +208,7 @@ class Game2D extends FlameGame with TapCallbacks {
 
   void initTipComponent() {
     final style = TextStyle(
-      color: BasicPalette.black.color,
+      color: customAppTheme.textColor,
       fontSize: 20.0,
     );
     tip = TextComponent(

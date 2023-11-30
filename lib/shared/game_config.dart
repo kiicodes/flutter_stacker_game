@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:stacker_game/shared/game_levels.dart';
 
 class GameConfig {
@@ -9,9 +10,6 @@ class GameConfig {
   final int startMs;
   final int lastMs;
   int _myIndex = -1;
-  static const Color bgColor = Color(0xFFECEFF1);
-  static const Color borderColor = Color(0xFFD0E0E3);
-  static const Color activeColor = Color(0xFFFF6E40);
   static late double squareSize;
   static const double margin = 20;
 

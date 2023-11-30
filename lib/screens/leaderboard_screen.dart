@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacker_game/leaderboard/manager/leaderboard_manager.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/screens/components/leaderboard_list.dart';
+import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/game_levels.dart';
 import 'package:stacker_game/shared/shared_data.dart';
@@ -37,7 +38,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   Widget build(BuildContext context) {
     final currentLevel = GameLevels.levels[levelIndex];
     return Scaffold(
-      body: SafeArea(
+      body: ScreenBackground(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
@@ -68,8 +69,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).textTheme.titleLarge!.color!),
-                      borderRadius: const BorderRadius.all(Radius.circular(12))
+                    border: Border.all(color: Theme.of(context).textTheme.titleLarge!.color!),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    color: Theme.of(context).colorScheme.background
                   ),
                   child: LeaderboardList(items: _items,)
                 )

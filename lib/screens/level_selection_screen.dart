@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/screens/components/level_list.dart';
+import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 
 class LevelSelectionScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class LevelSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: ScreenBackground(
         child: Column(
           children: [
             const CustomBackButton(),
