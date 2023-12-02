@@ -27,7 +27,8 @@ class _LevelListState extends State<LevelList> {
 
   @override
   Widget build(BuildContext context) {
-    final levelStyle = Theme.of(context).textTheme.titleLarge!;
+    final themeData = Theme.of(context);
+    final levelStyle = themeData.textTheme.titleLarge!;
 
     return FutureBuilder(
       future: _currentLevel,
@@ -56,11 +57,12 @@ class _LevelListState extends State<LevelList> {
                         onLevelSelected(context, index);
                       },
                       style: levelStyle,
+                      themeData: themeData,
                     )
                   ),
                 ),
               );
-              return ListView.builder(
+              /*return ListView.builder(
                 itemCount: GameLevels.levels.length,
                 itemBuilder: (BuildContext context, int index) {
                   //if(GameLevels.maxEnabledLevel >= index) {
@@ -88,7 +90,7 @@ class _LevelListState extends State<LevelList> {
                     );
                   }*/
                 }
-              );
+              );*/
             }
         }
       }

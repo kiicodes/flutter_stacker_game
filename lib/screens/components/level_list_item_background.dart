@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 
 class LevelListItemBackground extends StatelessWidget {
   final Widget child;
-  const LevelListItemBackground({super.key, required this.child});
+  final ThemeData themeData;
+  const LevelListItemBackground({super.key, required this.child, required this.themeData});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 90,
       height: 95,
-      color: Colors.orange,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2, color: themeData.colorScheme.primary
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        color: themeData.colorScheme.background
+      ),
       child: Column(
         children: [
           const Padding(

@@ -7,9 +7,10 @@ class LevelListItem extends StatelessWidget {
   final String levelName;
   final Function() onTap;
   final TextStyle style;
+  final ThemeData themeData;
   const LevelListItem({
     super.key, required this.isEnabled, required this.isDone,
-    required this.levelName, required this.onTap, required this.style
+    required this.levelName, required this.onTap, required this.style, required this.themeData
   });
 
   @override
@@ -24,6 +25,7 @@ class LevelListItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: LevelListItemBackground(
+        themeData: themeData,
         child: Column(
           children: [
             Row(
@@ -35,9 +37,9 @@ class LevelListItem extends StatelessWidget {
             const Row(
               children: [
                 Spacer(),
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
+                Icon(Icons.star, color: Colors.orange,),
+                Icon(Icons.star_border),
+                Icon(Icons.star_border),
                 Spacer(),
               ],
             )
