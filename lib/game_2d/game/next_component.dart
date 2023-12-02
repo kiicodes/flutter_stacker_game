@@ -2,7 +2,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
-import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 final buttonBgPaint = Paint()

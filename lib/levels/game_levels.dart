@@ -2,8 +2,8 @@ import 'package:stacker_game/shared/game_config.dart';
 
 class GameLevels {
   static final List<GameConfig> levels = [
-    GameConfig(name: "Level 1", columns: 6, rows: 7, squareQuantity: 3, startMs: 600, lastMs: 300, twoStarsPoints: 200, threeStarsPoints: 250),
-    GameConfig(name: "Level 2", columns: 6, rows: 9, squareQuantity: 3, startMs: 600, lastMs: 300, twoStarsPoints: 200, threeStarsPoints: 250),
+    GameConfig(name: "Level 1", columns: 6, rows: 7, squareQuantity: 3, startMs: 600, lastMs: 300, twoStarsPoints: 220, threeStarsPoints: 260),
+    GameConfig(name: "Level 2", columns: 6, rows: 9, squareQuantity: 3, startMs: 600, lastMs: 300, twoStarsPoints: 230, threeStarsPoints: 290),
     GameConfig(name: "Level 3", columns: 6, rows: 12, squareQuantity: 3, startMs: 600, lastMs: 300, twoStarsPoints: 200, threeStarsPoints: 250),
     GameConfig(name: "Level 4", columns: 6, rows: 7, squareQuantity: 3, startMs: 500, lastMs: 200, twoStarsPoints: 200, threeStarsPoints: 250),
     GameConfig(name: "Level 5", columns: 6, rows: 9, squareQuantity: 3, startMs: 500, lastMs: 200, twoStarsPoints: 200, threeStarsPoints: 250),

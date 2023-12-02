@@ -4,7 +4,7 @@ import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/screens/components/leaderboard_list.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
-import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 
 class LeaderboardScreen extends StatefulWidget {

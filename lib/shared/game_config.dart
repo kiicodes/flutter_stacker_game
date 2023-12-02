@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 
 class GameConfig {
   final String name;

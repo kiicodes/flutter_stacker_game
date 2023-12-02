@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game_2d_screen.dart';
 import 'package:stacker_game/screens/components/level_list_item.dart';
-import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 

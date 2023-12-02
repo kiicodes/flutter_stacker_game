@@ -10,7 +10,7 @@ import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/game_2d/utils/level_manager.dart';
 import 'package:stacker_game/game_2d/utils/score_manager.dart';
-import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 import 'package:stacker_game/theme/custom_app_theme.dart';

@@ -1,5 +1,5 @@
 import 'package:stacker_game/shared/game_config.dart';
-import 'package:stacker_game/shared/game_levels.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 
 class SharedData {
   static GameConfig config = GameLevels.levels[0];
