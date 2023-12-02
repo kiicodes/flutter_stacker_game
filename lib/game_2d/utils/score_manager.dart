@@ -58,7 +58,7 @@ class ScoreManager {
     _animatingScore = true;
     _showingScore = true;
     final isNewRecord = await LeaderboardManager.insertLeaderboardEntry(
-      SharedData.config.getLevelKey(),
+      SharedData.config,
       LeaderboardEntry(
         calculatedPoints: _currentScore,
         spentTime: spentTimeMs,

@@ -1,3 +1,5 @@
+import 'package:stacker_game/shared/game_config.dart';
+
 class LeaderboardEntry {
   final int calculatedPoints;
   final int spentTime;
@@ -18,6 +20,16 @@ class LeaderboardEntry {
       'lostSquaresCount': lostSquaresCount,
       'datetime': datetime.toIso8601String(),
     };
+  }
+
+  int stars(GameConfig config) {
+    if(calculatedPoints >= config.twoStarsPoints && calculatedPoints < config.threeStarsPoints) {
+      return 2;
+    } else if(calculatedPoints >= config.threeStarsPoints) {
+      return 3;
+    } else {
+      return 1;
+    }
   }
 
   factory LeaderboardEntry.fromMap(Map<String, dynamic> map) {

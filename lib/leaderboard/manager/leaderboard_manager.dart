@@ -1,11 +1,19 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
+import 'package:stacker_game/levels/level_storage.dart';
+import 'package:stacker_game/shared/game_config.dart';
 
 class LeaderboardManager {
   static const maxEntries = 8;
 
-  static Future<bool> insertLeaderboardEntry(String levelKey, LeaderboardEntry entry) async {
+  static Future<bool> insertLeaderboardEntry(GameConfig config, LeaderboardEntry entry) async {
+    final levelKey = config.getLevelKey();
+    int stars = entry.stars(config);
+    if(stars > config.currentStars) {
+      config.currentStars = stars;
+      await LevelStorage.saveAll();
+    }
     final prefs = await SharedPreferences.getInstance();
     final leaderboardEntries = prefs.getStringList(levelKey) ?? [];
 
