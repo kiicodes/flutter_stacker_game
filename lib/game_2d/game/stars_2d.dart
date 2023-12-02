@@ -2,11 +2,12 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
+import 'package:stacker_game/game_2d/game/animated_star.dart';
 
 class Stars2D extends PositionComponent with HasPaint {
   static Sprite? _starBorderImage;
   static Sprite? _starFilledImage;
-  static List<SpriteComponent> _starsComponents = List.empty(growable: true);
+  static final List<AnimatedStar> _starsComponents = List.empty(growable: true);
   int _stars = 0;
   double starSize = 50;
   Stars2D(Vector2 position) : super(position: position, anchor: Anchor.center);
@@ -28,10 +29,10 @@ class Stars2D extends PositionComponent with HasPaint {
     _stars++;
     size = Vector2(_stars * starSize, starSize);
     _starsComponents.add(
-      SpriteComponent(
-        sprite: _starFilledImage,
+        AnimatedStar(
+        sprite: _starFilledImage!,
         position: Vector2((_stars - 1) * starSize, 0),
-        size: Vector2(starSize, starSize)
+        size: Vector2(starSize, starSize),
       )
     );
     add(_starsComponents.last);
