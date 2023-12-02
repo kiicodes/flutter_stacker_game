@@ -16,8 +16,11 @@ class LevelSelectionScreen extends StatelessWidget {
             const Spacer(),
             Text('Choose Your Level', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),),
             const Spacer(),
-            const LevelList(),
-            const Spacer(flex: 2,),
+            const Expanded(
+              flex: 5,
+              child: Center(child: LevelList())
+            ),
+            const Spacer(flex: 1,),
           ],
         ),
       ),

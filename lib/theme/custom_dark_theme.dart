@@ -11,8 +11,8 @@ class CustomDarkTheme {
             gameBorderColor: base.colorScheme.onPrimary,
             gameBackgroundColor: base.colorScheme.background,
             gameEmptyBackgroundColor: base.colorScheme.background,
-            activeColor: const Color(0xFFFF6E40),
-            textColor: base.colorScheme.primary,
+            activeColor: const Color(0xFFc68c79),
+            textColor: const Color(0xFFdddddd),
           )
         ],
         elevatedButtonTheme: ElevatedButtonThemeData(

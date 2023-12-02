@@ -27,6 +27,6 @@ class ScoreDetails2D extends TextComponent {
 
   void updateText(String timeSpent) {
     final lostSquares = SharedData.config.squareQuantity - SharedData.currentSquareQuantity;
-    text = "\n(Time: ${timeSpent}s   Lost Squares: $lostSquares)";
+    text = "\n(Time: ${timeSpent}   Lost Squares: $lostSquares)";
   }
 }
