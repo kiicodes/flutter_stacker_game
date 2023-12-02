@@ -25,3 +25,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/clock.png
+    - assets/images/star_border.png
+    - assets/images/star_filled.png

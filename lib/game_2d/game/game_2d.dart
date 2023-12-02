@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
+import 'package:stacker_game/game_2d/game/stars_2d.dart';
 import 'package:stacker_game/game_2d/utils/fall_animation.dart';
 import 'package:stacker_game/game_2d/utils/game_2d_data.dart';
 import 'package:stacker_game/game_2d/utils/level_manager.dart';
@@ -168,7 +170,7 @@ class Game2D extends FlameGame with TapCallbacks {
     Game2DData.stop();
   }
 
-  void gameOver(bool won) {
+  void gameOver(bool won) async {
     _alreadyPlayed = true;
     if(won && GameLevels.currentLevel + 1 > GameLevels.maxEnabledLevel) {
       GameLevels.maxEnabledLevel = GameLevels.currentLevel + 1;
@@ -201,6 +203,8 @@ class Game2D extends FlameGame with TapCallbacks {
       final formattedTimeSpent = GlobalFunctions.formatElapsedTime(diff);
       ScoreManager.showScore(expendables, this, formattedTimeSpent, diff.inMilliseconds);
       LevelManager.showIfNeeded(expendables, this);
+      final stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 80));
+      add(stars2d);
     }
     SharedData.gameOver();
     updateTipText();
