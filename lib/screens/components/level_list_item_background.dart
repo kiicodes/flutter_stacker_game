@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class LevelListItemBackground extends StatelessWidget {
   final Widget child;
@@ -7,15 +8,16 @@ class LevelListItemBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final liveColor = SharedData.darkMode ? themeData.colorScheme.primary : Colors.orange;
     return Container(
       width: 90,
-      height: 95,
+      height: 100,
       decoration: BoxDecoration(
         border: Border.all(
-          width: 2, color: themeData.colorScheme.primary
+          width: 2, color: liveColor
         ),
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        color: themeData.colorScheme.background
+        color: SharedData.darkMode ? themeData.colorScheme.background : liveColor
       ),
       child: Column(
         children: [

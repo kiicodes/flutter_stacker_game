@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/screens/components/level_list_item_background.dart';
+import 'package:stacker_game/shared/game_config.dart';
 
 class LevelListItem extends StatelessWidget {
   final bool isEnabled;
   final bool isDone;
-  final String levelName;
+  final GameConfig gameConfig;
   final Function() onTap;
   final TextStyle style;
   final ThemeData themeData;
   const LevelListItem({
     super.key, required this.isEnabled, required this.isDone,
-    required this.levelName, required this.onTap, required this.style, required this.themeData
+    required this.gameConfig, required this.onTap, required this.style, required this.themeData
   });
 
   @override
@@ -31,21 +32,25 @@ class LevelListItem extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(levelName, style: style,),
+                Text(gameConfig.name.replaceAll("Level ", ""), style: style,),
               ],
             ),
-            const Row(
+            Row(
               children: [
-                Spacer(),
-                Icon(Icons.star, color: Colors.orange,),
-                Icon(Icons.star_border),
-                Icon(Icons.star_border),
-                Spacer(),
+                const Spacer(),
+                starIcon(1),
+                starIcon(2),
+                starIcon(3),
+                const Spacer(),
               ],
             )
           ],
         ),
       ),
     );
+  }
+
+  Widget starIcon(int starNumber) {
+    return Icon(gameConfig.currentStars >= starNumber ? Icons.star : Icons.star_border, color: gameConfig.currentStars >= starNumber ? Colors.orange : null,);
   }
 }

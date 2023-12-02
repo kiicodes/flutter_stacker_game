@@ -9,7 +9,10 @@ class GameConfig {
   final int squareQuantity;
   final int startMs;
   final int lastMs;
+  final int twoStarsPoints;
+  final int threeStarsPoints;
   int _myIndex = -1;
+  int currentStars = 0;
   static late double squareSize;
   static const double margin = 20;
 
@@ -29,5 +32,8 @@ class GameConfig {
     return _myIndex;
   }
 
-  GameConfig({Key? key, required this.name, required this.columns, required this.rows, required this.squareQuantity, required this.startMs, required this.lastMs});
+  GameConfig({Key? key, required this.name, required this.columns, required this.rows,
+    required this.squareQuantity, required this.startMs, required this.lastMs,
+    required this.twoStarsPoints, required this.threeStarsPoints
+  });
 }

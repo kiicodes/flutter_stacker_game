@@ -52,7 +52,7 @@ class _LevelListState extends State<LevelList> {
                     (index) => LevelListItem(
                       isEnabled: GameLevels.maxEnabledLevel >= index,
                       isDone: GameLevels.maxEnabledLevel > index,
-                      levelName: (index + 1).toString(),
+                      gameConfig: GameLevels.levels[index],
                       onTap: () {
                         onLevelSelected(context, index);
                       },

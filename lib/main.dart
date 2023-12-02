@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/screens/startup_screen.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 import 'package:stacker_game/theme/custom_dark_theme.dart';
 import 'package:stacker_game/theme/custom_light_theme.dart';
 
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SharedData.darkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return MaterialApp(
       title: 'Stacker (Stack And Win)',
       debugShowCheckedModeBanner: false,
