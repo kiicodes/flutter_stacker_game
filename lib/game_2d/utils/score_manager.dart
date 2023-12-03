@@ -31,7 +31,7 @@ class ScoreManager {
     _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
     _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40), customAppTheme);
     _stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 60));
-    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25), customAppTheme);
+    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25), customAppTheme, _stars2d);
     _stars2d.reset();
   }
 
@@ -51,9 +51,6 @@ class ScoreManager {
     _animatingScore = false;
     _scoreDetails2D.updateText(formattedSpentTime);
     await _stars2d.loadImagesIfNeeded();
-    _stars2d.addStar();
-    _stars2d.addStar();
-    _stars2d.addStar();
     expendables.add(_scoreComponent);
     expendables.add(_scoreDetails2D);
     expendables.add(_stars2d);

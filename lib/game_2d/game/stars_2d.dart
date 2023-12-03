@@ -27,6 +27,10 @@ class Stars2D extends PositionComponent with HasPaint {
     _starFilledImage ??= Sprite(await Flame.images.load('star_filled.png'));
   }
 
+  int countStars() {
+    return _stars;
+  }
+
   void addStar() {
     _stars++;
     size = Vector2(_stars * starSize, starSize);

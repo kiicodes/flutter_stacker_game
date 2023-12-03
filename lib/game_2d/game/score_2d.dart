@@ -1,13 +1,16 @@
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:stacker_game/game_2d/game/stars_2d.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class Score2D extends TextComponent {
   final totalTime = 1.5;
   int _score = 0;
   double _timeSpent = 0;
-  Score2D(Vector2 position, CustomAppTheme customAppTheme)
+  Stars2D stars2d;
+  Score2D(Vector2 position, CustomAppTheme customAppTheme, this.stars2d)
       : super(
       position: position,
       anchor: Anchor.center,) {
@@ -42,6 +45,15 @@ class Score2D extends TextComponent {
     double cubicEased = easingFactor * easingFactor * easingFactor;
 
     final calculated = (_score * cubicEased).toInt();
+    if(stars2d.countStars() < 1) {
+      stars2d.addStar();
+    }
+    if(calculated >= SharedData.config.twoStarsPoints && stars2d.countStars() < 2) {
+      stars2d.addStar();
+    }
+    if(calculated >= SharedData.config.threeStarsPoints && stars2d.countStars() < 3) {
+      stars2d.addStar();
+    }
     text = "$calculated pts";
     return true;
   }
