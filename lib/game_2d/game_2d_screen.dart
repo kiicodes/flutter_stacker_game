@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/leaderboard_button.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 import 'package:stacker_game/theme/custom_app_theme.dart';
 
 Game2D? game;
@@ -33,17 +34,22 @@ class _Game2DScreenState extends State<Game2DScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
-                LeaderboardButton(),
-                Spacer(),
-                CustomBackButton(noMargin: true),
+                const LeaderboardButton(),
+                const Spacer(),
+                Text(SharedData.config.name),
+                const Spacer(),
+                const CustomBackButton(noMargin: true),
               ],
             ),
             Expanded(
               child: Center(
                 child: LayoutBuilder(builder: (context, constraints) {
-                  game ??= Game2D(customAppTheme: Theme.of(context).extension<CustomAppTheme>()!);
+                  game ??= Game2D(
+                    customAppTheme: Theme.of(context).extension<CustomAppTheme>()!,
+                    onRefreshScreen: () { setState(() {}); }
+                  );
                   return Container(
                     constraints: const BoxConstraints(
                       maxWidth: 800,

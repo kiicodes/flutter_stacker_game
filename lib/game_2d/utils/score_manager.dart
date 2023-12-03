@@ -24,18 +24,14 @@ class ScoreManager {
   static bool _animatingScore = false;
   static int _currentScore = 0;
   static int _lostSquares = 0;
-  static bool _alreadyInitialized = false;
 
   static void initScore(Vector2 size, CustomAppTheme customAppTheme) {
     _currentScore = 0;
     _lostSquares = 0;
-    if(!_alreadyInitialized) {
-      _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
-      _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25), customAppTheme);
-      _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40), customAppTheme);
-      _stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 60));
-      _alreadyInitialized = true;
-    }
+    _newRecord2D = NewRecord2D(Vector2(size.x / 2, size.y / 2 - 8));
+    _scoreDetails2D = ScoreDetails2D(Vector2(size.x / 2, size.y / 2 + 40), customAppTheme);
+    _stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 60));
+    _scoreComponent = Score2D(Vector2(size.x / 2, size.y / 2 + 25), customAppTheme);
     _stars2d.reset();
   }
 
@@ -62,6 +58,7 @@ class ScoreManager {
     expendables.add(_scoreDetails2D);
     expendables.add(_stars2d);
     _scoreComponent.setScore(_currentScore);
+    _scoreComponent.removeFromParent();
     game.add(_scoreComponent);
     game.add(_scoreDetails2D);
     game.add(_stars2d);

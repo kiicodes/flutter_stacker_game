@@ -14,7 +14,9 @@ class Stars2D extends PositionComponent with HasPaint {
 
   void reset() {
     for(int i = 0; i < _starsComponents.length; i++) {
-      remove(_starsComponents[i]);
+      if(children.contains(_starsComponents[i]) && _starsComponents[i].parent != null) {
+        remove(_starsComponents[i]);
+      }
     }
     _starsComponents.clear();
     _stars = 0;

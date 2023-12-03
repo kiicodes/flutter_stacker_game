@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -26,14 +25,15 @@ class Game2D extends FlameGame with TapCallbacks {
   late DateTime _startedDateTime;
   late TextComponent tip;
   bool _alreadyPlayed = false;
+  Function() onRefreshScreen;
 
-  Game2D({required this.customAppTheme});
+  Game2D({required this.customAppTheme, required this.onRefreshScreen});
 
   @override
   Future<void> onLoad() async {
     initTipComponent();
     ScoreManager.initScore(size, customAppTheme);
-    LevelManager.initManager(size, () { reset(); });
+    LevelManager.initManager(size, () { reset(); onRefreshScreen(); });
     Game2DData.initValues(size, customAppTheme);
     add(BackgroundGrid2D(size, customAppTheme));
     add(tip);
