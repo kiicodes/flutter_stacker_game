@@ -31,7 +31,10 @@ class _LevelListState extends State<LevelList> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final levelStyle = themeData.textTheme.titleLarge!;
+    final levelStyle = themeData.textTheme.titleLarge!.copyWith(
+      color: SharedData.darkMode ? null : Colors.black,
+      fontWeight: SharedData.darkMode ? null : FontWeight.bold
+    );
 
     currentLevelFuture(BuildContext context, AsyncSnapshot<int> snapshot) {
       switch (snapshot.connectionState) {

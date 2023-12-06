@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 
-const List<double> headerSizes = [30,80,80,30];
+const List<double> headerSizes = [30,80,80];
 
 class LeaderboardList extends StatelessWidget {
   final List<LeaderboardEntry> items;
@@ -13,6 +13,7 @@ class LeaderboardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const valuesTextStyle = TextStyle(fontSize: 16);
     return Column(
       children: [
         headers(),
@@ -22,11 +23,10 @@ class LeaderboardList extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               final spentTime = GlobalFunctions.formatElapsedTime(Duration(milliseconds: item.spentTime));
-              final lostSquaresText = item.lostSquaresCount > 0 ? "-${item.lostSquaresCount}" : "-";
-              const textStyleSameWidth = TextStyle(fontFeatures: [FontFeature.tabularFigures()]);
+              final textStyleSameWidth = valuesTextStyle.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
               return Row(
                 children: [
-                  SizedBox(width: headerSizes[0], child: Text("${index + 1}")),
+                  SizedBox(width: headerSizes[0], child: Text("${index + 1}", style: valuesTextStyle,)),
                   Expanded(child: Text(DateFormat('MM/dd HH:mm').format(item.datetime), style: textStyleSameWidth,)),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
@@ -36,7 +36,6 @@ class LeaderboardList extends StatelessWidget {
                     )),
                   ),
                   SizedBox(width: headerSizes[2], child: Text(spentTime, style: textStyleSameWidth,)),
-                  SizedBox(width: headerSizes[3], child: Text(lostSquaresText, textAlign: TextAlign.center,)),
                 ],
               );
             }
@@ -47,7 +46,7 @@ class LeaderboardList extends StatelessWidget {
   }
 
   Widget headers() {
-    const textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    const textStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
     return Row(
       children: [
         SizedBox(width: headerSizes[0], child: const Text("#", style: textStyle,),),
@@ -57,7 +56,6 @@ class LeaderboardList extends StatelessWidget {
           child: SizedBox(width: headerSizes[1], child: const Text("Points", textAlign: TextAlign.end, style: textStyle,)),
         ),
         SizedBox(width: headerSizes[2], child: const Text("Time", style: textStyle,)),
-        SizedBox(width: headerSizes[3], child: const Text("Sqr", style: textStyle,))
       ],
     );
   }

@@ -11,7 +11,7 @@ class CustomDarkTheme {
             gameBorderColor: base.colorScheme.onPrimary,
             gameBackgroundColor: base.colorScheme.background,
             gameEmptyBackgroundColor: base.colorScheme.background,
-            activeColor: const Color(0xFFc68c79),
+            activeColor: const Color.fromRGBO(183, 176, 225, 1),
             textColor: const Color(0xFFdddddd),
           )
         ],

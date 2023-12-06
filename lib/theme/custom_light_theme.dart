@@ -10,7 +10,7 @@ class CustomLightTheme {
           gameBorderColor: Color(0xFFD0E0E3),
           gameBackgroundColor:  Color(0xFFECEFF1),
           gameEmptyBackgroundColor: Colors.white,
-          activeColor: Color(0xFFFF6E40),
+          activeColor: Colors.orange,
           textColor: Colors.black,
         )
       ],

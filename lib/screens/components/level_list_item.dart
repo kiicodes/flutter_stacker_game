@@ -17,13 +17,6 @@ class LevelListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*
-
-            Icon(
-              isDone ? Icons.check : Icons.play_arrow,
-              color: isDone ? Colors.green : Colors.blue,
-            ),
-     */
     return InkWell(
       onTap: onTap,
       child: LevelListItemBackground(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacker_game/theme/app_colors.dart';
+import 'package:stacker_game/theme/custom_app_theme.dart';
 
 class BackgroundAnimation extends StatefulWidget {
   const BackgroundAnimation({super.key});
@@ -31,7 +32,7 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
   Widget build(BuildContext context) {
     final customWidth = (MediaQuery.of(context).size.width + 100);
     const endDiff = 75;
-
+    final customAppTheme = Theme.of(context).extension<CustomAppTheme>()!;
     return Column(
       children: [
         const SizedBox(height: 220,),
@@ -45,7 +46,7 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
               child: Container(
                 width: 50,
                 height: 50,
-                color: AppColors.defaultColor,
+                color: customAppTheme.activeColor,
               ),
             );
           }
@@ -63,7 +64,7 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
               child: Container(
                 width: 50.0,
                 height: 50.0,
-                color: AppColors.defaultColor,
+                color: customAppTheme.activeColor,
               ),
             );
           },
