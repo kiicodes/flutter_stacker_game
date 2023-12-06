@@ -92,6 +92,7 @@ class Game2D extends FlameGame with TapCallbacks {
     if(expendables.isNotEmpty) {
       removeAll(expendables);
       expendables.clear();
+      FallAnimation.items.clear();
     }
     Game2DData.initValues(size, customAppTheme);
     myDt = 0;
@@ -167,6 +168,7 @@ class Game2D extends FlameGame with TapCallbacks {
   void stop() {
     removeAll(expendables);
     expendables.clear();
+    FallAnimation.items.clear();
     Game2DData.stop();
   }
 
