@@ -45,6 +45,8 @@ class LevelListItem extends StatelessWidget {
   }
 
   Widget starIcon(int starNumber) {
-    return Icon(gameConfig.currentStars >= starNumber ? Icons.star : Icons.star_border, color: !SharedData.darkMode ? Colors.white : gameConfig.currentStars >= starNumber ? Colors.orange : null,);
+    return Icon(
+      gameConfig.currentStars >= starNumber ? Icons.star : Icons.star_border,
+      color: !SharedData.darkMode ? Colors.orange : gameConfig.currentStars >= starNumber ? Colors.orange : null,);
   }
 }

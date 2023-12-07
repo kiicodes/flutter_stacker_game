@@ -32,7 +32,7 @@ class _LevelListState extends State<LevelList> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final levelStyle = themeData.textTheme.titleLarge!.copyWith(
-      color: SharedData.darkMode ? null : Colors.black,
+      color: SharedData.darkMode ? null : Colors.orange,
       fontWeight: SharedData.darkMode ? null : FontWeight.bold
     );
 

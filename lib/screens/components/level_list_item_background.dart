@@ -17,13 +17,13 @@ class LevelListItemBackground extends StatelessWidget {
           width: 2, color: liveColor
         ),
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        color: SharedData.darkMode ? themeData.colorScheme.background : liveColor
+        color: themeData.colorScheme.background
       ),
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 5.0),
-            child: Text("Lvl", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: Text("Level", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: SharedData.darkMode ? null : Colors.orange),),
           ),
           child,
         ],
