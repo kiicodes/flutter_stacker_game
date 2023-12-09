@@ -3,7 +3,9 @@ import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:games_services/games_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/stars_2d.dart';
@@ -201,12 +203,15 @@ class Game2D extends FlameGame with TapCallbacks {
     expendables.add(textComponent);
     add(textComponent);
     if(won) {
+      GamesServices.unlock(achievement: GameAchievements.firstWin());
       final diff = DateTime.now().difference(_startedDateTime);
       final formattedTimeSpent = GlobalFunctions.formatElapsedTime(diff);
       ScoreManager.showScore(expendables, this, formattedTimeSpent, diff.inMilliseconds);
       LevelManager.showIfNeeded(expendables, this);
       final stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 80));
       add(stars2d);
+    } else {
+      GamesServices.unlock(achievement: GameAchievements.firstLoss());
     }
     SharedData.gameOver();
     updateTipText();

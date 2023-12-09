@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 4974515629924550277 -->
+    <string name="app_id" translatable="false">201489596243</string>
+    <string name="package_name" translatable="false">com.kiicodes.stacker_game</string>
+    <string name="achievement_first_win" translatable="false">CgkI0_7cze4FEAIQAQ</string>
+    <string name="leaderboard_10" translatable="false">CgkI0_7cze4FEAIQAg</string>
+</resources>
