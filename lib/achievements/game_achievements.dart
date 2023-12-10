@@ -42,4 +42,19 @@ class GameAchievements {
     );
   }
 
+  static Achievement tenLvlTwoStars() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQBw',
+      iOSID: 'your ios id',
+    );
+  }
+
+  // #7
+  static Achievement tenLvlThreeStars() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQCA',
+      iOSID: 'your ios id',
+    );
+  }
+
 }

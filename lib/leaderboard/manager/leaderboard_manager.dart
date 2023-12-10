@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:games_services/games_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
+import 'package:stacker_game/levels/game_levels.dart';
 import 'package:stacker_game/levels/level_storage.dart';
 import 'package:stacker_game/shared/game_config.dart';
 
@@ -11,6 +14,7 @@ class LeaderboardManager {
     final levelKey = config.getLevelKey();
     int stars = entry.stars(config);
     if(stars > config.currentStars) {
+      onStarsChanged(config.currentStars, stars);
       config.currentStars = stars;
       await LevelStorage.saveAll();
     }
@@ -38,5 +42,30 @@ class LeaderboardManager {
     return leaderboardEntries.map((entry) {
       return LeaderboardEntry.fromMap(jsonDecode(entry));
     }).toList();
+  }
+
+  static void onStarsChanged(int prevStars, int newStars) async {
+    if(prevStars < 2 && newStars >= 2) {
+      await GamesServices.unlock(achievement: GameAchievements.twoStars());
+      final countTwoStars = GameLevels.levels.where((element) => element.currentStars > 1).length;
+      if(countTwoStars > 4) {
+        await GamesServices.unlock(
+            achievement: GameAchievements.fiveLvlTwoStars());
+        if(countTwoStars > 9) {
+          await GamesServices.unlock(
+              achievement: GameAchievements.tenLvlTwoStars());
+        }
+      }
+    }
+    if(prevStars < 3) {
+      await GamesServices.unlock(achievement: GameAchievements.threeStars());
+      final countThreeStars = GameLevels.levels.where((element) => element.currentStars > 1).length;
+      if(countThreeStars > 4) {
+        await GamesServices.unlock(achievement: GameAchievements.fiveLvlThreeStars());
+        if(countThreeStars > 9) {
+          await GamesServices.unlock(achievement: GameAchievements.tenLvlThreeStars());
+        }
+      }
+    }
   }
 }
