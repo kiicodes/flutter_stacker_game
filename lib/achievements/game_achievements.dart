@@ -7,12 +7,6 @@ class GameAchievements {
       iOSID: 'your ios id',
     );
   }
-  static Achievement firstLoss() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQCw',
-      iOSID: 'your ios id',
-    );
-  }
 
   static Achievement twoStars() {
     return Achievement(
@@ -53,6 +47,77 @@ class GameAchievements {
   static Achievement tenLvlThreeStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQCA',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement allLevelsTwoStars() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQCQ',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement allLevelsThreeStars() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQCg',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement firstLoss() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQCw',
+      iOSID: 'your ios id',
+    );
+  }
+
+  //#11
+  static Achievement defeats30() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQDA',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement defeats60() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQDQ',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement defeats120() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQDg',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement wins30() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQDw',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement wins60() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQEA',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement wins120() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQEQ',
+      iOSID: 'your ios id',
+    );
+  }
+
+  static Achievement beatOwnThreeStars() {
+    return Achievement(
+      androidID: 'CgkI0_7cze4FEAIQEg',
       iOSID: 'your ios id',
     );
   }

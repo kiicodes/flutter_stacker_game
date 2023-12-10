@@ -32,7 +32,11 @@ class LeaderboardManager {
 
     final topEntries = leaderboardEntries.take(maxEntries).toList();
     await prefs.setStringList(levelKey, topEntries);
-    return LeaderboardEntry.fromMap(jsonDecode(topEntries.first)).datetime == entry.datetime;
+    bool isNewRecord = LeaderboardEntry.fromMap(jsonDecode(topEntries.first)).datetime == entry.datetime;
+    if(isNewRecord && topEntries.length > 1 && LeaderboardEntry.fromMap(jsonDecode(topEntries[1])).stars(config) > 2) {
+      GamesServices.unlock(achievement: GameAchievements.beatOwnThreeStars());
+    }
+    return isNewRecord;
   }
 
   static Future<List<LeaderboardEntry>> getLeaderboardEntries(String levelKey) async {
@@ -52,8 +56,10 @@ class LeaderboardManager {
         await GamesServices.unlock(
             achievement: GameAchievements.fiveLvlTwoStars());
         if(countTwoStars > 9) {
-          await GamesServices.unlock(
-              achievement: GameAchievements.tenLvlTwoStars());
+          await GamesServices.unlock(achievement: GameAchievements.tenLvlTwoStars());
+          if(countTwoStars == GameLevels.levels.length) {
+            await GamesServices.unlock(achievement: GameAchievements.allLevelsTwoStars());
+          }
         }
       }
     }
@@ -64,6 +70,9 @@ class LeaderboardManager {
         await GamesServices.unlock(achievement: GameAchievements.fiveLvlThreeStars());
         if(countThreeStars > 9) {
           await GamesServices.unlock(achievement: GameAchievements.tenLvlThreeStars());
+          if(countThreeStars == GameLevels.levels.length) {
+            await GamesServices.unlock(achievement: GameAchievements.allLevelsThreeStars());
+          }
         }
       }
     }
