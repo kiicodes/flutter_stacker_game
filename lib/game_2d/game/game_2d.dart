@@ -204,9 +204,9 @@ class Game2D extends FlameGame with TapCallbacks {
     add(textComponent);
     if(won) {
       GamesServices.unlock(achievement: GameAchievements.firstWin());
-      GamesServices.increment(achievement: GameAchievements.wins30());
-      GamesServices.increment(achievement: GameAchievements.wins60());
-      GamesServices.increment(achievement: GameAchievements.wins120());
+      //GamesServices.increment(achievement: GameAchievements.wins30());
+      //GamesServices.increment(achievement: GameAchievements.wins60());
+      //GamesServices.increment(achievement: GameAchievements.wins120());
       final diff = DateTime.now().difference(_startedDateTime);
       final formattedTimeSpent = GlobalFunctions.formatElapsedTime(diff);
       ScoreManager.showScore(expendables, this, formattedTimeSpent, diff.inMilliseconds);
@@ -215,9 +215,9 @@ class Game2D extends FlameGame with TapCallbacks {
       add(stars2d);
     } else {
       GamesServices.unlock(achievement: GameAchievements.firstLoss());
-      GamesServices.increment(achievement: GameAchievements.defeats30());
-      GamesServices.increment(achievement: GameAchievements.defeats60());
-      GamesServices.increment(achievement: GameAchievements.defeats120());
+      //GamesServices.increment(achievement: GameAchievements.defeats30());
+      //GamesServices.increment(achievement: GameAchievements.defeats60());
+      //GamesServices.increment(achievement: GameAchievements.defeats120());
     }
     SharedData.gameOver();
     updateTipText();

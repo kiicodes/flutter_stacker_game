@@ -36,6 +36,9 @@ class LeaderboardManager {
     if(isNewRecord && topEntries.length > 1 && LeaderboardEntry.fromMap(jsonDecode(topEntries[1])).stars(config) > 2) {
       GamesServices.unlock(achievement: GameAchievements.beatOwnThreeStars());
     }
+    if(isNewRecord && config.name == 'Level 10') {
+      _submitScore10(entry.calculatedPoints);
+    }
     return isNewRecord;
   }
 
@@ -76,5 +79,34 @@ class LeaderboardManager {
         }
       }
     }
+  }
+
+  static void _submitScore10(int value) async {
+    bool isSignedIn = await GamesServices.isSignedIn;
+    if(!isSignedIn) {
+      await GamesServices.signIn();
+      isSignedIn = await GamesServices.isSignedIn;
+    }
+    if(isSignedIn) {
+      final result = await Leaderboards.submitScore(
+          score: Score(
+            androidLeaderboardID: 'CgkI0_7cze4FEAIQAg',
+            iOSLeaderboardID: '',
+            value: value
+          ));
+      print(result);
+    } else {
+      print('NOT SIGNED IN');
+    }
+  }
+
+  static void _loadLeaderboardScores10() async {
+    final result = await Leaderboards.loadLeaderboardScores(
+        androidLeaderboardID: "CgkI0_7cze4FEAIQAg",
+        iOSLeaderboardID: "",
+        scope: PlayerScope.global,
+        timeScope: TimeScope.allTime,
+        maxResults: 10);
+    print(result);
   }
 }
