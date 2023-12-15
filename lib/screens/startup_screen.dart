@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:games_services/games_services.dart';
+import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/screens/components/background_animation.dart';
 import 'package:stacker_game/screens/components/game_option_button.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
@@ -30,6 +31,7 @@ class _StartupScreenState extends State<StartupScreen> {
     try {
       final result = await GamesServices.signIn();
       final isSignedInResult = await GamesServices.isSignedIn;
+      await GameAchievements.loadAchievements();
       setState(() {
         tryingToSignIn = false;
         isSignedIn = isSignedInResult;

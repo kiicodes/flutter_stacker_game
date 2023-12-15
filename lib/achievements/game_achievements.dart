@@ -1,6 +1,40 @@
+import 'dart:io';
+
 import 'package:games_services/games_services.dart';
 
 class GameAchievements {
+  static List<Achievement> incrementalAchievements = [
+    Achievement(
+      androidID: 'CgkI0_7cze4FEAIQDA',
+      iOSID: 'your ios id',
+    ),
+    Achievement(
+        androidID: 'CgkI0_7cze4FEAIQDQ',
+        iOSID: 'your ios id',
+        steps: 60
+    ),
+    Achievement(
+        androidID: 'CgkI0_7cze4FEAIQDg',
+        iOSID: 'your ios id',
+        steps: 120
+    ),
+    Achievement(
+      androidID: 'CgkI0_7cze4FEAIQDw',
+      iOSID: 'your ios id',
+      steps: 30
+    ),
+    Achievement(
+        androidID: 'CgkI0_7cze4FEAIQEA',
+        iOSID: 'your ios id',
+        steps: 60
+    ),
+    Achievement(
+      androidID: 'CgkI0_7cze4FEAIQEQ',
+      iOSID: 'your ios id',
+      steps: 120
+    ),
+  ];
+
   static Achievement firstWin() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQAQ',
@@ -74,45 +108,27 @@ class GameAchievements {
 
   //#11
   static Achievement defeats30() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQDA',
-      iOSID: 'your ios id',
-    );
+    return incrementalAchievements.firstWhere((element) => element.id == 'CgkI0_7cze4FEAIQDA');
   }
 
   static Achievement defeats60() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQDQ',
-      iOSID: 'your ios id',
-    );
+    return incrementalAchievements.firstWhere((element) => element.id == 'CgkI0_7cze4FEAIQDQ');
   }
 
   static Achievement defeats120() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQDg',
-      iOSID: 'your ios id',
-    );
+    return incrementalAchievements.firstWhere((element) => element.id == 'CgkI0_7cze4FEAIQDg');
   }
 
   static Achievement wins30() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQDw',
-      iOSID: 'your ios id',
-    );
+    return incrementalAchievements.firstWhere((element) => element.id == 'CgkI0_7cze4FEAIQDw');
   }
 
   static Achievement wins60() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQEA',
-      iOSID: 'your ios id',
-    );
+    return incrementalAchievements.firstWhere((element) => element.id == 'CgkI0_7cze4FEAIQEA');
   }
 
   static Achievement wins120() {
-    return Achievement(
-      androidID: 'CgkI0_7cze4FEAIQEQ',
-      iOSID: 'your ios id',
-    );
+    return incrementalAchievements.firstWhere((element) => element.id == 'CgkI0_7cze4FEAIQEQ');
   }
 
   static Achievement beatOwnThreeStars() {
@@ -122,4 +138,27 @@ class GameAchievements {
     );
   }
 
+  static void increment(Achievement achievement) {
+    achievement.steps += 1;
+    GamesServices.increment(achievement: achievement);
+  }
+
+  static Future<void> loadAchievements() async {
+    List<AchievementItemData>? achievements = await GamesServices.loadAchievements();
+    if(achievements != null) {
+      for(AchievementItemData item in achievements!) {
+        for(Achievement achievement in GameAchievements.incrementalAchievements) {
+          if(Platform.isAndroid) {
+            if (item.id == achievement.androidID) {
+              achievement.steps = item.completedSteps;
+            }
+          } else {
+            if (item.id == achievement.iOSID) {
+              achievement.steps = item.completedSteps;
+            }
+          }
+        }
+      }
+    }
+  }
 }
