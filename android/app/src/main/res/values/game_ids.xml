@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 4974515629924550277 -->
+    <!--app_id-->
     <string name="app_id" translatable="false">201489596243</string>
+    <!--package_name-->
     <string name="package_name" translatable="false">com.kiicodes.stacker_game</string>
+    <!--achievement First Win-->
     <string name="achievement_first_win" translatable="false">CgkI0_7cze4FEAIQAQ</string>
-    <string name="leaderboard_10" translatable="false">CgkI0_7cze4FEAIQAg</string>
+    <!--achievement Two Stars-->
+    <string name="achievement_two_stars" translatable="false">CgkI0_7cze4FEAIQAw</string>
+    <!--achievement Three stars-->
+    <string name="achievement_three_stars" translatable="false">CgkI0_7cze4FEAIQBA</string>
+    <!--achievement You're getting the hang of it!-->
+    <string name="achievement_youre_getting_the_hang_of_it" translatable="false">CgkI0_7cze4FEAIQBQ</string>
+    <!--achievement You are going to be a pro in this game!-->
+    <string name="achievement_you_are_going_to_be_a_pro_in_this_game" translatable="false">CgkI0_7cze4FEAIQBg</string>
+    <!--achievement You've come far, don't stop now!-->
+    <string name="achievement_youve_come_far_dont_stop_now" translatable="false">CgkI0_7cze4FEAIQBw</string>
+    <!--achievement Unbelievable, you are doing so well!-->
+    <string name="achievement_unbelievable_you_are_doing_so_well" translatable="false">CgkI0_7cze4FEAIQCA</string>
+    <!--achievement It was a long road, but you did it!-->
+    <string name="achievement_it_was_a_long_road_but_you_did_it" translatable="false">CgkI0_7cze4FEAIQCQ</string>
+    <!--achievement That's so great, you just finished the game, congratulations!-->
+    <string name="achievement_thats_so_great_you_just_finished_the_game_congratulations" translatable="false">CgkI0_7cze4FEAIQCg</string>
+    <!--achievement My first loss…-->
+    <string name="achievement_my_first_loss" translatable="false">CgkI0_7cze4FEAIQCw</string>
+    <!--achievement I don't give up easily.-->
+    <string name="achievement_i_dont_give_up_easily." translatable="false">CgkI0_7cze4FEAIQDA</string>
+    <!--achievement Resilient Spirit Award: Embrace the Challenge-->
+    <string name="achievement_resilient_spirit_award_embrace_the_challenge" translatable="false">CgkI0_7cze4FEAIQDQ</string>
+    <!--achievement Giving up is for the weak!-->
+    <string name="achievement_giving_up_is_for_the_weak" translatable="false">CgkI0_7cze4FEAIQDg</string>
+    <!--achievement Stacker Success-->
+    <string name="achievement_stacker_success" translatable="false">CgkI0_7cze4FEAIQDw</string>
+    <!--achievement I am so winner!-->
+    <string name="achievement_i_am_so_winner" translatable="false">CgkI0_7cze4FEAIQEA</string>
+    <!--achievement Winning is kind of my style!-->
+    <string name="achievement_winning_is_kind_of_my_style" translatable="false">CgkI0_7cze4FEAIQEQ</string>
+    <!--achievement I always can be better!-->
+    <string name="achievement_i_always_can_be_better" translatable="false">CgkI0_7cze4FEAIQEg</string>
+    <!--leaderboard Level 10-->
+    <string name="leaderboard_level_10" translatable="false">CgkI0_7cze4FEAIQAg</string>
 </resources>

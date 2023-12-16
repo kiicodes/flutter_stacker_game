@@ -77,7 +77,7 @@ class _StartupScreenState extends State<StartupScreen> {
                     flex: 2,
                   ),
                   if(isSignedIn) ...[
-                    InkWell(
+                    /*InkWell(
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 30),
                         child: const Text("Play Games Leaderboard")
@@ -85,10 +85,10 @@ class _StartupScreenState extends State<StartupScreen> {
                       onTap: () {
                         GamesServices.showLeaderboards(androidLeaderboardID: "CgkI0_7cze4FEAIQAg");
                       },
-                    ),
-                    TextButton(onPressed: () { GamesServices.showAchievements(); }, child: const Text("Achievements"))
+                    ),*/
+                    TextButton(onPressed: () { GamesServices.showAchievements(); }, child: const Text("Achievements", style: TextStyle(fontSize: 18),))
                   ],
-                  if(!tryingToSignIn && !isSignedIn) ...[Container(
+                  if(!tryingToSignIn) ...[Container(
                       margin: const EdgeInsets.only(bottom: 30),
                       child: const LeaderboardButton()
                   )],

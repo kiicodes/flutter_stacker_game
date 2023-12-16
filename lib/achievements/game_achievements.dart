@@ -9,14 +9,14 @@ class GameAchievements {
       iOSID: 'your ios id',
     ),
     Achievement(
-        androidID: 'CgkI0_7cze4FEAIQDQ',
-        iOSID: 'your ios id',
-        steps: 60
+      androidID: 'CgkI0_7cze4FEAIQDQ',
+      iOSID: 'your ios id',
+      steps: 60
     ),
     Achievement(
-        androidID: 'CgkI0_7cze4FEAIQDg',
-        iOSID: 'your ios id',
-        steps: 120
+      androidID: 'CgkI0_7cze4FEAIQDg',
+      iOSID: 'your ios id',
+      steps: 120
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDw',
@@ -24,9 +24,9 @@ class GameAchievements {
       steps: 30
     ),
     Achievement(
-        androidID: 'CgkI0_7cze4FEAIQEA',
-        iOSID: 'your ios id',
-        steps: 60
+      androidID: 'CgkI0_7cze4FEAIQEA',
+      iOSID: 'your ios id',
+      steps: 60
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQEQ',
@@ -138,9 +138,11 @@ class GameAchievements {
     );
   }
 
-  static void increment(Achievement achievement) {
-    achievement.steps += 1;
-    GamesServices.increment(achievement: achievement);
+  static void increment(Achievement achievement, int max) {
+    if(achievement.steps < max) {
+      achievement.steps += 1;
+      GamesServices.increment(achievement: achievement);
+    }
   }
 
   static Future<void> loadAchievements() async {

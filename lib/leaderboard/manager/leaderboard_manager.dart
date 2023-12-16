@@ -92,7 +92,7 @@ class LeaderboardManager {
           score: Score(
             androidLeaderboardID: 'CgkI0_7cze4FEAIQAg',
             iOSLeaderboardID: '',
-            value: value
+            value: value,
           ));
       print(result);
     } else {
