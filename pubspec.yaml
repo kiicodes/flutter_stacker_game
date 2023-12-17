@@ -15,6 +15,7 @@ dependencies:
   google_fonts: ^6.1.0
   games_services: ^4.0.0
   intl: ^0.18.1
+  url_launcher: ^6.2.2
 
 dev_dependencies:
   flutter_test:

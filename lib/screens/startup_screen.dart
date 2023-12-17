@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:games_services/games_services.dart';
@@ -6,7 +7,9 @@ import 'package:stacker_game/screens/components/background_animation.dart';
 import 'package:stacker_game/screens/components/game_option_button.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/screens/components/screen_title.dart';
+import 'package:stacker_game/screens/components/settings_button.dart';
 import 'package:stacker_game/screens/level_selection_screen.dart';
+import 'package:stacker_game/screens/settings_screen.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/leaderboard_button.dart';
 import 'package:stacker_game/shared/shared_data.dart';
@@ -29,20 +32,22 @@ class _StartupScreenState extends State<StartupScreen> {
 
   void signIn() async {
     try {
-      final result = await GamesServices.signIn();
+      await GamesServices.signIn();
       final isSignedInResult = await GamesServices.isSignedIn;
       await GameAchievements.loadAchievements();
       setState(() {
         tryingToSignIn = false;
         isSignedIn = isSignedInResult;
       });
-      print('Is signed in? $isSignedIn: Sign in result: $result');
-    } on PlatformException catch (e) {
+    } catch (e) {
+      if(kDebugMode) {
+        print("An error occurred trying to sign in to game services: $e");
+        rethrow;
+      }
+    } finally {
       setState(() {
         tryingToSignIn = false;
       });
-      print('Failed to sign in');
-      print(e);
     }
   }
 
@@ -76,26 +81,18 @@ class _StartupScreenState extends State<StartupScreen> {
                   const Spacer(
                     flex: 2,
                   ),
-                  if(isSignedIn) ...[
-                    /*InkWell(
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 30),
-                        child: const Text("Play Games Leaderboard")
-                      ),
-                      onTap: () {
-                        GamesServices.showLeaderboards(androidLeaderboardID: "CgkI0_7cze4FEAIQAg");
-                      },
-                    ),*/
-                    TextButton(onPressed: () { GamesServices.showAchievements(); }, child: const Text("Achievements", style: TextStyle(fontSize: 18),))
-                  ],
                   if(!tryingToSignIn) ...[Container(
-                      margin: const EdgeInsets.only(bottom: 30),
-                      child: const LeaderboardButton()
+                    margin: const EdgeInsets.only(bottom: 30),
+                    child: const LeaderboardButton()
                   )],
                   if(tryingToSignIn) ...[Container(
-                      margin: const EdgeInsets.only(bottom: 30),
-                      child: const Text("Loading game services...")
+                    margin: const EdgeInsets.only(bottom: 30),
+                    child: const Text("Loading game services...")
                   )],
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 30),
+                    child: SettingsButton(onTap: () { GlobalFunctions.navigateTo(context, const SettingsScreen()); })
+                  )
                 ],
               ),
             ]

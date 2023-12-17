@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stacker_game/shared/game_config.dart';
+import 'package:games_services/games_services.dart';
 import 'package:stacker_game/screens/components/number_selector.dart';
+import 'package:stacker_game/screens/components/screen_background.dart';
+import 'package:stacker_game/screens/components/setting_item.dart';
 import 'package:stacker_game/screens/components/speed_selector.dart';
+import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/shared_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,98 +16,48 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  int _columns = SharedData.config.columns;
-  int _rows = SharedData.config.rows;
-  int _initialSquareQuantity = SharedData.config.squareQuantity;
-  int _level = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Text("Game Settings", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),),
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                const Spacer(),
-                NumberSelector(
-                  selectedValue: _columns,
-                  label: "Columns",
-                  maxNumber: 12,
-                  minNumber: 3,
-                  onChange: (newValue) {
-                    setState(() {
-                      _columns = newValue!;
-                      if(_columns < _initialSquareQuantity + 2) {
-                        _initialSquareQuantity = _columns - 2;
-                      }
-                    });
-                  }
-                ),
-                const Spacer(),
-                NumberSelector(
-                    selectedValue: _rows,
-                    label: "Rows",
-                    maxNumber: 12,
-                    minNumber: 3,
-                    onChange: (newValue) {
-                      setState(() {
-                        _rows = newValue!;
-                      });
-                    }
-                ),
-                const Spacer()
-              ],
-            ),
-            Row(
-              children: [
-                const Spacer(),
-                NumberSelector(
-                  selectedValue: _initialSquareQuantity,
-                  label: "Initial Squares",
-                  maxNumber: _columns - 2,
-                  minNumber: 1,
-                  onChange: (newValue) {
-                    setState(() {
-                      _initialSquareQuantity = newValue!;
-                    });
-                  }
-                ),
-                const Spacer(),
-                SpeedSelector(
-                  selectedValue: _level,
-                  onChange: (newValue) {
-                    setState(() {
-                      _level = newValue!;
-                    });
-                  }
-                ),
-                const Spacer(),
-              ],
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                /*SharedData.config = GameConfig(
-                  squareQuantity: _initialSquareQuantity,
-                  columns: _columns,
-                  rows: _rows,
-                  level: _level
-                );*/
-                Navigator.of(context).pop();
-              },
-              child: const Text("Save", style: TextStyle(fontSize: 20),)
-            ),
-            const Spacer()
-          ],
+      body: ScreenBackground(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CustomBackButton(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text("Game Settings", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),),
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              SettingItem(child: const Text("Privacy Policy"), onTap: () { openUrl("https://www.kiicodes.com/stacker/privacy_policy.html"); },),
+              SettingItem(child: const Text("Terms And Conditions"), onTap: () { openUrl("https://www.kiicodes.com/stacker/terms_and_conditions.html"); },),
+              const Spacer(),
+              TextButton(onPressed: () { GamesServices.showAchievements(); }, child: const Text("Achievements", style: TextStyle(fontSize: 25),)),
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void openUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw "Could not launch $url";
+    }
   }
 }
 
