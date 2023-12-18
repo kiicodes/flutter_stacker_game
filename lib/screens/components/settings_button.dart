@@ -17,7 +17,7 @@ class SettingsButton extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.settings, size: 45,),
+                  Icon(Icons.settings, size: 45, color: Theme.of(context).textTheme.titleLarge!.color,),
                   Container(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text("Settings",

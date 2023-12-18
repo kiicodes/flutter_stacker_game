@@ -37,7 +37,7 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
       children: [
         const Spacer(),
         const SizedBox(height: 220,),
-        const Spacer(),
+        const Spacer(flex: 2,),
         AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
@@ -74,7 +74,7 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
           },
         ),
         const Spacer(),
-        const SizedBox(height: 220,),
+        const SizedBox(height: 180,),
       ],
     );
   }

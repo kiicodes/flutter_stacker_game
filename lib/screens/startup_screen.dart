@@ -43,7 +43,7 @@ class _StartupScreenState extends State<StartupScreen> {
                     height: 220,
                     child: ScreenTitle(),
                   ),
-                  const Spacer(),
+                  const Spacer(flex: 2,),
                   SizedBox(
                       height: 70,
                       child: Column(
@@ -59,17 +59,25 @@ class _StartupScreenState extends State<StartupScreen> {
                         ],
                       )),
                   const Spacer(flex: 2,),
-                  if(!tryingToSignIn) ...[Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: const LeaderboardButton()
-                  )],
-                  if(tryingToSignIn) ...[Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: const Text("Loading game services...")
-                  )],
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: SettingsButton(onTap: () { GlobalFunctions.navigateTo(context, const SettingsScreen()); })
+                  SizedBox(
+                    height: 180,
+                    child: Column(
+                      children: [
+                        const Spacer(),
+                        if(!tryingToSignIn) ...[Container(
+                          margin: const EdgeInsets.only(bottom: 30),
+                          child: const LeaderboardButton()
+                        )],
+                        if(tryingToSignIn) ...[Container(
+                          margin: const EdgeInsets.only(bottom: 30),
+                          child: const Text("Loading game services...")
+                        )],
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 30),
+                          child: SettingsButton(onTap: () { GlobalFunctions.navigateTo(context, const SettingsScreen()); })
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
