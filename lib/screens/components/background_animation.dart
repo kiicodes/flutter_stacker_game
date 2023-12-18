@@ -35,7 +35,9 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
     final customAppTheme = Theme.of(context).extension<CustomAppTheme>()!;
     return Column(
       children: [
+        const Spacer(),
         const SizedBox(height: 220,),
+        const Spacer(),
         AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
@@ -51,7 +53,9 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
             );
           }
         ),
-        const Spacer(flex: 3,),
+        const Spacer(),
+        const SizedBox(height: 70,),
+        const Spacer(),
         AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
@@ -69,7 +73,8 @@ class _BackgroundAnimationState extends State<BackgroundAnimation> with TickerPr
             );
           },
         ),
-        const Spacer(flex: 5,),
+        const Spacer(),
+        const SizedBox(height: 220,),
       ],
     );
   }

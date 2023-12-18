@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:games_services/games_services.dart';
 import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/screens/components/background_animation.dart';
@@ -12,7 +11,6 @@ import 'package:stacker_game/screens/level_selection_screen.dart';
 import 'package:stacker_game/screens/settings_screen.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/leaderboard_button.dart';
-import 'package:stacker_game/shared/shared_data.dart';
 
 class StartupScreen extends StatefulWidget {
   const StartupScreen({super.key});
@@ -24,31 +22,11 @@ class StartupScreen extends StatefulWidget {
 class _StartupScreenState extends State<StartupScreen> {
   bool tryingToSignIn = true;
   bool isSignedIn = false;
+
   @override
   void initState() {
     signIn();
     super.initState();
-  }
-
-  void signIn() async {
-    try {
-      await GamesServices.signIn();
-      final isSignedInResult = await GamesServices.isSignedIn;
-      await GameAchievements.loadAchievements();
-      setState(() {
-        tryingToSignIn = false;
-        isSignedIn = isSignedInResult;
-      });
-    } catch (e) {
-      if(kDebugMode) {
-        print("An error occurred trying to sign in to game services: $e");
-        rethrow;
-      }
-    } finally {
-      setState(() {
-        tryingToSignIn = false;
-      });
-    }
   }
 
   @override
@@ -60,12 +38,14 @@ class _StartupScreenState extends State<StartupScreen> {
               const BackgroundAnimation(),
               Column(
                 children: [
+                  const Spacer(),
                   const SizedBox(
                     height: 220,
                     child: ScreenTitle(),
                   ),
-                  Expanded(
-                      flex: 4,
+                  const Spacer(),
+                  SizedBox(
+                      height: 70,
                       child: Column(
                         children: [
                           const Spacer(),
@@ -78,9 +58,7 @@ class _StartupScreenState extends State<StartupScreen> {
                           const Spacer(),
                         ],
                       )),
-                  const Spacer(
-                    flex: 2,
-                  ),
+                  const Spacer(flex: 2,),
                   if(!tryingToSignIn) ...[Container(
                     margin: const EdgeInsets.only(bottom: 30),
                     child: const LeaderboardButton()
@@ -99,5 +77,26 @@ class _StartupScreenState extends State<StartupScreen> {
         ),
       ),
     );
+  }
+
+  void signIn() async {
+    try {
+      await GamesServices.signIn().timeout(const Duration(seconds: 15));
+      final isSignedInResult = await GamesServices.isSignedIn.timeout(const Duration(seconds: 2));
+      await GameAchievements.loadAchievements().timeout(const Duration(seconds: 20));
+      setState(() {
+        tryingToSignIn = false;
+        isSignedIn = isSignedInResult;
+      });
+    } catch (e) {
+      if(kDebugMode) {
+        print("An error occurred trying to sign in to game services: $e");
+        rethrow;
+      }
+    } finally {
+      setState(() {
+        tryingToSignIn = false;
+      });
+    }
   }
 }
