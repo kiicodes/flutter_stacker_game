@@ -1,9 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
-import 'package:stacker_game/screens/components/number_selector.dart';
+import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/screens/components/setting_item.dart';
-import 'package:stacker_game/screens/components/speed_selector.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/shared_data.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,6 +16,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool tryingToSignIn = false;
+  bool isSignedIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
               SettingItem(child: const Text("Privacy Policy"), onTap: () { openUrl("https://www.kiicodes.com/stacker/privacy_policy.html"); },),
               SettingItem(child: const Text("Terms And Conditions"), onTap: () { openUrl("https://www.kiicodes.com/stacker/terms_and_conditions.html"); },),
               const Spacer(),
-              TextButton(onPressed: () { GamesServices.showAchievements(); }, child: const Text("Achievements", style: TextStyle(fontSize: 25),)),
+              if(!SharedData.usingGameServices && !tryingToSignIn && !isSignedIn) ...[
+                ElevatedButton(onPressed: () {
+                  setState(() {
+                    tryingToSignIn = true;
+                  });
+                  signIn();
+                }, child: const Text("Connect with Game Services"))
+              ],
+              tryingToSignIn ? const CircularProgressIndicator() : const SizedBox(),
+              if(isSignedIn || SharedData.usingGameServices) ...[
+                TextButton(onPressed: () { GamesServices.showAchievements(); }, child: const Text("Achievements", style: TextStyle(fontSize: 25),))
+              ],
               const Spacer(),
             ],
           ),
@@ -57,6 +70,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       throw "Could not launch $url";
+    }
+  }
+
+  void signIn() async {
+    try {
+      await GamesServices.signIn().timeout(const Duration(seconds: 15));
+      final isSignedInResult = await GamesServices.isSignedIn.timeout(const Duration(seconds: 2));
+      await GameAchievements.loadAchievements().timeout(const Duration(seconds: 20));
+      setState(() {
+        tryingToSignIn = false;
+        isSignedIn = isSignedInResult;
+        SharedData.usingGameServices = isSignedInResult;
+      });
+    } catch (e) {
+      if(kDebugMode) {
+        print("An error occurred trying to sign in to game services: $e");
+        rethrow;
+      }
+    } finally {
+      setState(() {
+        tryingToSignIn = false;
+      });
     }
   }
 }

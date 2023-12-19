@@ -11,6 +11,7 @@ import 'package:stacker_game/screens/level_selection_screen.dart';
 import 'package:stacker_game/screens/settings_screen.dart';
 import 'package:stacker_game/shared/global_functions.dart';
 import 'package:stacker_game/shared/leaderboard_button.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class StartupScreen extends StatefulWidget {
   const StartupScreen({super.key});
@@ -20,12 +21,9 @@ class StartupScreen extends StatefulWidget {
 }
 
 class _StartupScreenState extends State<StartupScreen> {
-  bool tryingToSignIn = true;
-  bool isSignedIn = false;
-
   @override
   void initState() {
-    signIn();
+    //signIn();
     super.initState();
   }
 
@@ -49,7 +47,7 @@ class _StartupScreenState extends State<StartupScreen> {
                       child: Column(
                         children: [
                           const Spacer(),
-                          tryingToSignIn ? const CircularProgressIndicator() : GameOptionButton(
+                          GameOptionButton(
                             name: "Start",
                             onPressed: () {
                               GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
@@ -64,14 +62,14 @@ class _StartupScreenState extends State<StartupScreen> {
                     child: Column(
                       children: [
                         const Spacer(),
-                        if(!tryingToSignIn) ...[Container(
+                        /*if(!tryingToSignIn) ...[Container(
                           margin: const EdgeInsets.only(bottom: 30),
                           child: const LeaderboardButton()
                         )],
                         if(tryingToSignIn) ...[Container(
                           margin: const EdgeInsets.only(bottom: 30),
                           child: const Text("Loading game services...")
-                        )],
+                        )],*/
                         Container(
                           margin: const EdgeInsets.only(bottom: 30),
                           child: SettingsButton(onTap: () { GlobalFunctions.navigateTo(context, const SettingsScreen()); })
@@ -85,26 +83,5 @@ class _StartupScreenState extends State<StartupScreen> {
         ),
       ),
     );
-  }
-
-  void signIn() async {
-    try {
-      await GamesServices.signIn().timeout(const Duration(seconds: 15));
-      final isSignedInResult = await GamesServices.isSignedIn.timeout(const Duration(seconds: 2));
-      await GameAchievements.loadAchievements().timeout(const Duration(seconds: 20));
-      setState(() {
-        tryingToSignIn = false;
-        isSignedIn = isSignedInResult;
-      });
-    } catch (e) {
-      if(kDebugMode) {
-        print("An error occurred trying to sign in to game services: $e");
-        rethrow;
-      }
-    } finally {
-      setState(() {
-        tryingToSignIn = false;
-      });
-    }
   }
 }

@@ -9,6 +9,7 @@ class SharedData {
   static late bool reversedMovement;
   static bool started = false;
   static bool darkMode = false;
+  static bool usingGameServices = false;
 
   static void reset() {
     currentRow = 0;

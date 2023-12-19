@@ -6,6 +6,7 @@ import 'package:stacker_game/leaderboard/model/leaderboard_entry.dart';
 import 'package:stacker_game/levels/game_levels.dart';
 import 'package:stacker_game/levels/level_storage.dart';
 import 'package:stacker_game/shared/game_config.dart';
+import 'package:stacker_game/shared/shared_data.dart';
 
 class LeaderboardManager {
   static const maxEntries = 8;
@@ -33,7 +34,7 @@ class LeaderboardManager {
     final topEntries = leaderboardEntries.take(maxEntries).toList();
     await prefs.setStringList(levelKey, topEntries);
     bool isNewRecord = LeaderboardEntry.fromMap(jsonDecode(topEntries.first)).datetime == entry.datetime;
-    if(isNewRecord && topEntries.length > 1 && LeaderboardEntry.fromMap(jsonDecode(topEntries[1])).stars(config) > 2) {
+    if(SharedData.usingGameServices && isNewRecord && topEntries.length > 1 && LeaderboardEntry.fromMap(jsonDecode(topEntries[1])).stars(config) > 2) {
       GamesServices.unlock(achievement: GameAchievements.beatOwnThreeStars());
     }
     if(isNewRecord && config.name == 'Level 10') {
@@ -52,6 +53,9 @@ class LeaderboardManager {
   }
 
   static void onStarsChanged(int prevStars, int newStars) async {
+    if(!SharedData.usingGameServices) {
+      return;
+    }
     if(prevStars < 2 && newStars >= 2) {
       await GamesServices.unlock(achievement: GameAchievements.twoStars());
       final countTwoStars = GameLevels.levels.where((element) => element.currentStars > 1).length;

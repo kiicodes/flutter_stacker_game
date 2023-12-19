@@ -203,11 +203,13 @@ class Game2D extends FlameGame with TapCallbacks {
     expendables.add(textComponent);
     add(textComponent);
     if(won) {
-      GamesServices.unlock(achievement: GameAchievements.firstWin());
-      if(GameAchievements.incrementalAchievements.isNotEmpty) {
-        GameAchievements.increment(GameAchievements.wins30(), 30);
-        GameAchievements.increment(GameAchievements.wins60(), 60);
-        GameAchievements.increment(GameAchievements.wins120(), 120);
+      if(SharedData.usingGameServices) {
+        GamesServices.unlock(achievement: GameAchievements.firstWin());
+        if (GameAchievements.incrementalAchievements.isNotEmpty) {
+          GameAchievements.increment(GameAchievements.wins30(), 30);
+          GameAchievements.increment(GameAchievements.wins60(), 60);
+          GameAchievements.increment(GameAchievements.wins120(), 120);
+        }
       }
       final diff = DateTime.now().difference(_startedDateTime);
       final formattedTimeSpent = GlobalFunctions.formatElapsedTime(diff);
@@ -215,7 +217,7 @@ class Game2D extends FlameGame with TapCallbacks {
       LevelManager.showIfNeeded(expendables, this);
       final stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 80));
       add(stars2d);
-    } else {
+    } else if(SharedData.usingGameServices) {
       GamesServices.unlock(achievement: GameAchievements.firstLoss());
       if(GameAchievements.incrementalAchievements.isNotEmpty) {
         GameAchievements.increment(GameAchievements.defeats30(), 30);
