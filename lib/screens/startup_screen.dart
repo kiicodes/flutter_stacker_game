@@ -21,9 +21,17 @@ class StartupScreen extends StatefulWidget {
 }
 
 class _StartupScreenState extends State<StartupScreen> {
+  bool tryingToSignIn = true;
+  bool isSignedIn = false;
+
   @override
   void initState() {
-    //signIn();
+    SharedData.signIn((result) {
+      setState(() {
+        tryingToSignIn = false;
+        isSignedIn = result;
+      });
+    });
     super.initState();
   }
 
@@ -43,16 +51,24 @@ class _StartupScreenState extends State<StartupScreen> {
                   ),
                   const Spacer(flex: 2,),
                   SizedBox(
-                      height: 70,
+                      height: tryingToSignIn ? 90 : 70,
                       child: Column(
                         children: [
                           const Spacer(),
-                          GameOptionButton(
-                            name: "Start",
-                            onPressed: () {
-                              GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
-                            },
-                          ),
+                          if(tryingToSignIn) ...[
+                            const CircularProgressIndicator(),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 30),
+                              child: const Text("Loading game services...")
+                          )] else
+                            ...[
+                              GameOptionButton(
+                                name: "Start",
+                                onPressed: () {
+                                  GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
+                                },
+                              )
+                            ],
                           const Spacer(),
                         ],
                       )),
@@ -62,14 +78,10 @@ class _StartupScreenState extends State<StartupScreen> {
                     child: Column(
                       children: [
                         const Spacer(),
-                        /*if(!tryingToSignIn) ...[Container(
+                        if(!tryingToSignIn) ...[Container(
                           margin: const EdgeInsets.only(bottom: 30),
                           child: const LeaderboardButton()
                         )],
-                        if(tryingToSignIn) ...[Container(
-                          margin: const EdgeInsets.only(bottom: 30),
-                          child: const Text("Loading game services...")
-                        )],*/
                         Container(
                           margin: const EdgeInsets.only(bottom: 30),
                           child: SettingsButton(onTap: () { GlobalFunctions.navigateTo(context, const SettingsScreen()); })

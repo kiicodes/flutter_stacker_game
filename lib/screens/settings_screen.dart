@@ -20,6 +20,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool isSignedIn = false;
 
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isSignedIn = SharedData.usingGameServices;
+    });
+    SharedData.checkSignedIn((result) =>
+      setState(() {
+        isSignedIn = result;
+      })
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
@@ -49,7 +62,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   setState(() {
                     tryingToSignIn = true;
                   });
-                  signIn();
+                  SharedData.signIn((result) {
+                    setState(() {
+                      tryingToSignIn = false;
+                      isSignedIn = result;
+                    });
+                  });
                 }, child: const Text("Connect with Game Services"))
               ],
               tryingToSignIn ? const CircularProgressIndicator() : const SizedBox(),
@@ -70,28 +88,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       throw "Could not launch $url";
-    }
-  }
-
-  void signIn() async {
-    try {
-      await GamesServices.signIn().timeout(const Duration(seconds: 15));
-      final isSignedInResult = await GamesServices.isSignedIn.timeout(const Duration(seconds: 2));
-      await GameAchievements.loadAchievements().timeout(const Duration(seconds: 20));
-      setState(() {
-        tryingToSignIn = false;
-        isSignedIn = isSignedInResult;
-        SharedData.usingGameServices = isSignedInResult;
-      });
-    } catch (e) {
-      if(kDebugMode) {
-        print("An error occurred trying to sign in to game services: $e");
-        rethrow;
-      }
-    } finally {
-      setState(() {
-        tryingToSignIn = false;
-      });
     }
   }
 }
