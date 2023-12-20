@@ -1,79 +1,84 @@
 import 'dart:io';
 
 import 'package:games_services/games_services.dart';
+import 'package:stacker_game/achievements/incremental_achievements.dart';
 
 class GameAchievements {
+  static final maxIncrement = {
+    'CgkI0_7cze4FEAIQDA': 30,
+    'CgkI0_7cze4FEAIQDQ': 60,
+    'CgkI0_7cze4FEAIQDg': 120,
+    'CgkI0_7cze4FEAIQDw': 30,
+    'CgkI0_7cze4FEAIQEA': 60,
+    'CgkI0_7cze4FEAIQEQ': 120,
+  };
+
   static List<Achievement> incrementalAchievements = [
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDA',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQDA',
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDQ',
-      iOSID: 'your ios id',
-      steps: 60
+      iOSID: 'CgkI0_7cze4FEAIQDQ',
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDg',
-      iOSID: 'your ios id',
-      steps: 120
+      iOSID: 'CgkI0_7cze4FEAIQDg',
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDw',
-      iOSID: 'your ios id',
-      steps: 30
+      iOSID: 'CgkI0_7cze4FEAIQDw',
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQEA',
-      iOSID: 'your ios id',
-      steps: 60
+      iOSID: 'CgkI0_7cze4FEAIQEA',
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQEQ',
-      iOSID: 'your ios id',
-      steps: 120
+      iOSID: 'CgkI0_7cze4FEAIQEQ',
     ),
   ];
 
   static Achievement firstWin() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQAQ',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQAQ',
     );
   }
 
   static Achievement twoStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQAw',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQAw',
     );
   }
 
   static Achievement threeStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQBA',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQBA',
     );
   }
 
   static Achievement fiveLvlTwoStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQBQ',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQBQ',
     );
   }
 
   static Achievement fiveLvlThreeStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQBg',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQBg',
     );
   }
 
   static Achievement tenLvlTwoStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQBw',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQBw',
     );
   }
 
@@ -81,28 +86,28 @@ class GameAchievements {
   static Achievement tenLvlThreeStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQCA',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQCA',
     );
   }
 
   static Achievement allLevelsTwoStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQCQ',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQCQ',
     );
   }
 
   static Achievement allLevelsThreeStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQCg',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQCg',
     );
   }
 
   static Achievement firstLoss() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQCw',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQCw',
     );
   }
 
@@ -134,14 +139,24 @@ class GameAchievements {
   static Achievement beatOwnThreeStars() {
     return Achievement(
       androidID: 'CgkI0_7cze4FEAIQEg',
-      iOSID: 'your ios id',
+      iOSID: 'CgkI0_7cze4FEAIQEg',
     );
   }
 
   static void increment(Achievement achievement, int max) {
-    if(achievement.steps < max) {
-      achievement.steps += 1;
-      GamesServices.increment(achievement: achievement);
+    if(Platform.isIOS) {
+      IncrementalAchievements.incrementAchievement(
+        achievementKey: achievement.iOSID,
+        maxValue: maxIncrement[achievement.iOSID]!,
+        onMaxValueReached: () {
+          GamesServices.unlock(achievement: achievement);
+        }
+      );
+    } else {
+      if (achievement.steps < max) {
+        achievement.steps += 1;
+        GamesServices.increment(achievement: achievement);
+      }
     }
   }
 

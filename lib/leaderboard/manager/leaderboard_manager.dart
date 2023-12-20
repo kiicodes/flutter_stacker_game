@@ -72,7 +72,7 @@ class LeaderboardManager {
     }
     if(prevStars < 3) {
       await GamesServices.unlock(achievement: GameAchievements.threeStars());
-      final countThreeStars = GameLevels.levels.where((element) => element.currentStars > 1).length;
+      final countThreeStars = GameLevels.levels.where((element) => element.currentStars > 2).length;
       if(countThreeStars > 4) {
         await GamesServices.unlock(achievement: GameAchievements.fiveLvlThreeStars());
         if(countThreeStars > 9) {
