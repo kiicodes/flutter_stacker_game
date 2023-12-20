@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacker_game/screens/components/level_list.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
@@ -14,7 +15,7 @@ class LevelSelectionScreen extends StatelessWidget {
           children: [
             const CustomBackButton(),
             const Spacer(),
-            Text('Choose Your Level', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),),
+            Text('Choose Your Level', style: GoogleFonts.permanentMarker(fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),),
             const Spacer(),
             const Expanded(
               flex: 5,

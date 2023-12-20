@@ -17,26 +17,32 @@ class GameAchievements {
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDA',
       iOSID: 'CgkI0_7cze4FEAIQDA',
+      steps: 30,
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDQ',
       iOSID: 'CgkI0_7cze4FEAIQDQ',
+      steps: 60
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDg',
       iOSID: 'CgkI0_7cze4FEAIQDg',
+      steps: 120
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQDw',
       iOSID: 'CgkI0_7cze4FEAIQDw',
+      steps: 30,
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQEA',
       iOSID: 'CgkI0_7cze4FEAIQEA',
+      steps: 60
     ),
     Achievement(
       androidID: 'CgkI0_7cze4FEAIQEQ',
       iOSID: 'CgkI0_7cze4FEAIQEQ',
+      steps: 120
     ),
   ];
 
@@ -173,6 +179,17 @@ class GameAchievements {
             if (item.id == achievement.iOSID) {
               achievement.steps = item.completedSteps;
             }
+            /*
+            item = {AchievementItemData}
+               id = "CgkI0_7cze4FEAIQCg"
+               name = "incrível, você acabou de terminar o jogo!"
+               description = "Obtenha o prêmio de três estrelas em todos os níveis."
+               lockedImage = "iVBORw0KGgoAAAANSUhEUgAAACUAAAAlCAQAAABvl+iIAAANBGlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY0dyYXlHYW1tYTJfMgAAWIWlVwdck9cWv9/IAJKwp4ywkWVA"
+               unlockedImage = "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKAC"
+               completedSteps = 0
+               totalSteps = 100
+               unlocked = false
+             */
           }
         }
       }

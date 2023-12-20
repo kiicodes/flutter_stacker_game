@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SettingsButton extends StatelessWidget {
   final Function()? onTap;
@@ -21,7 +22,7 @@ class SettingsButton extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text("Settings",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30),)
+                    style: GoogleFonts.permanentMarker(fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),)
                   )
                 ],
               ),

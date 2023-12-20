@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/screens/components/setting_item.dart';
@@ -34,6 +35,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final itemStyle = TextStyle(
+      fontSize: 18,
+      color: SharedData.darkMode ? null : Colors.white,
+      fontWeight: FontWeight.bold
+    );
     return Scaffold(
       body: ScreenBackground(
         child: Padding(
@@ -48,14 +54,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Text("Game Settings", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 25),),
+                      child: Text("Game Settings", textAlign: TextAlign.center, style: GoogleFonts.permanentMarker(fontSize: 35, color: Theme.of(context).textTheme.titleLarge!.color),),
                     ),
                   ),
                 ],
               ),
               const Spacer(),
-              SettingItem(child: const Text("Privacy Policy"), onTap: () { openUrl("https://www.kiicodes.com/stacker/privacy_policy.html"); },),
-              SettingItem(child: const Text("Terms And Conditions"), onTap: () { openUrl("https://www.kiicodes.com/stacker/terms_and_conditions.html"); },),
+              SettingItem(child: Text("Privacy Policy", style: itemStyle,), onTap: () { openUrl("https://www.kiicodes.com/stacker/privacy_policy.html"); },),
+              SettingItem(child: Text("Terms And Conditions", style: itemStyle), onTap: () { openUrl("https://www.kiicodes.com/stacker/terms_and_conditions.html"); },),
               const Spacer(),
               if(!SharedData.usingGameServices && !tryingToSignIn && !isSignedIn) ...[
                 ElevatedButton(onPressed: () {
