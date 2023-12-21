@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:games_services/games_services.dart';
-import 'package:stacker_game/achievements/game_achievements.dart';
+import 'package:stacker_game/audio/audio_controller.dart';
 import 'package:stacker_game/screens/components/background_animation.dart';
 import 'package:stacker_game/screens/components/game_option_button.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
@@ -25,7 +23,14 @@ class _StartupScreenState extends State<StartupScreen> {
   bool isSignedIn = false;
 
   @override
+  void dispose() {
+    AudioController.disposeIntro();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    AudioController.initializeIntro(true);
     SharedData.signIn((result) {
       setState(() {
         tryingToSignIn = false;
@@ -64,8 +69,10 @@ class _StartupScreenState extends State<StartupScreen> {
                             ...[
                               GameOptionButton(
                                 name: "Start",
-                                onPressed: () {
-                                  GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
+                                onPressed: () async {
+                                  AudioController.disposeIntro();
+                                  await GlobalFunctions.navigateTo(context, const LevelSelectionScreen());
+                                  await AudioController.initializeIntro(true);
                                 },
                               )
                             ],

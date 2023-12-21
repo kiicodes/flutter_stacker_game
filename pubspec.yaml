@@ -16,6 +16,7 @@ dependencies:
   games_services: ^4.0.0
   intl: ^0.18.1
   url_launcher: ^6.2.2
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +29,5 @@ flutter:
     - assets/images/clock.png
     - assets/images/star_border.png
     - assets/images/star_filled.png
+    - assets/sounds/intro.mp3
+    - assets/sounds/lose.mp3

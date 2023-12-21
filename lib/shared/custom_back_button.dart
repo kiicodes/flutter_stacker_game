@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacker_game/audio/audio_controller.dart';
 
 class CustomBackButton extends StatelessWidget {
   final bool noMargin;
@@ -9,7 +10,10 @@ class CustomBackButton extends StatelessWidget {
     return Container(
       margin: noMargin ? null : const EdgeInsets.only(top: 10),
       child: ElevatedButton(
-        onPressed: () { Navigator.of(context).pop(); },
+        onPressed: () {
+          AudioController.disposeGameSounds();
+          Navigator.of(context).pop();
+        },
         child: const Text("x")
       )
     );

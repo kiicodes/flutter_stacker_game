@@ -71,8 +71,13 @@ class SharedData {
 
   static void signIn(Function(bool) result) async {
     try {
-      await GamesServices.signIn().timeout(const Duration(seconds: 15));
-      final isSignedInResult = await GamesServices.isSignedIn.timeout(const Duration(seconds: 10));
+      bool isSignedInResult;
+      isSignedInResult = await GamesServices.isSignedIn.timeout(const Duration(seconds: 10));
+      if(!isSignedInResult) {
+        await GamesServices.signIn().timeout(const Duration(seconds: 15));
+        isSignedInResult = await GamesServices.isSignedIn.timeout(
+            const Duration(seconds: 10));
+      }
       await GameAchievements.loadAchievements().timeout(const Duration(seconds: 20));
       SharedData.usingGameServices = isSignedInResult;
       result(isSignedInResult);

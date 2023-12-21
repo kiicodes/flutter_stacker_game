@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:stacker_game/audio/audio_controller.dart';
 import 'package:stacker_game/game_2d/game/game_2d.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
 import 'package:stacker_game/shared/leaderboard_button.dart';
@@ -18,11 +19,13 @@ class Game2DScreen extends StatefulWidget {
 class _Game2DScreenState extends State<Game2DScreen> {
   @override
   void initState() {
+    AudioController.initializeGameSounds();
     super.initState();
   }
 
   @override
   void dispose() {
+    AudioController.disposeGameSounds();
     game?.stop();
     game = null;
     super.dispose();

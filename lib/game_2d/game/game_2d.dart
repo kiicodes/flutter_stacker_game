@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/achievements/game_achievements.dart';
+import 'package:stacker_game/audio/audio_controller.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/stars_2d.dart';
@@ -218,6 +219,7 @@ class Game2D extends FlameGame with TapCallbacks {
       final stars2d = Stars2D(Vector2(size.x / 2, size.y / 2.5 - 80));
       add(stars2d);
     } else if(SharedData.usingGameServices) {
+      AudioController.playLose();
       GamesServices.unlock(achievement: GameAchievements.firstLoss());
       if(GameAchievements.incrementalAchievements.isNotEmpty) {
         GameAchievements.increment(GameAchievements.defeats30(), 30);
