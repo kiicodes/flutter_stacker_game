@@ -30,7 +30,7 @@ class _StartupScreenState extends State<StartupScreen> {
 
   @override
   void initState() {
-    AudioController.initializeIntro(true);
+    _loadPrefs();
     SharedData.signIn((result) {
       setState(() {
         tryingToSignIn = false;
@@ -102,5 +102,10 @@ class _StartupScreenState extends State<StartupScreen> {
         ),
       ),
     );
+  }
+
+  void _loadPrefs() async {
+    await AudioController.loadPrefs();
+    AudioController.initializeIntro(true);
   }
 }

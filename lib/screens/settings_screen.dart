@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacker_game/achievements/game_achievements.dart';
+import 'package:stacker_game/audio/audio_controller.dart';
+import 'package:stacker_game/screens/components/audio_options.dart';
 import 'package:stacker_game/screens/components/screen_background.dart';
 import 'package:stacker_game/screens/components/setting_item.dart';
 import 'package:stacker_game/shared/custom_back_button.dart';
@@ -62,6 +64,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const Spacer(),
               SettingItem(child: Text("Privacy Policy", style: itemStyle,), onTap: () { openUrl("https://www.kiicodes.com/stacker/privacy_policy.html"); },),
               SettingItem(child: Text("Terms And Conditions", style: itemStyle), onTap: () { openUrl("https://www.kiicodes.com/stacker/terms_and_conditions.html"); },),
+              const Spacer(),
+              const AudioOptions(),
               const Spacer(),
               if(!SharedData.usingGameServices && !tryingToSignIn && !isSignedIn) ...[
                 ElevatedButton(onPressed: () {
