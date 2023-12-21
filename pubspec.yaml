@@ -31,3 +31,5 @@ flutter:
     - assets/images/star_filled.png
     - assets/sounds/intro.mp3
     - assets/sounds/lose.mp3
+    - assets/sounds/playing.mp3
+    - assets/sounds/won.mp3

@@ -5,6 +5,8 @@ const defaultPlayerCount = 4;
 class AudioController {
   static AudioPlayer? _introPlayer;
   static AudioPlayer? _losePlayer;
+  static AudioPlayer? _playingPlayer;
+  static AudioPlayer? _wonPlayer;
   static bool musicOn = true;
   static bool sfxOn = true;
 
@@ -20,13 +22,34 @@ class AudioController {
   static Future<void> initializeGameSounds() async {
     if(!sfxOn) return;
     _losePlayer ??= AudioPlayer();
+    _wonPlayer ??= AudioPlayer();
+    _playingPlayer ??= AudioPlayer();
     await _losePlayer!.setSource(AssetSource('sounds/lose.mp3'));
+    await _wonPlayer!.setSource(AssetSource('sounds/won.mp3'));
+    await _playingPlayer!.setSource(AssetSource('sounds/playing.mp3'));
   }
 
   static void playLose() {
     if(!sfxOn) return;
     _losePlayer!.seek(const Duration(milliseconds: 0));
     _losePlayer!.resume();
+  }
+
+  static void playWon() {
+    if(!sfxOn) return;
+    _wonPlayer!.seek(const Duration(milliseconds: 0));
+    _wonPlayer!.resume();
+  }
+
+  static void playPlaying() {
+    if(!sfxOn) return;
+    _playingPlayer!.seek(const Duration(milliseconds: 0));
+    _playingPlayer!.resume();
+  }
+
+  static void stopPlaying() {
+    if(!sfxOn) return;
+    _playingPlayer!.stop();
   }
 
   static void playIntro() {
@@ -39,6 +62,10 @@ class AudioController {
   static void disposeGameSounds() {
     _losePlayer?.dispose();
     _losePlayer = null;
+    _wonPlayer?.dispose();
+    _wonPlayer = null;
+    _playingPlayer?.dispose();
+    _playingPlayer = null;
   }
 
   static void disposeIntro() {

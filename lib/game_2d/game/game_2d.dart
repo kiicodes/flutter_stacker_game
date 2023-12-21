@@ -105,6 +105,7 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void startGame() {
+    AudioController.playPlaying();
     ScoreManager.initScore(size, customAppTheme);
     _rowSpentTime = 0;
     _startedDateTime = DateTime.now();
@@ -177,6 +178,7 @@ class Game2D extends FlameGame with TapCallbacks {
 
   void gameOver(bool won) async {
     _alreadyPlayed = true;
+    AudioController.stopPlaying();
     if(won && GameLevels.currentLevel + 1 > GameLevels.maxEnabledLevel) {
       GameLevels.maxEnabledLevel = GameLevels.currentLevel + 1;
       SharedPreferences.getInstance().then((value) => value.setInt('currentLevel', GameLevels.maxEnabledLevel));
@@ -204,6 +206,7 @@ class Game2D extends FlameGame with TapCallbacks {
     expendables.add(textComponent);
     add(textComponent);
     if(won) {
+      AudioController.playWon();
       if(SharedData.usingGameServices) {
         GamesServices.unlock(achievement: GameAchievements.firstWin());
         if (GameAchievements.incrementalAchievements.isNotEmpty) {
