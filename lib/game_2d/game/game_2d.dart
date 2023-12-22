@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/audio/audio_controller.dart';
+import 'package:stacker_game/game_2d/effects/blink_effect.dart';
 import 'package:stacker_game/game_2d/game/background_grid_2d.dart';
 import 'package:stacker_game/game_2d/game/filled_square_2d.dart';
 import 'package:stacker_game/game_2d/game/stars_2d.dart';
@@ -28,7 +29,7 @@ class Game2D extends FlameGame with TapCallbacks {
   double _rowSpentTime = 0;
   late DateTime _startedDateTime;
   late TextComponent levelText;
-  late TextComponent tip;
+  late BlinkEffect tip;
   bool showingTip = true;
   bool _alreadyPlayed = false;
   Function() onRefreshScreen;
@@ -252,7 +253,7 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void initLevelComponent() {
-    final style = GoogleFonts.permanentMarker(
+    final style = GoogleFonts.kdamThmorPro(
       color: Colors.orange,
       fontSize: 30.0,
     );
@@ -269,23 +270,26 @@ class Game2D extends FlameGame with TapCallbacks {
       color: customAppTheme.textColor,
       fontSize: 20.0,
     );
-    tip = TextComponent(
-      text: "",
+    tip = BlinkEffect(
       position: Vector2(size.x / 2, size.y / 2),
-      anchor: Anchor.center,
-      textRenderer: TextPaint(style: style)
+      child: TextComponent(
+        text: "",
+        anchor: Anchor.center,
+        textRenderer: TextPaint(style: style)
+      )
     );
     updateTipText();
   }
 
   void updateTipText() {
+    TextComponent textComponent = tip.child as TextComponent;
     if(SharedData.started) {
-      tip.text = "Tap to Stack";
+      textComponent.text = "Tap to Stack";
     } else {
       if(_alreadyPlayed) {
-        tip.text = "Tap to Restart";
+        textComponent.text = "Tap to Restart";
       } else {
-        tip.text = "Tap to Start";
+        textComponent.text = "Tap to Start";
       }
     }
   }
