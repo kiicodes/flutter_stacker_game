@@ -13,7 +13,7 @@ class AudioController {
   static Future<void> initializeIntro(bool autoPlay) async {
     if(!musicOn) return;
     _introPlayer ??= AudioPlayer();
-    await _introPlayer!.setSource(AssetSource('sounds/intro.mp3'));
+    await _introPlayer!.setSource(AssetSource('sounds/intro2.mp3'));
     if(autoPlay) {
       playIntro();
     }
@@ -41,8 +41,9 @@ class AudioController {
     _wonPlayer!.resume();
   }
 
-  static void playPlaying() {
+  static void playPlaying() async {
     if(!sfxOn) return;
+    if(_playingPlayer == null) await initializeGameSounds();
     _playingPlayer!.seek(const Duration(milliseconds: 0));
     _playingPlayer!.resume();
   }

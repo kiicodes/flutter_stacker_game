@@ -1,7 +1,7 @@
 name: stacker_game
 description: A simple Stacker game.
 publish_to: 'none'
-version: 1.0.9+10
+version: 1.0.10+11
 
 environment:
   sdk: '>=3.1.3 <4.0.0'
@@ -30,6 +30,7 @@ flutter:
     - assets/images/star_border.png
     - assets/images/star_filled.png
     - assets/sounds/intro.mp3
+    - assets/sounds/intro2.mp3
     - assets/sounds/lose.mp3
     - assets/sounds/playing.mp3
     - assets/sounds/won.mp3
