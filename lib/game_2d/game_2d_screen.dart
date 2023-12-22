@@ -37,13 +37,11 @@ class _Game2DScreenState extends State<Game2DScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
-                const LeaderboardButton(),
-                const Spacer(),
-                Text(SharedData.config.name),
-                const Spacer(),
-                const CustomBackButton(noMargin: true),
+                LeaderboardButton(),
+                Spacer(),
+                CustomBackButton(noMargin: true),
               ],
             ),
             Expanded(

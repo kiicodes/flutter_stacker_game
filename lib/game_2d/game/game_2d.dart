@@ -26,7 +26,9 @@ class Game2D extends FlameGame with TapCallbacks {
   double myDt = 0;
   double _rowSpentTime = 0;
   late DateTime _startedDateTime;
+  late TextComponent levelText;
   late TextComponent tip;
+  bool showingTip = true;
   bool _alreadyPlayed = false;
   Function() onRefreshScreen;
 
@@ -35,11 +37,16 @@ class Game2D extends FlameGame with TapCallbacks {
   @override
   Future<void> onLoad() async {
     initTipComponent();
+    initLevelComponent();
     ScoreManager.initScore(size, customAppTheme);
-    LevelManager.initManager(size, () { reset(); onRefreshScreen(); });
+    LevelManager.initManager(size, () {
+      reset();
+      onRefreshScreen();
+    });
     Game2DData.initValues(size, customAppTheme);
     add(BackgroundGrid2D(size, customAppTheme));
     add(tip);
+    add(levelText);
     movingSquares = FilledSquare2D(1, 0);
   }
 
@@ -92,6 +99,11 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void reset() {
+    if(!showingTip) {
+      showingTip = true;
+      add(tip);
+    }
+    levelText.text = SharedData.config.name;
     if(expendables.isNotEmpty) {
       removeAll(expendables);
       expendables.clear();
@@ -124,6 +136,10 @@ class Game2D extends FlameGame with TapCallbacks {
     if (!SharedData.started) {
       startGame();
     } else {
+      if(showingTip) {
+        showingTip = false;
+        remove(tip);
+      }
       final List<int> hitIndexes = List.empty(growable: true);
       if(SharedData.currentRow > 0) {
         for (int i = 0; i < movingSquares.quantity; i++) {
@@ -234,6 +250,19 @@ class Game2D extends FlameGame with TapCallbacks {
     updateTipText();
   }
 
+  void initLevelComponent() {
+    final style = TextStyle(
+      color: customAppTheme.textColor,
+      fontSize: 20.0,
+    );
+    levelText = TextComponent(
+        text: SharedData.config.name,
+        position: Vector2(size.x / 2, 20),
+        anchor: Anchor.center,
+        textRenderer: TextPaint(style: style)
+    );
+  }
+
   void initTipComponent() {
     final style = TextStyle(
       color: customAppTheme.textColor,
@@ -241,7 +270,7 @@ class Game2D extends FlameGame with TapCallbacks {
     );
     tip = TextComponent(
       text: "",
-      position: Vector2(size.x / 2, 20),
+      position: Vector2(size.x / 2, size.y / 2),
       anchor: Anchor.center,
       textRenderer: TextPaint(style: style)
     );

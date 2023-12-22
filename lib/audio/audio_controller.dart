@@ -44,13 +44,14 @@ class AudioController {
   static void playPlaying() async {
     if(!sfxOn) return;
     if(_playingPlayer == null) await initializeGameSounds();
+    _playingPlayer!.setReleaseMode(ReleaseMode.loop);
     _playingPlayer!.seek(const Duration(milliseconds: 0));
     _playingPlayer!.resume();
   }
 
   static void stopPlaying() {
     if(!sfxOn) return;
-    _playingPlayer!.stop();
+    _playingPlayer?.stop();
   }
 
   static void playIntro() {
