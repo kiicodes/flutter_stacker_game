@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const defaultPlayerCount = 4;
 class AudioController {
+  static final loseSound  = AssetSource('sounds/lose.mp3');
+  static final wonSound   = AssetSource('sounds/won.mp3');
   static AudioPlayer? _introPlayer;
   static AudioPlayer? _losePlayer;
   static AudioPlayer? _playingPlayer;
@@ -21,24 +23,28 @@ class AudioController {
 
   static Future<void> initializeGameSounds() async {
     if(!sfxOn) return;
-    _losePlayer ??= AudioPlayer();
-    _wonPlayer ??= AudioPlayer();
+    //_losePlayer ??= AudioPlayer();
+    //_wonPlayer ??= AudioPlayer();
     _playingPlayer ??= AudioPlayer();
-    await _losePlayer!.setSource(AssetSource('sounds/lose.mp3'));
-    await _wonPlayer!.setSource(AssetSource('sounds/won.mp3'));
+    //await _losePlayer!.setSource(AssetSource('sounds/lose.mp3'));
+    //await _wonPlayer!.setSource(AssetSource('sounds/won.mp3'));
     await _playingPlayer!.setSource(AssetSource('sounds/playing.mp3'));
   }
 
   static void playLose() {
     if(!sfxOn) return;
-    _losePlayer!.seek(const Duration(milliseconds: 0));
-    _losePlayer!.resume();
+    _losePlayer ??= AudioPlayer();
+    //_losePlayer!.seek(const Duration(milliseconds: 0));
+    //_losePlayer!.resume();
+    _losePlayer?.play(loseSound);
   }
 
   static void playWon() {
     if(!sfxOn) return;
-    _wonPlayer!.seek(const Duration(milliseconds: 0));
-    _wonPlayer!.resume();
+    _wonPlayer ??= AudioPlayer();
+    _wonPlayer?.play(wonSound);
+    /*_wonPlayer!.seek(const Duration(milliseconds: 0));
+    _wonPlayer!.resume();*/
   }
 
   static void playPlaying() async {

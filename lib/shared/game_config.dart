@@ -14,7 +14,7 @@ class GameConfig {
   int _myIndex = -1;
   int currentStars = 0;
   static late double squareSize;
-  static const double margin = 20;
+  static const double margin = 40;
 
   String getLevelKey() {
     return "$startMs|$lastMs|$columns|$rows|$squareQuantity";

@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:games_services/games_services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacker_game/achievements/game_achievements.dart';
 import 'package:stacker_game/audio/audio_controller.dart';
@@ -251,9 +252,9 @@ class Game2D extends FlameGame with TapCallbacks {
   }
 
   void initLevelComponent() {
-    final style = TextStyle(
-      color: customAppTheme.textColor,
-      fontSize: 20.0,
+    final style = GoogleFonts.permanentMarker(
+      color: Colors.orange,
+      fontSize: 30.0,
     );
     levelText = TextComponent(
         text: SharedData.config.name,
