@@ -14,14 +14,18 @@ class LevelSelectionScreen extends StatelessWidget {
         child: Column(
           children: [
             const CustomBackButton(),
-            const Spacer(),
-            Text('Choose Your Level', style: GoogleFonts.permanentMarker(fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),),
-            const Spacer(),
+            SizedBox(
+              height: 80,
+              child: Center(
+                child: Text('Choose Your Level',
+                  style: GoogleFonts.permanentMarker(fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),),
+              )
+            ),
             const Expanded(
               flex: 5,
               child: Center(child: LevelList())
             ),
-            const Spacer(flex: 1,),
+            const SizedBox(height: 20,),
           ],
         ),
       ),

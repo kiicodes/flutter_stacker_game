@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,14 +31,21 @@ class AudioController {
     //await _losePlayer!.setSource(AssetSource('sounds/lose.mp3'));
     //await _wonPlayer!.setSource(AssetSource('sounds/won.mp3'));
     await _playingPlayer!.setSource(AssetSource('sounds/playing.mp3'));
+    if(Platform.isIOS) {
+      _losePlayer ??= AudioPlayer();
+      await _losePlayer!.setSource(AssetSource('sounds/lose.mp3'));
+    }
   }
 
   static void playLose() {
     if(!sfxOn) return;
-    _losePlayer ??= AudioPlayer();
-    //_losePlayer!.seek(const Duration(milliseconds: 0));
-    //_losePlayer!.resume();
-    _losePlayer?.play(loseSound);
+    if(Platform.isIOS) {
+      _losePlayer!.seek(const Duration(milliseconds: 0));
+      _losePlayer!.resume();
+    } else {
+      _losePlayer ??= AudioPlayer();
+      _losePlayer?.play(loseSound);
+    }
   }
 
   static void playWon() {
