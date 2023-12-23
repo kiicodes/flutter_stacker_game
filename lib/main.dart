@@ -15,11 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SharedData.darkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    SharedData.darkMode = true;//MediaQuery.of(context).platformBrightness == Brightness.dark;
     return MaterialApp(
       title: 'Stacker (Stack And Win)',
       debugShowCheckedModeBanner: false,
-      theme: CustomLightTheme.getThemeData(),
+      theme: CustomDarkTheme.getThemeData(),
       darkTheme: CustomDarkTheme.getThemeData(),
       home: const StartupScreen(),
     );
